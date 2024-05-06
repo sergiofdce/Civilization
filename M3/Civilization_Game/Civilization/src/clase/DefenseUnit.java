@@ -13,67 +13,91 @@ public abstract class DefenseUnit implements MilitaryUnit, Variables {
 	
 	
 	// Setters
-	public void setArmor(int armor) {
-		this.armor = armor;
+	public int setArmor(int armor) {
+		return this.armor = armor;
 	}
-	public void setInitialArmor(int initialArmor) {
-		this.initialArmor = initialArmor;
+	public int setInitialArmor(int initialArmor) {
+		return this.initialArmor = initialArmor;
 	}
-	public void setBaseDamage(int baseDamage) {
-		this.baseDamage = baseDamage;
+	public int setBaseDamage(int baseDamage) {
+		return this.baseDamage = baseDamage;
 	}
 	public void setExperience(int experience) {
 		this.experience = experience;
 	}
-	public void setSanctified(boolean sanctified) {
-		this.sanctified = sanctified;
+	public boolean setSanctified(boolean sanctified) {
+		return this.sanctified = sanctified;
 	}
+	
+	// Getters
+	public int getArmor() {
+		return armor;
+	}
+	public int getInitialArmor() {
+		return initialArmor;
+	}
+	public int getBaseDamage() {
+		return baseDamage;
+	}
+	public void getExperience() {
+		return;
+	}
+	public boolean isSanctified() {
+		return sanctified;
+	}
+	
 
 }
 
 
+
+
 class ArrowTower extends DefenseUnit {
 
-	@Override
-	public int attack() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    // Constructor 1
+    public ArrowTower(int armor, int baseDamage) {
+        super();
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
+        this.setArmor(armor);
+        this.setInitialArmor(armor);
+        this.setBaseDamage(baseDamage);
+        this.setExperience(0);
+        this.setSanctified(false);
+    }
 
-	@Override
-	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int attack() {
+    	return this.getBaseDamage();
+    }
+
+    @Override
+    public void takeDamage(int receivedDamage) {
+    	int currentArmor = this.getActualArmor();
+        this.setArmor(currentArmor - receivedDamage);
+    }
+
+    @Override
+    public int getActualArmor() {
+    	return this.getArmor(); 
+    }
 
 	@Override
 	public int getFoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.FOOD_COST_ARROWTOWER;
 	}
 
 	@Override
 	public int getWoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.WOOD_COST_ARROWTOWER;
 	}
 
 	@Override
 	public int getIronCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.IRON_COST_ARROWTOWER;
 	}
 
 	@Override
 	public int getManaCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.MANA_COST_ARROWTOWER;
 	}
 
 	@Override
@@ -84,14 +108,14 @@ class ArrowTower extends DefenseUnit {
 
 	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public void resetArmor() {
-		// TODO Auto-generated method stub
-		
+		int initialArmor = this.getInitialArmor();
+	    this.setArmor(initialArmor);
 	}
 
 	@Override
@@ -110,47 +134,51 @@ class ArrowTower extends DefenseUnit {
 
 
 class Catapult extends DefenseUnit  {
-
-	@Override
-	public int attack() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
+	
+	// Constructor 1
+	public Catapult( int armor, int baseDamage) {
+		super();
 		
+		this.setArmor(armor);
+        this.setInitialArmor(armor);
+        this.setBaseDamage(baseDamage);
+        this.setExperience(0);
+        this.setSanctified(false);
+			
 	}
+	public int attack() {
+    	return this.getBaseDamage();
+    }
 
-	@Override
-	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public void takeDamage(int receivedDamage) {
+    	int currentArmor = this.getActualArmor();
+        this.setArmor(currentArmor - receivedDamage);
+    }
 
+    @Override
+    public int getActualArmor() {
+    	return this.getArmor(); 
+    }
+    
 	@Override
 	public int getFoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.FOOD_COST_CATAPULT;
 	}
 
 	@Override
 	public int getWoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.WOOD_COST_CATAPULT;
 	}
 
 	@Override
 	public int getIronCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.IRON_COST_CATAPULT;
 	}
 
 	@Override
 	public int getManaCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.MANA_COST_CATAPULT;
 	}
 
 	@Override
@@ -167,8 +195,8 @@ class Catapult extends DefenseUnit  {
 
 	@Override
 	public void resetArmor() {
-		// TODO Auto-generated method stub
-		
+		int initialArmor = this.getInitialArmor();
+	    this.setArmor(initialArmor);
 	}
 
 	@Override
@@ -186,48 +214,54 @@ class Catapult extends DefenseUnit  {
 }
 
 
+
 class RocketLauncherTower extends DefenseUnit  {
-
-	@Override
-	public int attack() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
+	
+	// Constructor 
+	public RocketLauncherTower( int armor, int baseDamage) {
+		super();
 		
+		this.setArmor(armor);
+        this.setInitialArmor(armor);
+        this.setBaseDamage(baseDamage);
+        this.setExperience(0);
+        this.setSanctified(false);
+			
 	}
 
-	@Override
-	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public int attack() {
+    	return this.getBaseDamage();
+    }
+
+    @Override
+    public void takeDamage(int receivedDamage) {
+    	int currentArmor = this.getActualArmor();
+        this.setArmor(currentArmor - receivedDamage);
+    }
+
+    @Override
+    public int getActualArmor() {
+    	return this.getArmor(); 
+    }
 
 	@Override
 	public int getFoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.FOOD_COST_ROCKETLAUNCHERTOWER;
 	}
 
 	@Override
 	public int getWoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.WOOD_COST_ROCKETLAUNCHERTOWER;
 	}
 
 	@Override
 	public int getIronCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.IRON_COST_ROCKETLAUNCHERTOWER;
 	}
 
 	@Override
 	public int getManaCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Variables.MANA_COST_ROCKETLAUNCHERTOWER;
 	}
 
 	@Override
@@ -244,10 +278,9 @@ class RocketLauncherTower extends DefenseUnit  {
 
 	@Override
 	public void resetArmor() {
-		// TODO Auto-generated method stub
-		
+		int initialArmor = this.getInitialArmor();
+	    this.setArmor(initialArmor);
 	}
-
 	@Override
 	public void setExperience(int n) {
 		// TODO Auto-generated method stub
