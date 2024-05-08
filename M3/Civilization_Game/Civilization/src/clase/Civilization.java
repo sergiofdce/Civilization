@@ -487,37 +487,286 @@ public class Civilization {
 	    }
 	}
 	
-	public void newArrowTower(int n) throws ResourceException {
+public void newArrowTower(int n) throws ResourceException {
 		
-	}
+		// Requisitos: 0 Food		2.000 Wood 		0 Iron
+		
+				// Comprobar numero maximo de unidades que podemos crear
+				int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_ARROWTOWER, 
+															this.getWood() / Variables.WOOD_COST_ARROWTOWER), 
+															this.getIron() / Variables.IRON_COST_ARROWTOWER);
+			    
+			    if (availableUnit > 0) {
+			        int unitsToAdd = Math.min(n, availableUnit);
+			        
+			        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_ARROWTOWER);
+			        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_ARROWTOWER);
+			        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_ARROWTOWER);
+			        
+			        // Crear nueva unidad
+			        int armor = Variables.ARMOR_ARROWTOWER;
+			        int baseDamage = Variables.BASE_DAMAGE_ARROWTOWER;
+			        
+			        // Comprobar estadisticas
+			        if (this.getTechnologyDefense() > 0) {
+			            armor =  Variables.ARMOR_ARROWTOWER + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)*1000/100;
+			        }
+			        if (this.getTechnologyAttack() > 0) {
+			        	baseDamage =  Variables.BASE_DAMAGE_ARROWTOWER + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)*1000/100;
+			        }
+			        
+			        // Añadir al ArrayList
+			        army.get(4).add(new ArrowTower(armor, baseDamage)); 
+			        
+			        // Excepciones
+			        if (unitsToAdd < n) {
+			            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " ArrowTower.");
+			        } else {
+			            System.out.println("Have been added " + unitsToAdd + " Artilleros.");
+			        }
+			        
+			    } else {
+			        throw new ResourceException("Insufficient resources to train a new ArrowTower.");
+			    }
+			}
 	
 	public void newCatapult(int n) throws ResourceException {
 		
+		// Requisitos: 0 Food		4.000 Wood 		500 Iron
+		
+		// Comprobar numero maximo de unidades que podemos crear
+		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_CATAPULT, 
+													this.getWood() / Variables.WOOD_COST_CATAPULT), 
+													this.getIron() / Variables.IRON_COST_CATAPULT);
+	    
+	    if (availableUnit > 0) {
+	        int unitsToAdd = Math.min(n, availableUnit);
+	        
+	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_CATAPULT);
+	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_CATAPULT);
+	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_CATAPULT);
+	        
+	        // Crear nueva unidad
+	        int armor = Variables.ARMOR_CATAPULT;
+	        int baseDamage = Variables.BASE_DAMAGE_CATAPULT;
+	        
+	        // Comprobar estadisticas
+	        if (this.getTechnologyDefense() > 0) {
+	            armor =  Variables.ARMOR_CATAPULT + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)*1000/100;
+	        }
+	        if (this.getTechnologyAttack() > 0) {
+	        	baseDamage =  Variables.BASE_DAMAGE_CATAPULT + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)*1000/100;
+	        }
+	        
+	        // Añadir al ArrayList
+	        army.get(5).add(new Catapult(armor, baseDamage)); 
+	        
+	        // Excepciones
+	        if (unitsToAdd < n) {
+	            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " Catapult.");
+	        } else {
+	            System.out.println("Have been added " + unitsToAdd + " Artilleros.");
+	        }
+	        
+	    } else {
+	        throw new ResourceException("Insufficient resources to train a new Catapult.");
+	    }
 	}
 	
 	public void newRocketLauncher(int n) throws ResourceException {
 		
+		// Requisitos: 0 Food		50.000 Wood 		5000 Iron
+		
+		// Comprobar numero maximo de unidades que podemos crear
+		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_ROCKETLAUNCHERTOWER, 
+													this.getWood() / Variables.WOOD_COST_ROCKETLAUNCHERTOWER), 
+													this.getIron() / Variables.IRON_COST_ROCKETLAUNCHERTOWER);
+	    
+	    if (availableUnit > 0) {
+	        int unitsToAdd = Math.min(n, availableUnit);
+	        
+	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_ROCKETLAUNCHERTOWER);
+	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_ROCKETLAUNCHERTOWER);
+	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_ROCKETLAUNCHERTOWER);
+	        
+	        // Crear nueva unidad
+	        int armor = Variables.ARMOR_ROCKETLAUNCHERTOWER;
+	        int baseDamage = Variables.BASE_DAMAGE_ROCKETLAUNCHERTOWER;
+	        
+	        // Comprobar estadisticas
+	        if (this.getTechnologyDefense() > 0) {
+	            armor =  Variables.ARMOR_ROCKETLAUNCHERTOWER + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100;
+	        }
+	        if (this.getTechnologyAttack() > 0) {
+	        	baseDamage =  Variables.BASE_DAMAGE_ROCKETLAUNCHERTOWER + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100;
+	        }
+	        
+	        // Añadir al ArrayList
+	        army.get(6).add(new RocketLauncherTower(armor, baseDamage)); 
+	        
+	        // Excepciones
+	        if (unitsToAdd < n) {
+	            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " RocketLauncher.");
+	        } else {
+	            System.out.println("Have been added " + unitsToAdd + " RocketLauncher.");
+	        }
+	        
+	    } else {
+	        throw new ResourceException("Insufficient resources to train a new RocketLauncher.");
+	    }
 	}
 	
 	public void newMagician(int n) throws ResourceException, BuildingException {
+		
+		
+		
+		if(magicTower == 0) {
+			
+			throw new BuildingException("You haven't any Magic Tower.");
+			
+		}else {
+			
+			// Comprobar numero maximo de unidades que podemos crear
+			int availableUnit = Math.min(
+				    Math.min(
+				        Math.min(this.getFood() / Variables.FOOD_COST_MAGICIAN, 
+				                 this.getWood() / Variables.WOOD_COST_MAGICIAN), 
+				        this.getIron() / Variables.IRON_COST_MAGICIAN),
+				    this.getMana() / Variables.MANA_COST_MAGICIAN);
+
+		    
+		    if (availableUnit > 0) {
+		        int unitsToAdd = Math.min(n, availableUnit);
+		        
+		        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_MAGICIAN);
+		        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_MAGICIAN);
+		        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_MAGICIAN);
+		        this.setMana(this.getMana() - unitsToAdd * Variables.MANA_COST_MAGICIAN);
+		        // Crear nueva unidad
+		        int armor = 0;
+		        int baseDamage = 0;
+		        
+		      
+		        // Añadir al ArrayList
+		        army.get(7).add(new Magician(armor, baseDamage)); 
+		        
+		        // Excepciones
+		        if (unitsToAdd < n) {
+		            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + "Magician.");
+		        } else {
+		            System.out.println("Se han añadido " + unitsToAdd + " Mago.");
+		        }
+		        
+		    } else {
+		        throw new ResourceException("Recursos insuficientes para instruir un nuevo Mago.");
+		    }
+			
+		}
+		
 		
 	}
 	
 	public void newPriest(int n) throws ResourceException, BuildingException {
 		
+	if(magicTower == 0) {
+			
+			throw new BuildingException("You haven't any Magic Tower.");
+			
+		}else {
+			
+			// Comprobar numero maximo de unidades que podemos crear
+			int availableUnit = Math.min(
+				    Math.min(
+				        Math.min(this.getFood() / Variables.FOOD_COST_PRIEST, 
+				                 this.getWood() / Variables.WOOD_COST_PRIEST), 
+				        this.getIron() / Variables.IRON_COST_PRIEST),
+				    this.getMana() / Variables.MANA_COST_PRIEST);
+
+		    
+		    if (availableUnit > 0) {
+		        int unitsToAdd = Math.min(n, availableUnit);
+		        
+		        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_PRIEST);
+		        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_PRIEST);
+		        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_PRIEST);
+		        this.setMana(this.getMana() - unitsToAdd * Variables.MANA_COST_PRIEST);
+		        // Crear nueva unidad
+		        int armor = 0;
+		        int baseDamage = 0;
+		        
+		      
+		        // Añadir al ArrayList
+		        army.get(8).add(new Magician(armor, baseDamage)); 
+		        
+		        // Excepciones
+		        if (unitsToAdd < n) {
+		            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + "Magician.");
+		        } else {
+		            System.out.println("Se han añadido " + unitsToAdd + " Priest.");
+		        }
+		        
+		    } else {
+		        throw new ResourceException("Recursos insuficientes para instruir un nuevo Mago.");
+		    }
+			
+		}
 	}
 	
-	
+	public ArrayList ExtraerEjercito() {
+		ArrayList<ArrayList<MilitaryUnit>> copy = (ArrayList<ArrayList<MilitaryUnit>>) army.clone();
+		
+		return copy;
+			
+	}
 //	Mostrar Estadísticas
 	
 	public void printStats() {
+        System.out.println("***************************CIVILIZATION STATS***************************");
 
-		
+        // Tecnología
+        System.out.println("--------------------------------------------------TECHNOLOGY----------------------------------------");
+        System.out.println("Atack\tDefense");
+        System.out.println(this.technologyAttack + "\t" + this.technologyDefense);
+
+        // Edificios
+        System.out.println("---------------------------------------------------BUILDINGS----------------------------------------");
+        System.out.println("Farm\tSmithy\tCarpentry\tMagic Tower\tChurch");
+        System.out.println(this.farm + "\t" + this.smithy + "\t" + this.carpentry + "\t\t" + this.magicTower + "\t\t" + this.church);
+
+        // Defensas
+        System.out.println("----------------------------------------------------DEFENSES----------------------------------------");
+        System.out.println("Arrow Tower\tCatapult\tRocket Launcher");
+        // Asumiendo que "defenses" es un ArrayList que contiene las cantidades de cada tipo de defensa
+        System.out.println(army.get(4) + "\t\t" + army.get(5) + "\t\t" + army.get(6));
+
+        // Unidades de ataque
+        System.out.println("-----------------------------------------------ATTACK UNITS----------------------------------------");
+        System.out.println("Swordsman\tSpearman\tCrossbow\tCannon");
+        // Asumiendo que "attackUnits" es un ArrayList que contiene las cantidades de cada tipo de unidad de ataque
+        System.out.println(army.get(1) + "\t\t" + army.get(2) + "\t\t" + army.get(3) + "\t\t" + army.get(4));
+
+      // Unidades especiales
+       System.out.println("---------------------------------------------ESPECIAL UNITS----------------------------------------"); 
+       System.out.println("Mague\tPriest");
+       System.out.println("0\t" + army.get(7) + army.get(8));
+
+        // Recursos
+        System.out.println("---------------------------------------------------RESOURCES----------------------------------------");
+        System.out.println("Food\tWood\tIron\tMana");
+        System.out.println(this.food + "\t" + this.wood + "\t" + this.iron + "\t" + this.mana);
+
+//        // Generación de recursos
+//        System.out.println("----------------------------------------GENERATION RESOURCES----------------------------------------");
+//        System.out.println("Food\tWood\tIron\tMana");
+//        System.out.println(this.foodGeneration + "\t" + this.woodGeneration + "\t" + this.ironGeneration + "\t" + this.manaGeneration);
+
 	}
+}
+
 
 
 
 		
 
 
-}
+
