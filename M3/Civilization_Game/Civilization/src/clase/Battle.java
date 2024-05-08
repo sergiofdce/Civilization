@@ -1,15 +1,14 @@
 package clase;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import interfaces.MilitaryUnit;
 
 public class Battle {
 	
-	private ArrayList<MilitaryUnit> civilizationArmy;
-
-	private ArrayList<MilitaryUnit> enemyArmy;
-	
+	  private ArrayList<ArrayList<MilitaryUnit>> civilizationArmy;
+	  private ArrayList<ArrayList<MilitaryUnit>> enemyArmy;
 	
 	private String []  battleDevelopment;
 	
@@ -39,18 +38,25 @@ public class Battle {
 		
 		civilizationArmy = new ArrayList<>();
 		enemyArmy = new ArrayList<>();
+		this.initializeCivilizationArmy();
+		civilizationArmy.get(0).add(new Cannon());
+		System.out.println(civilizationArmy.get(0).get(0).getId_civi());
 		}
 
 	
 	public void initializeCivilizationArmy() {
+        civilizationArmy = new ArrayList<>();
+
 	    for (int i = 1; i <= 9; i++) {
-	        civilizationArmy.add((MilitaryUnit) new ArrayList<MilitaryUnit>());
+	        civilizationArmy.add((ArrayList<MilitaryUnit>) new ArrayList<MilitaryUnit>());
 	    }
 	}
 	
 	public void initializeCivilizationEnemArmy() {
+        enemyArmy = new ArrayList<>();
+
 	    for (int i = 1; i <= 9; i++) {
-	    	enemyArmy.add((MilitaryUnit) new ArrayList<MilitaryUnit>());
+	    	enemyArmy.add((ArrayList<MilitaryUnit>) new ArrayList<MilitaryUnit>());
 	    }
 	}
 	
@@ -144,12 +150,82 @@ public class Battle {
 	
 	
 	
-	public int getCivilizationGroupAttacker() {
-		return civilizationDrops;}
+	public MilitaryUnit getCivilizationGroupAttacker() {
+		
+		int aleatorioGrupo =    (int) (Math.random() * (100 - 1 + 1)) + 1;
+		
+		int posGrupo = 0;
+		
+		MilitaryUnit grupoSelect;
+		
+		
+		if(aleatorioGrupo <1 && aleatorioGrupo <=37) {
+			
+			posGrupo = 3;
+			
+		}else if(aleatorioGrupo > 37 && aleatorioGrupo<=41) {
+			
+			posGrupo = 0;
+		}else if(aleatorioGrupo > 41 && aleatorioGrupo<=50) {
+			
+			posGrupo = 1;
+		}else if(aleatorioGrupo > 50 && aleatorioGrupo<=63) {
+			
+			posGrupo = 2;
+		}else if(aleatorioGrupo > 63 && aleatorioGrupo<=67) {
+			
+			posGrupo = 4;
+		}else if(aleatorioGrupo > 67 && aleatorioGrupo<=76) {
+			
+			posGrupo = 5;
+		}else if(aleatorioGrupo > 76 && aleatorioGrupo<=90) {
+			
+			posGrupo = 6;
+		}else if(aleatorioGrupo > 91 && aleatorioGrupo<=100) {
+			
+			posGrupo = 7;
+		}
+		
+		Random random = new Random();
+		int lenGrupo = ((ArrayList<MilitaryUnit>) armies[0].get(posGrupo)).size();
+		
+		grupoSelect = ((ArrayList<MilitaryUnit>) armies[0].get(posGrupo)).get(random.nextInt(lenGrupo)-1);
+		
+		
+		return grupoSelect;}
 	
-	public int getEnemyGroupAttacker() {
-		return civilizationDrops;} 
+	public MilitaryUnit getEnemyGroupAttacker() {
+		int aleatorioGrupo =    (int) (Math.random() * (100 - 1 + 1)) + 1;
+		
+		int posGrupo = 0;
+		
+		MilitaryUnit grupoSelect;
+		
+		
+		if(aleatorioGrupo <1 && aleatorioGrupo <=10) {
+			
+			posGrupo = 0;
+			
+		}else if(aleatorioGrupo > 10 && aleatorioGrupo<=30) {
+			
+			posGrupo = 1;
+		}else if(aleatorioGrupo > 30 && aleatorioGrupo<=60) {
+			
+			posGrupo = 2;
+		}else if(aleatorioGrupo > 60 && aleatorioGrupo<=100) {
+			
+			posGrupo = 3;
+		}
+
+		Random random = new Random();
+		int lenGrupo = ((ArrayList<MilitaryUnit>) armies[1].get(posGrupo)).size();
+		
+		grupoSelect = ((ArrayList<MilitaryUnit>) armies[1].get(posGrupo)).get(random.nextInt(lenGrupo)-1);
+		
+		return grupoSelect;
 	
+		}
+
 	
 	public void resetArmyArmor() {
 		
@@ -221,7 +297,7 @@ public class Battle {
 
 
 	
-	public void updateResourcesLooses() {}
+
 	
 
 		
