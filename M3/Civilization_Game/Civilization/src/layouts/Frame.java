@@ -52,30 +52,30 @@ public class Frame extends JFrame {
         
         
 //        // test game
-//        gameFrame = new Game(this);
+        gameFrame = new Game(this);
         
     
         
         
         
-        // Menu Image
-        menuImage = new MenuImage();
-        cardLayout = new CardLayout();
-        centerPanel = new JPanel(cardLayout);
-        centerPanel.add(menuImage, "MenuImage");
-
-        // New Game
-        menuLabels = new MenuLabels(this);
-        centerPanel.add(menuLabels, "MenuLabels");
-
-        // Credits
-        menuCredits = new MenuCredits(this);
-        centerPanel.add(menuCredits, "MenuCredits");
-
-        this.add(centerPanel, BorderLayout.CENTER);
-
-        // Main Menu
-        this.add(new MenuButtons(this, cardLayout, centerPanel, gameFrame), BorderLayout.WEST);
+//        // Menu Image
+//        menuImage = new MenuImage();
+//        cardLayout = new CardLayout();
+//        centerPanel = new JPanel(cardLayout);
+//        centerPanel.add(menuImage, "MenuImage");
+//
+//        // New Game
+//        menuLabels = new MenuLabels(this);
+//        centerPanel.add(menuLabels, "MenuLabels");
+//
+//        // Credits
+//        menuCredits = new MenuCredits(this);
+//        centerPanel.add(menuCredits, "MenuCredits");
+//
+//        this.add(centerPanel, BorderLayout.CENTER);
+//
+//        // Main Menu
+//        this.add(new MenuButtons(this, cardLayout, centerPanel, gameFrame), BorderLayout.WEST);
 
         // -------------- //
         this.setVisible(true);
@@ -93,19 +93,35 @@ public class Frame extends JFrame {
 	    private JMenuItem playPauseMenuItem, exitToMainMenuMenuItem, exitGameMenuItem;
 	    private JMenuItem newFarm, newCarpentry, newBlacksmith, newMagicTower, newChurch;
 	    private JMenuItem upgradeDefense, upgradeAttack;
-	    
 	    private JMenu offensiveMenu, defensiveMenu, specialMenu;
-	    private JMenuItem newSwordsman, newSpearman, newCrossbow, newCannon, newArrowTower, newCatapult, newRocketLauncher, newMagician, newPriestItem;
-	    
+	    private JMenuItem newSwordsman, newSpearman, newCrossbow, newCannon, newArrowTower, newCatapult, newRocketLauncher, newMagician, newPriest;
 	    private JMenuItem showTutorial, aboutMenuItem, creditsMenuItem, contactSupportMenuItem;
-	    
 	    private JPanel topFrame, leftFrame, rightFrame, bottomFrame, centralGame;
 	    
+	    // New item JDialog
+	    private JDialog dialog;
+	    private JPanel dialogImagePanel;
+	    private JPanel mainPanel;
+	    private GridBagConstraints gbc;
+	    private JLabel imageLabel, dialogo, foodLabel, woodLabel, ironLabel, manaLabel, label, exceptionMessage;
+	    private JTextField textField;
+	    private JButton cancelButton, createButton;
+	    private JPanel costPanel, messagePanel, buttonPanel;
+	    private ImageIcon foodIcon, woodIcon, ironIcon, manaIcon, icon, scaledIcon;
+	    private Image scaledImage;
+	    private String newItemTitle, newItemImage, newItemDialogo, newItemLabel;
+	    private String sourceButton;
 	    
 	    
 	    
 	    // Imagenes
 	    private Image backgroundImage;
+	    private ImageIcon iconoComida = new ImageIcon("./src/layouts/resources/food.png");
+	    private ImageIcon iconoMadera = new ImageIcon("./src/layouts/resources/wood.png");
+	    private ImageIcon iconoHierro = new ImageIcon("./src/layouts/resources/iron.png");
+	    private ImageIcon iconoMana = new ImageIcon("./src/layouts/resources/mana.png");
+	    private Image imagenComida, imagenMadera, imagenHierro, imagenMana;
+	    private ImageIcon iconoComidaRedimensionado, iconoMaderaRedimensionado, iconoHierroRedimensionado, iconoManaRedimensionado;
 	    
 	    // Background image
 	    private JPanel backgroundImageJPanel;
@@ -118,6 +134,8 @@ public class Frame extends JFrame {
 	    private JPanel infoCivilization, panelRecursos, panelEdificios, panelUnidades, panelTecnologias, contador;
 	    private GridBagConstraints gbc_contador, gbc_info, gbc_building, gbc_units, gbc_tech;
 	    private JLabel labelTiempo, labelComida, labelMadera, labelHierro, labelMana;
+	    private JLabel labelComidaUnidades, labelMaderaUnidades, labelHierroUnidades, labelManaUnidades;
+
 	    
 	    // Consola
 	    private JTextArea consoleTextArea;
@@ -132,7 +150,7 @@ public class Frame extends JFrame {
 	        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que solo cierre este JFrame
 	        this.setLocationRelativeTo(null);
-	        this.setResizable(false);
+	        this.setResizable(true);
 	        //---
 	        
 	        
@@ -149,7 +167,7 @@ public class Frame extends JFrame {
 
 	                // Cargar la imagen de fondo
 	                try {
-	                    backgroundImage = ImageIO.read(new File("./src/layouts/resources/background_Image_psd.png"));
+	                    backgroundImage = ImageIO.read(new File("./src/layouts/resources/background_frame.png"));
 
 	                    // Obtener las dimensiones del panel
 	                    int panelWidth = this.getWidth();
@@ -183,7 +201,7 @@ public class Frame extends JFrame {
 
 	                // Cargar la imagen de fondo
 	                try {
-	                    backgroundImage = ImageIO.read(new File("./src/layouts/resources/landscape.png"));
+	                    backgroundImage = ImageIO.read(new File("./src/layouts/resources/background.jpg"));
 
 	                    // Obtener las dimensiones del panel
 	                    int panelWidth = this.getWidth();
@@ -287,14 +305,167 @@ public class Frame extends JFrame {
 	            }
 	        });
 	        
+//	        Build
+	        	// Farm
+		        newFarm.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Farm";
+		            	newItemImage = "newFarm";
+		            	newItemDialogo = "<html>A farm allows you to increase your Civilization's <br> food production by 10%.<br><br>The cost to build a farm is:</html>";
+		            	newItemLabel = "How many Farms do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newFarm");
+		            }
+		        });
+
+	        	// Carpentry
+		        newCarpentry.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Carpentry";
+		            	newItemImage = "newCarpentry";
+		            	newItemDialogo = "<html>A carpentry allows you to increase your Civilization's <br> wood production by 10%.<br><br>The cost to build a carpentry is:</html>";
+		            	newItemLabel = "How many Carpentries do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newCarpentry");
+		            }
+		        });
+	        	// Blacksmith
+		        newBlacksmith.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Blacksmith";
+		            	newItemImage = "newBlacksmith";
+		            	newItemDialogo = "<html>A blacksmith workshop allows you to increase your Civilization's <br> iron production by 10%.<br><br>The cost to build a blacksmith workshop is:</html>";
+		            	newItemLabel = "How many Blacksmith Workshops do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newBlacksmith");
+		            }
+		        });
+	        	// Magic Tower
+		        newMagicTower.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Magic Tower";
+		            	newItemImage = "newMagicTower";
+		            	newItemDialogo = "<html>The magic tower generates +3000 mana each time resources are produced.<br><br>The cost to build a magic tower is:</html>";
+		            	newItemLabel = "How many Magic Towers do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newMagicTower");
+		            }
+		        });
+	        	// Church
+		        newChurch.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Church";
+		            	newItemImage = "newChurch";
+		            	newItemDialogo = "<html>Each Church will allow you to generate 1 Priest.</html>";		            	
+		            	newItemLabel = "How many Churches do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newChurch");
+		            }
+		        });
 	        
+//	        Upgrade
+				 // Attack Technology
+				 // Defense Technology
+	        
+//	        Units
+				 // Swordsman
+		        newSwordsman.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Swordsman";
+		            	newItemImage = "newSwordsman";
+		            	newItemDialogo = "<html>The sharp sword of the Swordsman will cut through <br> your enemies with precision and skill!\n"
+		            			+ "</html>";		            	
+		            	newItemLabel = "How many Swordsmen do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newSwordsman");
+		            }
+		        });
+				 // Spearman
+		        newSpearman.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Spearman";
+		            	newItemImage = "newSpearman";
+		            	newItemDialogo = "<html>The Spearman is the spear that will pierce through <br> enemy ranks with its sharp tip!\n"
+		            			+ "</html>";
+		            	newItemLabel = "How many Spearmen do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newSpearman");
+		            }
+		        });
+		         // Crosswob
+		        newCrossbow.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Crossbow";
+		            	newItemImage = "newCrossbow";
+		            	newItemDialogo = "<html>The Crossbow shoots deadly arrows with lethal <br> accuracy from a distance!\n"
+		            			+ "</html>";
+		            	newItemLabel = "How many Crossbows do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newCrossbow");
+		            }
+		        });
+				 // Cannon
+		        newCannon.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Cannon";
+		            	newItemImage = "newCannon";
+		            	newItemDialogo = "<html>The Cannon will unleash a rain of destruction <br> upon your enemies with its powerful shot!\n"
+		            			+ "</html>";
+		            	newItemLabel = "How many Cannons do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newCannon");
+		            }
+		        });
+				 // Arrow Tower
+		        newArrowTower.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Arrow Tower";
+		            	newItemImage = "newArrowTower";
+		            	newItemDialogo = "<html>The Arrow Tower is the silent guardian that rains <br> arrows on invaders mercilessly!\n"
+		            			+ "</html>";
+		            	newItemLabel = "How many Towers do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newArrowTower");
+		            }
+		        });
+				 // Catapult
+		        newCatapult.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Catapult";
+		            	newItemImage = "newCatapult";
+		            	newItemDialogo = "<html>The Catapult will launch massive projectiles to crush <br> enemy defenses with overwhelming force!\n"
+		            			+ "</html>";
+		            	newItemLabel = "How many Catapults do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newCatapult");
+		            }
+		        });
+				 // Rocket Launcher
+		        newRocketLauncher.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Rocket Launcher";
+		            	newItemImage = "newRocketLauncher";
+		            	newItemDialogo = "<html>The Rocket Launcher will unleash fire and explosions <br> to clear the battlefield with its devastating power!</html>";
+		            	newItemLabel = "How many Launchers do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newRocketLauncher");
+		            }
+		        });
+				 // Magician
+		        newMagician.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Magician";
+		            	newItemImage = "newMagician";
+		            	newItemDialogo = "<html>The Magician will conjure arcane spells to unbalance <br> your enemies with mysterious and powerful magic!</html>";
+		            	newItemLabel = "How many Magicians do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newMagician");
+		            }
+		        });
+				 // Priest
+		        newPriest.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	newItemTitle = "New Priest";
+		            	newItemImage = "newPriest";
+		            	newItemDialogo = "<html>The Priest is the source of divine healing and protection <br> that will strengthen your troops and heal <br> their wounds in battle!</html>";		            	
+		            	newItemLabel = "How many Priests do you want to create?";
+		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newPriest");
+		            }
+		        });
 	        
 	        // Help
 	        
-		        // Show Tutorial
-		        // About
-		        // Credits
-		        // Contact Support
+				// Show Tutorial
+				// About
+				// Credits
+				// Contact Support
 	        
 	        
 	        
@@ -308,6 +479,229 @@ public class Frame extends JFrame {
 	        
 	        
 	        
+	    }
+	    
+	    // Nueva Construccion o Unidad
+	    private void createNewObject(String newItemTitle, String newItemImage, String newItemDialogo, String newItemLabel, String actionCommand) {
+	        try {
+	            // Crear y configurar el JDialog
+	            dialog = new JDialog(this, "Diálogo Modal", true);
+	            dialog.setTitle(newItemTitle);
+	            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	            dialog.setModal(true); // Bloquea clics fuera del JDialog
+
+	            // Crear un panel para la imagen con márgenes
+	            dialogImagePanel = new JPanel();
+	            dialogImagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	            icon = new ImageIcon("./src/layouts/resources/"+newItemImage+".png");
+	            scaledImage = icon.getImage().getScaledInstance(250, 331, Image.SCALE_SMOOTH);
+	            scaledIcon = new ImageIcon(scaledImage);
+	            imageLabel = new JLabel(scaledIcon);
+	            dialogImagePanel.add(imageLabel);
+	            dialog.add(dialogImagePanel, BorderLayout.WEST);
+
+	            // Crear el panel principal con GridBagLayout
+	            mainPanel = new JPanel();
+	            mainPanel.setLayout(new GridBagLayout());
+	            gbc = new GridBagConstraints();
+
+	            // Configurar restricciones para el JLabel y JTextField
+	            gbc.gridx = 0;
+	            gbc.gridy = 0;
+	            gbc.anchor = GridBagConstraints.WEST;
+	            gbc.insets = new Insets(10, 10, 10, 10);
+
+	            // Mensaje introductorio
+	            dialogo = new JLabel(newItemDialogo);
+	            gbc.gridwidth = 2; // Ocupa 2 columnas
+	            mainPanel.add(dialogo, gbc);
+
+	            // Coste de recursos para crear una granja
+	            gbc.gridy = 1; // Siguiente fila
+	            costPanel = new JPanel();
+	            costPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+	            // Imágenes de recursos
+	            foodIcon = new ImageIcon("./src/layouts/resources/food.png");
+	            woodIcon = new ImageIcon("./src/layouts/resources/wood.png");
+	            ironIcon = new ImageIcon("./src/layouts/resources/iron.png");
+	            manaIcon = new ImageIcon("./src/layouts/resources/mana.png");
+	            foodIcon = new ImageIcon(foodIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+	            woodIcon = new ImageIcon(woodIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+	            ironIcon = new ImageIcon(ironIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+	            manaIcon = new ImageIcon(manaIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+	            // Etiquetas con imágenes y texto
+	            foodLabel = new JLabel(foodIcon);
+	            foodLabel.setText(": X");
+	            foodLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+	            woodLabel = new JLabel(woodIcon);
+	            woodLabel.setText(": X");
+	            woodLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+	            ironLabel = new JLabel(ironIcon);
+	            ironLabel.setText(": X");
+	            ironLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+	            manaLabel = new JLabel(manaIcon);
+	            manaLabel.setText(": X");
+	            manaLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+	            // Agregar etiquetas al costPanel
+	            costPanel.add(foodLabel);
+	            costPanel.add(woodLabel);
+	            costPanel.add(ironLabel);
+	            costPanel.add(manaLabel);
+
+	            // Añadir el panel de recursos al mainPanel
+	            gbc.gridwidth = 2; // Ocupa 2 columnas
+	            mainPanel.add(costPanel, gbc);
+
+	            // Pregunta sobre la cantidad de granjas
+	            gbc.gridx = 0;
+	            gbc.gridy = 2; // Siguiente fila
+	            gbc.gridwidth = 1; // Ocupa 1 columna
+	            label = new JLabel(newItemLabel);
+	            mainPanel.add(label, gbc);
+
+	            gbc.gridx = 1; // Siguiente columna
+	            gbc.gridy = 2; // Mantiene la fila
+	            textField = new JTextField(5);
+	            textField.setHorizontalAlignment(JTextField.CENTER);
+	            mainPanel.add(textField, gbc);
+
+	            // Panel para exception
+	            gbc.gridx = 0;
+	            gbc.gridy = 4; // Siguiente fila
+	            gbc.gridwidth = 2; // Ocupa 2 columnas
+	            gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
+	            exceptionMessage = new JLabel("Please enter a number.");
+	            exceptionMessage.setForeground(Color.RED);
+	            messagePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	            messagePanel.add(exceptionMessage);
+	            mainPanel.add(messagePanel, gbc);
+
+	            // Panel para los botones
+	            gbc.gridx = 0;
+	            gbc.gridy = 5; // Siguiente fila
+	            gbc.gridwidth = 2; // Ocupa 2 columnas
+	            gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
+	            cancelButton = new JButton("Cancel");
+	            createButton = new JButton("Create");
+	            createButton.setEnabled(false);
+	            buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // Para alinear los botones
+	            buttonPanel.add(cancelButton);
+	            buttonPanel.add(createButton);
+	            mainPanel.add(buttonPanel, gbc);
+	            
+	            
+	            
+	            // Eventos
+	            cancelButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dialog.dispose(); // Cerrar el diálogo
+                    }
+                });
+	            
+	            
+	            textField.addKeyListener(new KeyAdapter() {
+	                @Override
+	                public void keyReleased(KeyEvent e) {
+	                    String text = textField.getText();
+	                    
+	                    // Comprobar solo numeros
+	                    if (text.isEmpty()) {
+	                        exceptionMessage.setText("Please enter a number.");
+	        	            createButton.setEnabled(false);
+	                    } else if (!text.chars().allMatch(Character::isDigit)) { 
+	                        exceptionMessage.setText("Only numbers are allowed!");
+	        	            createButton.setEnabled(false);
+	                    } else if (text.startsWith("0")) {
+	                    	exceptionMessage.setText("Enter a number bigger than 0");
+	        	            createButton.setEnabled(false);
+	                    } else {
+	        	            createButton.setEnabled(true);
+	                        exceptionMessage.setText(" ");
+	                    }
+	                }
+	            });
+	            
+	  
+	            createButton.addActionListener(new ActionListener() {
+	                public void actionPerformed(ActionEvent e) {
+	                    String sourceButton = actionCommand;
+
+	                    if (sourceButton.equals("newFarm")) {
+	                        System.out.println("New Farm was created");
+	                        
+	                    } else if (sourceButton.equals("newCarpentry")) {
+	                        System.out.println("New Carpentry was created");
+	                        
+	                    } else if (sourceButton.equals("newBlacksmith")) {
+	                        System.out.println("New Blacksmith was created");
+	                        
+	                    } else if (sourceButton.equals("newMagicTower")) {
+	                        System.out.println("New Magic Tower was created");
+	                        
+	                    } else if (sourceButton.equals("newChurch")) {
+	                        System.out.println("New Church button was created");
+	                        
+	                    } else if (sourceButton.equals("newSwordsman")) {
+	                        System.out.println("New Swordsman was created");
+	                        
+	                    } else if (sourceButton.equals("newSpearman")) {
+	                        System.out.println("New Spearman was created");
+	                        
+	                    } else if (sourceButton.equals("newCrossbow")) {
+	                        System.out.println("New Crossbow was created");
+	                        
+	                    } else if (sourceButton.equals("newCannon")) {
+	                        System.out.println("New Cannon was created");
+	                        
+	                    } else if (sourceButton.equals("newArrowTower")) {
+	                        System.out.println("New Arrow Tower was created");
+	                        
+	                    } else if (sourceButton.equals("newCatapult")) {
+	                        System.out.println("New Catapult was created");
+	                        
+	                    } else if (sourceButton.equals("newRocketLauncher")) {
+	                        System.out.println("New Rocket Launcher was created");
+	                        
+	                    } else if (sourceButton.equals("newMagician")) {
+	                        System.out.println("New Magician was created");
+	                        
+	                    } else if (sourceButton.equals("newPriest")) {
+	                        System.out.println("New Priest was created");
+	                    }
+	                    
+	                    dialog.dispose();
+	                }
+	            });
+	            
+	            
+	            
+
+	            // Agregar el panel principal al diálogo
+	            dialog.add(mainPanel, BorderLayout.CENTER);
+
+	            // Ajustes del JDialog
+	            dialog.pack(); 
+                dialog.setLocationRelativeTo(null); 
+                dialog.setResizable(false); 
+                dialog.setVisible(true);
+                
+                
+                
+                
+                
+                
+                
+                
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
 	    }
 	    
 
@@ -368,9 +762,9 @@ public class Frame extends JFrame {
 
 	        specialMenu = new JMenu("Special");
 	        newMagician = new JMenuItem("Magician");
-	        newPriestItem = new JMenuItem("Priest");
+	        newPriest = new JMenuItem("Priest");
 	        specialMenu.add(newMagician);
-	        specialMenu.add(newPriestItem);
+	        specialMenu.add(newPriest);
 
 	        // Agregar los submenús al menú "Units"
 	        unitsMenu.add(offensiveMenu);
@@ -452,17 +846,38 @@ public class Frame extends JFrame {
 	    	
 	    	
 	    	// Añadir Comida
-	        labelComida = new JLabel("Comida: 0");
-	        panelRecursos.add(labelComida);
-	        // Añadir Madera
-	        labelMadera = new JLabel("Madera: 0");
-	        panelRecursos.add(labelMadera);
-	        // Añadir Hierro
-	        labelHierro = new JLabel("Hierro: 0");
-	        panelRecursos.add(labelHierro);
-	        // Añadir Mana
-	        labelMana = new JLabel("Mana: 0");
-	        panelRecursos.add(labelMana);	
+	    	imagenComida = iconoComida.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+	    	iconoComidaRedimensionado = new ImageIcon(imagenComida);
+
+	    	imagenMadera = iconoMadera.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+	    	iconoMaderaRedimensionado = new ImageIcon(imagenMadera);
+
+	    	imagenHierro = iconoHierro.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+	    	iconoHierroRedimensionado = new ImageIcon(imagenHierro);
+
+	    	imagenMana = iconoMana.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+	    	iconoManaRedimensionado = new ImageIcon(imagenMana);
+	    	
+	    	labelComida = new JLabel(iconoComidaRedimensionado);
+	    	panelRecursos.add(labelComida);
+	    	labelComidaUnidades = new JLabel("0");
+	    	panelRecursos.add(labelComidaUnidades);
+
+	    	labelMadera = new JLabel(iconoMaderaRedimensionado);
+	    	panelRecursos.add(labelMadera);
+	    	labelMaderaUnidades = new JLabel("0");
+	    	panelRecursos.add(labelMaderaUnidades);
+
+	    	labelHierro = new JLabel(iconoHierroRedimensionado);
+	    	panelRecursos.add(labelHierro);
+	    	labelHierroUnidades = new JLabel("0");
+	    	panelRecursos.add(labelHierroUnidades);
+
+	    	labelMana = new JLabel(iconoManaRedimensionado);
+	    	panelRecursos.add(labelMana);
+	    	labelManaUnidades = new JLabel("0");
+	    	panelRecursos.add(labelManaUnidades);
+
 	        
 	        gbc_info.gridx = 0; 
 	    	gbc_info.gridy = 1;
@@ -651,8 +1066,8 @@ public class Frame extends JFrame {
 	        infoCivilization.add(panelTecnologias, gbc_info);
 	    	
 
-	        Border border = BorderFactory.createLineBorder(Color.RED, 10); 
-	        rightFrame.setBorder(border);
+//	        Border border = BorderFactory.createLineBorder(Color.RED, 10); 
+//	        rightFrame.setBorder(border);
 	    }
 
 	    // Parte inferior -> Console output
