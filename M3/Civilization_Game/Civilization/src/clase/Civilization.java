@@ -42,13 +42,29 @@ public class Civilization {
         // Batallas
         this.battles = 0;
         
+        
+        
        
+    }
+    // Método para generar comida
+    public void generateFood(int amount) {
+        this.food += amount;
+    }
+
+    // Método para generar madera
+    public void generateWood(int amount) {
+        this.wood += amount;
+    }
+
+    // Método para generar hierro
+    public void generateIron(int amount) {
+        this.iron += amount;
     }
 	
 	
 	
-	
 	// Getters y Setters
+	
 	
 //	Materiales
 	
@@ -357,9 +373,10 @@ public class Civilization {
 	        
 	    } else {
 	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Espadachín.");
-	    }	
+	    }
+	    
 	}
-	
+	   
 	public void newSpearman(int n) throws ResourceException {
 		// Requisitos: 5.000 Food		6.500 Wood 		50 Iron
 		
@@ -712,15 +729,10 @@ public void newArrowTower(int n) throws ResourceException {
 		}
 	}
 	
-	public ArrayList ExtraerEjercito() {
-		ArrayList<ArrayList<MilitaryUnit>> copy = (ArrayList<ArrayList<MilitaryUnit>>) army.clone();
-		
-		return copy;
-			
-	}
+	
 //	Mostrar Estadísticas
 	
-	public void printStats() {
+	public void printStats() {	
         System.out.println("***************************CIVILIZATION STATS***************************");
 
         // Tecnología
@@ -737,36 +749,28 @@ public void newArrowTower(int n) throws ResourceException {
         System.out.println("----------------------------------------------------DEFENSES----------------------------------------");
         System.out.println("Arrow Tower\tCatapult\tRocket Launcher");
         // Asumiendo que "defenses" es un ArrayList que contiene las cantidades de cada tipo de defensa
-        System.out.println(army.get(4) + "\t\t" + army.get(5) + "\t\t" + army.get(6));
+        System.out.println(army.get(4).size() + "\t\t" + army.get(5).size() + "\t\t" + army.get(6).size());
 
         // Unidades de ataque
         System.out.println("-----------------------------------------------ATTACK UNITS----------------------------------------");
         System.out.println("Swordsman\tSpearman\tCrossbow\tCannon");
         // Asumiendo que "attackUnits" es un ArrayList que contiene las cantidades de cada tipo de unidad de ataque
-        System.out.println(army.get(1) + "\t\t" + army.get(2) + "\t\t" + army.get(3) + "\t\t" + army.get(4));
+        System.out.println(army.get(0).size() + "\t\t" + army.get(1).size() + "\t\t" + army.get(2).size() + "\t\t" + army.get(3).size() + "\t\t" + army.get(4).size());
 
       // Unidades especiales
        System.out.println("---------------------------------------------ESPECIAL UNITS----------------------------------------"); 
        System.out.println("Mague\tPriest");
-       System.out.println("0\t" + army.get(7) + army.get(8));
+       System.out.println("0\t" + army.get(7).size() + army.get(8).size());
 
         // Recursos
         System.out.println("---------------------------------------------------RESOURCES----------------------------------------");
         System.out.println("Food\tWood\tIron\tMana");
         System.out.println(this.food + "\t" + this.wood + "\t" + this.iron + "\t" + this.mana);
 
-//        // Generación de recursos
-//        System.out.println("----------------------------------------GENERATION RESOURCES----------------------------------------");
-//        System.out.println("Food\tWood\tIron\tMana");
-//        System.out.println(this.foodGeneration + "\t" + this.woodGeneration + "\t" + this.ironGeneration + "\t" + this.manaGeneration);
+        // Generación de recursos
+        System.out.println("----------------------------------------GENERATION RESOURCES----------------------------------------");
+        System.out.println("Food\tWood\tIron\tMana");
+        System.out.println(Variables.CIVILIZATION_FOOD_GENERATED + "\t" + Variables.CIVILIZATION_WOOD_GENERATED + "\t" + Variables.CIVILIZATION_IRON_GENERATED);
 
 	}
 }
-
-
-
-
-		
-
-
-
