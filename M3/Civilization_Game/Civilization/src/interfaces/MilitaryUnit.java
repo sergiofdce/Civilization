@@ -38,8 +38,11 @@ public interface MilitaryUnit {
 	
 	// Nos devolverá la experiencia actual de la unidad.
 	abstract int getExperience();
+
 	abstract int getId_civi();
 
 	abstract void setId_civi(int id_civi);
-
+	
+	
+	
 }

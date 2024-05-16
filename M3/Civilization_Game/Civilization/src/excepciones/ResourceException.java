@@ -1,15 +1,17 @@
 package excepciones;
 
 public class ResourceException extends Exception {
-	
-	// Constructor
+
+    // Constructor
     public ResourceException() {
-        super();  
+        super();
     }
 
     // Constructor con mensaje
     public ResourceException(String message) {
-        super(message);  
+        super(message);
     }
+    
+    
 
 }

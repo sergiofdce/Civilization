@@ -1,6 +1,6 @@
 package clase;
 
-class Crossbow extends AttackUnit  {
+public class Crossbow extends AttackUnit  {
 
 	
 	// Constructor 1

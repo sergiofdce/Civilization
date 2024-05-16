@@ -7,7 +7,7 @@ import interfaces.MilitaryUnit;
 import interfaces.Variables;
 
 
-public class Civilization {
+public class Civilization implements Variables {
 	
 	private int technologyDefense, technologyAttack;
 	private int wood, iron, food, mana;
@@ -15,7 +15,7 @@ public class Civilization {
 	private int battles;
 	private ArrayList<ArrayList<MilitaryUnit>> army;
 	
-
+	
 	// Constructor 
 	public Civilization() {
 		
@@ -45,20 +45,6 @@ public class Civilization {
         
         
        
-    }
-    // Método para generar comida
-    public void generateFood(int amount) {
-        this.food += amount;
-    }
-
-    // Método para generar madera
-    public void generateWood(int amount) {
-        this.wood += amount;
-    }
-
-    // Método para generar hierro
-    public void generateIron(int amount) {
-        this.iron += amount;
     }
 	
 	
@@ -172,21 +158,30 @@ public class Civilization {
 
 	// Metodos
 	
+//	Calcular numero de unidades pasando index del ArrayList army
+	public int calculateLengthAtIndex(int index) {
+	    if (index >= 0 && index < army.size()) {
+	        return army.get(index).size();
+	    } else {
+	        return -1;
+	    }
+	}
+	
 //	Edificios
 
-	public void newChurch() throws ResourceException {
+	public void newChurch(int n) throws ResourceException {
 		// Requisitos: 10.000 Food		20.000 Wood 		24.000 Iron		10.000 Mana
-		if (this.getFood() >= Variables.FOOD_COST_CHURCH && 
-				this.getWood() >= Variables.WOOD_COST_CHURCH && 
-				this.getIron() >= Variables.IRON_COST_CHURCH && 
-				this.getMana() >= Variables.MANA_COST_CHURCH) {
-            this.setFood(this.getFood() - Variables.FOOD_COST_CHURCH);
-            this.setWood(this.getWood() - Variables.WOOD_COST_CHURCH);
-            this.setIron(this.getIron() - Variables.IRON_COST_CHURCH);
-            this.setMana(this.getMana() - Variables.MANA_COST_CHURCH);
+		if (this.getFood() >= n * FOOD_COST_CHURCH && 
+				this.getWood() >= n * WOOD_COST_CHURCH && 
+				this.getIron() >= n * IRON_COST_CHURCH && 
+				this.getMana() >= n * MANA_COST_CHURCH) {
+            this.setFood(this.getFood() - n * FOOD_COST_CHURCH);
+            this.setWood(this.getWood() - n * WOOD_COST_CHURCH);
+            this.setIron(this.getIron() - n * IRON_COST_CHURCH);
+            this.setMana(this.getMana() - n * MANA_COST_CHURCH);
             
             // Crea nuevo edificio
-            this.setChurch(this.getChurch() + 1);
+            this.setChurch(this.getChurch() + n);
 
         } else {
             throw new ResourceException("Recursos insuficientes para construir una nueva iglesia.");
@@ -195,17 +190,17 @@ public class Civilization {
 	}
 
 
-	public void newMagicTower() throws ResourceException {
+	public void newMagicTower(int n) throws ResourceException {
 		// Requisitos: 10.000 Food		20.000 Wood 		24.000 Iron
-		if (this.getFood() >= Variables.FOOD_COST_MAGICTOWER && 
-				this.getWood() >= Variables.WOOD_COST_MAGICTOWER && 
-				this.getIron() >= Variables.IRON_COST_MAGICTOWER) {
-			this.setFood(this.getFood() - Variables.FOOD_COST_MAGICTOWER);
-            this.setWood(this.getWood() - Variables.WOOD_COST_MAGICTOWER);
-            this.setIron(this.getIron() - Variables.IRON_COST_MAGICTOWER);
+		if (this.getFood() >= n * FOOD_COST_MAGICTOWER && 
+				this.getWood() >= n * WOOD_COST_MAGICTOWER && 
+				this.getIron() >= n * IRON_COST_MAGICTOWER) {
+			this.setFood(this.getFood() - n * FOOD_COST_MAGICTOWER);
+            this.setWood(this.getWood() - n * WOOD_COST_MAGICTOWER);
+            this.setIron(this.getIron() - n * IRON_COST_MAGICTOWER);
             
             // Crea nuevo edificio
-            this.setMagicTower(this.getMagicTower() + 1);
+            this.setMagicTower(this.getMagicTower() + n);
             
         } else {
             throw new ResourceException("Recursos insuficientes para construir una nueva Torre Mágica.");
@@ -213,17 +208,19 @@ public class Civilization {
 			
 	}
 	
-	public void newFarm() throws ResourceException {
+	public void newFarm(int n) throws ResourceException {
+		
+		
 		// Requisitos: 5.000 Food		10.000 Wood 		12.000 Iron
-		if (this.getFood() >= Variables.FOOD_COST_FARM && 
-				this.getWood() >= Variables.WOOD_COST_FARM && 
-				this.getIron() >= Variables.IRON_COST_FARM) {
-			this.setFood(this.getFood() - Variables.FOOD_COST_FARM);
-            this.setWood(this.getWood() - Variables.WOOD_COST_FARM);
-            this.setIron(this.getIron() - Variables.IRON_COST_FARM);
+		if (this.getFood() >= n * FOOD_COST_FARM && 
+				this.getWood() >= n * WOOD_COST_FARM && 
+				this.getIron() >= n * IRON_COST_FARM) {
+			this.setFood(this.getFood() - n * FOOD_COST_FARM);
+            this.setWood(this.getWood() - n * WOOD_COST_FARM);
+            this.setIron(this.getIron() - n * IRON_COST_FARM);
             
             // Crea nuevo edificio
-            this.setFarm(this.getFarm() + 1);
+            this.setFarm(this.getFarm() + n);
             
             // +10% producción de comida
             
@@ -233,17 +230,17 @@ public class Civilization {
 		
 	}
 	
-	public void newCarpentry() throws ResourceException {
+	public void newCarpentry(int n) throws ResourceException {
 		// Requisitos: 5.000 Food		10.000 Wood 		12.000 Iron
-		if (this.getFood() >= Variables.FOOD_COST_CARPENTRY && 
-				this.getWood() >= Variables.WOOD_COST_CARPENTRY && 
-				this.getIron() >= Variables.IRON_COST_CARPENTRY) {
-			this.setFood(this.getFood() - Variables.FOOD_COST_CARPENTRY);
-            this.setWood(this.getWood() - Variables.WOOD_COST_CARPENTRY);
-            this.setIron(this.getIron() - Variables.IRON_COST_CARPENTRY);
+		if (this.getFood() >= n * FOOD_COST_CARPENTRY && 
+				this.getWood() >= n * WOOD_COST_CARPENTRY && 
+				this.getIron() >= n * IRON_COST_CARPENTRY) {
+			this.setFood(this.getFood() - n * FOOD_COST_CARPENTRY);
+            this.setWood(this.getWood() - n * WOOD_COST_CARPENTRY);
+            this.setIron(this.getIron() - n * IRON_COST_CARPENTRY);
             
             // Crea nuevo edificio
-            this.setCarpentry(this.getCarpentry() + 1);
+            this.setCarpentry(this.getCarpentry() + n);
             
             // +10% producción de madera
             
@@ -253,17 +250,17 @@ public class Civilization {
 		
 	}
 	
-	public void newSmithy() throws ResourceException {
+	public void newSmithy(int n) throws ResourceException {
 		// Requisitos: 5.000 Food		10.000 Wood 		12.000 Iron
-		if (this.getFood() >= Variables.FOOD_COST_SMITHY && 
-				this.getWood() >= Variables.WOOD_COST_SMITHY && 
-				this.getIron() >= Variables.IRON_COST_SMITHY) {
-			this.setFood(this.getFood() - Variables.FOOD_COST_SMITHY);
-            this.setWood(this.getWood() - Variables.WOOD_COST_SMITHY);
-            this.setIron(this.getIron() - Variables.IRON_COST_SMITHY);
+		if (this.getFood() >= n * FOOD_COST_SMITHY && 
+				this.getWood() >= n * WOOD_COST_SMITHY && 
+				this.getIron() >= n * IRON_COST_SMITHY) {
+			this.setFood(this.getFood() - n * FOOD_COST_SMITHY);
+            this.setWood(this.getWood() - n * WOOD_COST_SMITHY);
+            this.setIron(this.getIron() - n * IRON_COST_SMITHY);
             
             // Crea nuevo edificio
-            this.setSmithy(this.getSmithy() + 1);
+            this.setSmithy(this.getSmithy() + n);
             
             // +10% producción de hierro
             
@@ -281,49 +278,50 @@ public class Civilization {
 //	Tecnologias
 	
 	public void upgradeTechnologyDefense() throws ResourceException  {
-				
-		// Calcular el costo actualizado basado en el nivel de tecnología actual
-		int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST = (int) (Variables.UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST * Math.pow(1.1, technologyDefense));
-		int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST = (int) (Variables.UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST  * Math.pow(1.15, technologyDefense));
-		int UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST = (int) (Variables.UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST * Math.pow(1.2, technologyDefense));
 
-	    // Verificar si se pueden pagar los costos
-	    if (getFood() >= Variables.UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST && 
-    		getWood() >= Variables.UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST && 
-    		getIron() >= Variables.UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST) {
-		        // Decrementar los recursos
-		    	this.setFood(this.getFood() - UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST);
-		    	this.setWood(this.getWood() - UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST);
-		    	this.setIron(this.getIron() - UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST);
-		        // Actualizar los niveles de tecnología
-		    	this.setTechnologyDefense(this.getTechnologyDefense() + 1);
-		        System.out.println("¡Se ha mejorado la tecnología de defensa!");
-	    } else {
-	        throw new ResourceException("No tienes suficientes recursos para mejorar la tecnología de defensa.");
-	    }
-	}
-	
-	public void upgradeTechnologyAttack() throws ResourceException {
 		// Calcular el costo actualizado basado en el nivel de tecnología actual
-		 int UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST = (int) (Variables.UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST * Math.pow(1.1, technologyAttack));
-		 int UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST = (int) (Variables.UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST * Math.pow(1.15,technologyAttack));
-		 int UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST = (int) (Variables.UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST * Math.pow(1.2, technologyAttack));
-	
-	    // Verificar si se pueden pagar los costos
-	    if (getFood()>= Variables.UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST && 
-    		getWood() >= Variables.UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST && 
-    		getIron() >= Variables.UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST) {
+		int food_cost = (int) (UPGRADE_BASE_DEFENSE_TECHNOLOGY_FOOD_COST * Math.pow(UPGRADE_PLUS_DEFENSE_TECHNOLOGY_FOOD_COST, technologyDefense));
+		int wood_cost = (int) (UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST  * Math.pow(UPGRADE_PLUS_DEFENSE_TECHNOLOGY_WOOD_COST, technologyDefense));
+		int iron_cost = (int) (UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST * Math.pow(UPGRADE_PLUS_DEFENSE_TECHNOLOGY_IRON_COST, technologyDefense));
+
+		    // Verificar si se pueden pagar los costos
+		    if (getFood() >= food_cost && 
+		    getWood() >= wood_cost && 
+		    getIron() >= iron_cost) {
 		        // Decrementar los recursos
-		    	this.setFood(this.getFood() - UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST);
-		    	this.setWood(this.getWood() - UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST);
-		    	this.setIron(this.getIron() - UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST);
+		    this.setFood(this.getFood() - food_cost);
+		    this.setWood(this.getWood() - wood_cost);
+		    this.setIron(this.getIron() - iron_cost);
 		        // Actualizar los niveles de tecnología
-		    	this.setTechnologyAttack(this.getTechnologyAttack() + 1);
-		        System.out.println("¡Se ha mejorado la tecnología de ataque!");
-	    } else {
-	        throw new ResourceException("No tienes suficientes recursos para mejorar la tecnología de ataque.");
-			    }
+		    this.setTechnologyDefense(this.getTechnologyDefense() + 1);
+		        System.out.println("Attack technology has been improved!");
+		    } else {
+		        throw new ResourceException("You do not have enough resources to improve attack technology.");
+		    }
 	}
+
+
+		public void upgradeTechnologyAttack() throws ResourceException {
+		// Calcular el costo actualizado basado en el nivel de tecnología actual
+		 int food_cost = (int) (UPGRADE_BASE_ATTACK_TECHNOLOGY_FOOD_COST * Math.pow(UPGRADE_PLUS_ATTACK_TECHNOLOGY_FOOD_COST, technologyAttack));
+		 int wood_cost = (int) (UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST * Math.pow(UPGRADE_PLUS_ATTACK_TECHNOLOGY_WOOD_COST,technologyAttack));
+		 int iron_cost = (int) (UPGRADE_BASE_ATTACK_TECHNOLOGY_IRON_COST * Math.pow(UPGRADE_PLUS_ATTACK_TECHNOLOGY_IRON_COST, technologyAttack));
+
+		    // Verificar si se pueden pagar los costos
+		    if (getFood()>= food_cost && 
+		    getWood() >= wood_cost && 
+		    getIron() >= iron_cost) {
+		        // Decrementar los recursos
+		    this.setFood(this.getFood() - food_cost);
+		    this.setWood(this.getWood() - wood_cost);
+		    this.setIron(this.getIron() - iron_cost);
+		        // Actualizar los niveles de tecnología
+		    this.setTechnologyAttack(this.getTechnologyAttack() + 1);
+		        System.out.println("Attack technology has been improved!");
+		    } else {
+		        throw new ResourceException("You do not have enough resources to improve attack technology.");
+		    }
+		}
 	
 	
 	
@@ -337,33 +335,34 @@ public class Civilization {
 		// Requisitos: 8.000 Food		3.000 Wood 		50 Iron
 		
 		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_SWORDSMAN, 
-													this.getWood() / Variables.WOOD_COST_SWORDSMAN), 
-													this.getIron() / Variables.IRON_COST_SWORDSMAN);
+		int availableUnit = Math.min(Math.min(this.getFood() / FOOD_COST_SWORDSMAN, 
+													this.getWood() / WOOD_COST_SWORDSMAN), 
+													this.getIron() / IRON_COST_SWORDSMAN);
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_SWORDSMAN);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_SWORDSMAN);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_SWORDSMAN);
+	        this.setFood(this.getFood() - unitsToAdd * FOOD_COST_SWORDSMAN);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_SWORDSMAN);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_SWORDSMAN);
 	        
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_SWORDSMAN;
-	        int baseDamage = Variables.BASE_DAMAGE_SWORDSMAN;
+	        int armor = ARMOR_SWORDSMAN;
+	        int baseDamage = BASE_DAMAGE_SWORDSMAN;
 	        
 	        // Comprobar estadisticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_SWORDSMAN + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_SWORDSMAN + (this.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)*1000/100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_SWORDSMAN + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100;
+	        	baseDamage =  BASE_DAMAGE_SWORDSMAN + (this.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)*1000/100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(0).add(new Swordsman(armor, baseDamage)); 
-	   
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(0).add(new Swordsman(armor, baseDamage));
+	        }	   
 	        // Excepciones
 	        if (unitsToAdd < n) {
 	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Espadachines.");
@@ -381,33 +380,34 @@ public class Civilization {
 		// Requisitos: 5.000 Food		6.500 Wood 		50 Iron
 		
 		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_SPEARMAN, 
-													this.getWood() / Variables.WOOD_COST_SPEARMAN), 
-													this.getIron() / Variables.IRON_COST_SPEARMAN);
+		int availableUnit = Math.min(Math.min(this.getFood() / FOOD_COST_SPEARMAN, 
+													this.getWood() / WOOD_COST_SPEARMAN), 
+													this.getIron() / IRON_COST_SPEARMAN);
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_SPEARMAN);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_SPEARMAN);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_SPEARMAN);
+	        this.setFood(this.getFood() - unitsToAdd * FOOD_COST_SPEARMAN);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_SPEARMAN);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_SPEARMAN);
 	        
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_SPEARMAN;
-	        int baseDamage = Variables.BASE_DAMAGE_SPEARMAN;
+	        int armor = ARMOR_SPEARMAN;
+	        int baseDamage = BASE_DAMAGE_SPEARMAN;
 	        
 	        // Comprobar estadisticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_SPEARMAN + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_SPEARMAN + (this.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)*1000/100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_SPEARMAN + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)*1000/100;
+	        	baseDamage =  BASE_DAMAGE_SPEARMAN + (this.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)*1000/100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(1).add(new Spearman(armor, baseDamage)); 
-	        
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(1).add(new Spearman(armor, baseDamage));
+	        }	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
 	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Lanceros.");
@@ -421,34 +421,33 @@ public class Civilization {
 	}
 	
 	public void newCrossbow(int n) throws ResourceException {
-		// Requisitos: 0 Food		45.000 Wood 		7.000 Iron
-		
-		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_CROSSBOW, 
-													this.getWood() / Variables.WOOD_COST_CROSSBOW), 
-													this.getIron() / Variables.IRON_COST_CROSSBOW);
+	    // Requisitos: 45.000 Wood y 7.000 Iron
+	    
+	    // Comprobar número máximo de unidades que podemos crear
+	    int availableUnit = Math.min(this.getWood() / WOOD_COST_CROSSBOW, this.getIron() / IRON_COST_CROSSBOW);
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_CROSSBOW);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_CROSSBOW);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_CROSSBOW);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_CROSSBOW);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_CROSSBOW);
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_CROSSBOW;
-	        int baseDamage = Variables.BASE_DAMAGE_CROSSBOW;
+	        int armor = ARMOR_CROSSBOW;
+	        int baseDamage = BASE_DAMAGE_CROSSBOW;
 	        
-	        // Comprobar estadisticas
+	        // Comprobar estadísticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_CROSSBOW + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_CROSSBOW + (this.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_CROSSBOW + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)*1000/100;
+	            baseDamage =  BASE_DAMAGE_CROSSBOW + (this.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(2).add(new Crossbow(armor, baseDamage)); 
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(2).add(new Crossbow(armor, baseDamage));
+	        }
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
@@ -461,36 +460,36 @@ public class Civilization {
 	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Ballestero.");
 	    }
 	}
-	
+
+
 	public void newCannon(int n) throws ResourceException {
-		// Requisitos: 0 Food		30.000 Wood 		15.000 Iron
-		
-		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_CANNON, 
-													this.getWood() / Variables.WOOD_COST_CANNON), 
-													this.getIron() / Variables.IRON_COST_CANNON);
+	    // Requisitos: 30.000 Wood y 15.000 Iron
+	    
+	    // Comprobar número máximo de unidades que podemos crear
+	    int availableUnit = Math.min(this.getWood() / WOOD_COST_CANNON, this.getIron() / IRON_COST_CANNON);
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_CANNON);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_CANNON);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_CANNON);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_CANNON);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_CANNON);
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_CANNON;
-	        int baseDamage = Variables.BASE_DAMAGE_CANNON;
+	        int armor = ARMOR_CANNON;
+	        int baseDamage = BASE_DAMAGE_CANNON;
 	        
-	        // Comprobar estadisticas
+	        // Comprobar estadísticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_CANNON + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_CANNON_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_CANNON + (this.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_CANNON + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_CANNON_BY_TECHNOLOGY)*1000/100;
+	            baseDamage =  BASE_DAMAGE_CANNON + (this.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(3).add(new Cannon(armor, baseDamage)); 
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(3).add(new Cannon(armor, baseDamage));
+	        }
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
@@ -503,80 +502,77 @@ public class Civilization {
 	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Artillero.");
 	    }
 	}
+
 	
-public void newArrowTower(int n) throws ResourceException {
-		
-		// Requisitos: 0 Food		2.000 Wood 		0 Iron
-		
-				// Comprobar numero maximo de unidades que podemos crear
-				int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_ARROWTOWER, 
-															this.getWood() / Variables.WOOD_COST_ARROWTOWER), 
-															this.getIron() / Variables.IRON_COST_ARROWTOWER);
-			    
-			    if (availableUnit > 0) {
-			        int unitsToAdd = Math.min(n, availableUnit);
-			        
-			        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_ARROWTOWER);
-			        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_ARROWTOWER);
-			        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_ARROWTOWER);
-			        
-			        // Crear nueva unidad
-			        int armor = Variables.ARMOR_ARROWTOWER;
-			        int baseDamage = Variables.BASE_DAMAGE_ARROWTOWER;
-			        
-			        // Comprobar estadisticas
-			        if (this.getTechnologyDefense() > 0) {
-			            armor =  Variables.ARMOR_ARROWTOWER + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)*1000/100;
-			        }
-			        if (this.getTechnologyAttack() > 0) {
-			        	baseDamage =  Variables.BASE_DAMAGE_ARROWTOWER + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)*1000/100;
-			        }
-			        
-			        // Añadir al ArrayList
-			        army.get(4).add(new ArrowTower(armor, baseDamage)); 
-			        
-			        // Excepciones
-			        if (unitsToAdd < n) {
-			            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " ArrowTower.");
-			        } else {
-			            System.out.println("Have been added " + unitsToAdd + " Artilleros.");
-			        }
-			        
-			    } else {
-			        throw new ResourceException("Insufficient resources to train a new ArrowTower.");
-			    }
-			}
-	
-	public void newCatapult(int n) throws ResourceException {
-		
-		// Requisitos: 0 Food		4.000 Wood 		500 Iron
-		
-		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_CATAPULT, 
-													this.getWood() / Variables.WOOD_COST_CATAPULT), 
-													this.getIron() / Variables.IRON_COST_CATAPULT);
+	public void newArrowTower(int n) throws ResourceException {
+	    // Requisitos: 2.000 Wood
+	    
+	    // Comprobar número máximo de unidades que podemos crear
+	    int availableUnit = this.getWood() / WOOD_COST_ARROWTOWER;
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_CATAPULT);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_CATAPULT);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_CATAPULT);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_ARROWTOWER);
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_CATAPULT;
-	        int baseDamage = Variables.BASE_DAMAGE_CATAPULT;
+	        int armor = ARMOR_ARROWTOWER;
+	        int baseDamage = BASE_DAMAGE_ARROWTOWER;
 	        
-	        // Comprobar estadisticas
+	        // Comprobar estadísticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_CATAPULT + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_ARROWTOWER + (this.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_CATAPULT + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)*1000/100;
+	            baseDamage =  BASE_DAMAGE_ARROWTOWER + (this.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(5).add(new Catapult(armor, baseDamage)); 
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(4).add(new ArrowTower(armor, baseDamage));
+	        }
+	        
+	        // Excepciones
+	        if (unitsToAdd < n) {
+	            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " ArrowTower.");
+	        } else {
+	            System.out.println("Have been added " + unitsToAdd + " Artilleros.");
+	        }
+	        
+	    } else {
+	        throw new ResourceException("Insufficient resources to train a new ArrowTower.");
+	    }
+	}
+
+
+	public void newCatapult(int n) throws ResourceException {
+	    // Requisitos: 4.000 Wood y 500 Iron
+	    
+	    // Comprobar número máximo de unidades que podemos crear
+	    int availableUnit = Math.min(this.getWood() / WOOD_COST_CATAPULT, this.getIron() / IRON_COST_CATAPULT);
+	    
+	    if (availableUnit > 0) {
+	        int unitsToAdd = Math.min(n, availableUnit);
+	        
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_CATAPULT);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_CATAPULT);
+	        
+	        // Crear nueva unidad
+	        int armor = ARMOR_CATAPULT;
+	        int baseDamage = BASE_DAMAGE_CATAPULT;
+	        
+	        // Comprobar estadísticas
+	        if (this.getTechnologyDefense() > 0) {
+	            armor =  ARMOR_CATAPULT + (this.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY) * 1000 / 100;
+	        }
+	        if (this.getTechnologyAttack() > 0) {
+	            baseDamage =  BASE_DAMAGE_CATAPULT + (this.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY) * 1000 / 100;
+	        }
+	        
+	        // Añadir al ArrayList
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(5).add(new Catapult(armor, baseDamage));
+	        }
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
@@ -589,37 +585,35 @@ public void newArrowTower(int n) throws ResourceException {
 	        throw new ResourceException("Insufficient resources to train a new Catapult.");
 	    }
 	}
-	
+
 	public void newRocketLauncher(int n) throws ResourceException {
-		
-		// Requisitos: 0 Food		50.000 Wood 		5000 Iron
-		
-		// Comprobar numero maximo de unidades que podemos crear
-		int availableUnit = Math.min(Math.min(this.getFood() / Variables.FOOD_COST_ROCKETLAUNCHERTOWER, 
-													this.getWood() / Variables.WOOD_COST_ROCKETLAUNCHERTOWER), 
-													this.getIron() / Variables.IRON_COST_ROCKETLAUNCHERTOWER);
+	    // Requisitos: 50.000 Wood y 5.000 Iron
+	    
+	    // Comprobar número máximo de unidades que podemos crear
+	    int availableUnit = Math.min(this.getWood() / WOOD_COST_ROCKETLAUNCHERTOWER, this.getIron() / IRON_COST_ROCKETLAUNCHERTOWER);
 	    
 	    if (availableUnit > 0) {
 	        int unitsToAdd = Math.min(n, availableUnit);
 	        
-	        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_ROCKETLAUNCHERTOWER);
-	        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_ROCKETLAUNCHERTOWER);
-	        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_ROCKETLAUNCHERTOWER);
+	        this.setWood(this.getWood() - unitsToAdd * WOOD_COST_ROCKETLAUNCHERTOWER);
+	        this.setIron(this.getIron() - unitsToAdd * IRON_COST_ROCKETLAUNCHERTOWER);
 	        
 	        // Crear nueva unidad
-	        int armor = Variables.ARMOR_ROCKETLAUNCHERTOWER;
-	        int baseDamage = Variables.BASE_DAMAGE_ROCKETLAUNCHERTOWER;
+	        int armor = ARMOR_ROCKETLAUNCHERTOWER;
+	        int baseDamage = BASE_DAMAGE_ROCKETLAUNCHERTOWER;
 	        
-	        // Comprobar estadisticas
+	        // Comprobar estadísticas
 	        if (this.getTechnologyDefense() > 0) {
-	            armor =  Variables.ARMOR_ROCKETLAUNCHERTOWER + (this.getTechnologyDefense() * Variables.PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100;
+	            armor =  ARMOR_ROCKETLAUNCHERTOWER + (this.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        if (this.getTechnologyAttack() > 0) {
-	        	baseDamage =  Variables.BASE_DAMAGE_ROCKETLAUNCHERTOWER + (this.getTechnologyAttack() * Variables.PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)*1000/100;
+	            baseDamage =  BASE_DAMAGE_ROCKETLAUNCHERTOWER + (this.getTechnologyAttack() * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY) * 1000 / 100;
 	        }
 	        
 	        // Añadir al ArrayList
-	        army.get(6).add(new RocketLauncherTower(armor, baseDamage)); 
+	        for (int i = 0; i < unitsToAdd; i++) {
+	            army.get(6).add(new RocketLauncherTower(armor, baseDamage));
+	        }
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
@@ -632,103 +626,97 @@ public void newArrowTower(int n) throws ResourceException {
 	        throw new ResourceException("Insufficient resources to train a new RocketLauncher.");
 	    }
 	}
-	
-	public void newMagician(int n) throws ResourceException, BuildingException {
-		
-		
-		
-		if(magicTower == 0) {
-			
-			throw new BuildingException("You haven't any Magic Tower.");
-			
-		}else {
-			
-			// Comprobar numero maximo de unidades que podemos crear
-			int availableUnit = Math.min(
-				    Math.min(
-				        Math.min(this.getFood() / Variables.FOOD_COST_MAGICIAN, 
-				                 this.getWood() / Variables.WOOD_COST_MAGICIAN), 
-				        this.getIron() / Variables.IRON_COST_MAGICIAN),
-				    this.getMana() / Variables.MANA_COST_MAGICIAN);
 
-		    
-		    if (availableUnit > 0) {
-		        int unitsToAdd = Math.min(n, availableUnit);
-		        
-		        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_MAGICIAN);
-		        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_MAGICIAN);
-		        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_MAGICIAN);
-		        this.setMana(this.getMana() - unitsToAdd * Variables.MANA_COST_MAGICIAN);
-		        // Crear nueva unidad
-		        int armor = 0;
-		        int baseDamage = 0;
-		        
-		      
-		        // Añadir al ArrayList
-		        army.get(7).add(new Magician(armor, baseDamage)); 
-		        
-		        // Excepciones
-		        if (unitsToAdd < n) {
-		            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + "Magician.");
-		        } else {
-		            System.out.println("Se han añadido " + unitsToAdd + " Mago.");
-		        }
-		        
-		    } else {
-		        throw new ResourceException("Recursos insuficientes para instruir un nuevo Mago.");
-		    }
-			
-		}
-		
-		
+	public void newMagician(int n) throws ResourceException, BuildingException {
+	    if (magicTower == 0) {
+	        throw new BuildingException("You haven't any Magic Tower.");
+	    } else {
+	        // Comprobar número máximo de unidades que podemos crear
+	        int availableUnit = Math.min(
+	                Math.min(this.getFood() / FOOD_COST_MAGICIAN, this.getWood() / WOOD_COST_MAGICIAN),
+	                this.getMana() / MANA_COST_MAGICIAN);
+
+	        if (availableUnit > 0) {
+	            int unitsToAdd = Math.min(n, availableUnit);
+
+	            this.setFood(this.getFood() - unitsToAdd * FOOD_COST_MAGICIAN);
+	            this.setWood(this.getWood() - unitsToAdd * WOOD_COST_MAGICIAN);
+	            this.setMana(this.getMana() - unitsToAdd * MANA_COST_MAGICIAN);
+
+	            // Crear nueva unidad
+	            int armor = 0;
+	            int baseDamage = 0;
+
+	            // Añadir al ArrayList
+	            for (int i = 0; i < unitsToAdd; i++) {
+	                army.get(7).add(new Magician(armor, baseDamage));
+	            }
+
+	            // Excepciones
+	            if (unitsToAdd < n) {
+	                throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " Magician.");
+	            } else {
+	                System.out.println("Have been added " + unitsToAdd + " Magician.");
+	            }
+
+	        } else {
+	            throw new ResourceException("Insufficient resources to train a new Magician.");
+	        }
+	    }
 	}
+
 	
 	public void newPriest(int n) throws ResourceException, BuildingException {
-		
-	if(magicTower == 0) {
-			
-			throw new BuildingException("You haven't any Magic Tower.");
-			
-		}else {
-			
-			// Comprobar numero maximo de unidades que podemos crear
-			int availableUnit = Math.min(
-				    Math.min(
-				        Math.min(this.getFood() / Variables.FOOD_COST_PRIEST, 
-				                 this.getWood() / Variables.WOOD_COST_PRIEST), 
-				        this.getIron() / Variables.IRON_COST_PRIEST),
-				    this.getMana() / Variables.MANA_COST_PRIEST);
+	    // Obtener la cantidad total de sacerdotes ya creados
+	    int totalPriests = army.get(8).size();
 
-		    
-		    if (availableUnit > 0) {
-		        int unitsToAdd = Math.min(n, availableUnit);
-		        
-		        this.setFood(this.getFood() - unitsToAdd * Variables.FOOD_COST_PRIEST);
-		        this.setWood(this.getWood() - unitsToAdd * Variables.WOOD_COST_PRIEST);
-		        this.setIron(this.getIron() - unitsToAdd * Variables.IRON_COST_PRIEST);
-		        this.setMana(this.getMana() - unitsToAdd * Variables.MANA_COST_PRIEST);
-		        // Crear nueva unidad
-		        int armor = 0;
-		        int baseDamage = 0;
-		        
-		      
-		        // Añadir al ArrayList
-		        army.get(8).add(new Magician(armor, baseDamage)); 
-		        
-		        // Excepciones
-		        if (unitsToAdd < n) {
-		            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + "Magician.");
-		        } else {
-		            System.out.println("Se han añadido " + unitsToAdd + " Priest.");
-		        }
-		        
-		    } else {
-		        throw new ResourceException("Recursos insuficientes para instruir un nuevo Mago.");
-		    }
-			
-		}
+	    // Obtener la cantidad de iglesias disponibles
+	    int availableChurches = this.getChurch();
+
+	    // Verificar si hay suficientes iglesias para crear más sacerdotes
+	    if (availableChurches == 0) {
+	        throw new BuildingException("At least 1 Church is required to train a new Priest.");
+	    } else if (totalPriests >= availableChurches) {
+	        throw new BuildingException("You don't have enough Churches to train a new Priest.");
+	    } else {
+	        // Calcular el número de sacerdotes que se pueden crear (limitado por la cantidad de iglesias)
+	        int unitsToAdd = Math.min(n, availableChurches - totalPriests);
+
+	        // Verificar si hay suficientes recursos para crear los sacerdotes
+	        int availableFood = this.getFood() / FOOD_COST_PRIEST;
+	        int availableMana = this.getMana() / MANA_COST_PRIEST;
+	        int unitsPossible = Math.min(availableFood, availableMana);
+
+	        // Calcular el número máximo de sacerdotes que se pueden crear con los recursos disponibles
+	        int maxUnitsPossible = Math.min(unitsToAdd, unitsPossible);
+
+	        if (maxUnitsPossible > 0) {
+	            // Deducción de recursos
+	            this.setFood(this.getFood() - maxUnitsPossible * FOOD_COST_PRIEST);
+	            this.setMana(this.getMana() - maxUnitsPossible * MANA_COST_PRIEST);
+
+	            // Crear nuevas unidades y agregarlas al ArrayList
+	            int armor = 0;
+	            int baseDamage = 0;
+	            for (int i = 0; i < maxUnitsPossible; i++) {
+	                army.get(8).add(new Priest(armor, baseDamage));
+	            }
+
+	            // Excepción si no se pueden crear todas las unidades solicitadas
+	            if (maxUnitsPossible < n) {
+	                throw new ResourceException("Insufficient resources, could only be added " + maxUnitsPossible + " Priest.");
+	            } else {
+	                System.out.println("Have been added " + maxUnitsPossible + " Priest.");
+	            }
+	        } else {
+	            throw new ResourceException("Insufficient resources to train a new Priest.");
+	        }
+	    }
 	}
-	
+
+
+
+
 	
 //	Mostrar Estadísticas
 	
@@ -770,7 +758,15 @@ public void newArrowTower(int n) throws ResourceException {
         // Generación de recursos
         System.out.println("----------------------------------------GENERATION RESOURCES----------------------------------------");
         System.out.println("Food\tWood\tIron\tMana");
-        System.out.println(Variables.CIVILIZATION_FOOD_GENERATED + "\t" + Variables.CIVILIZATION_WOOD_GENERATED + "\t" + Variables.CIVILIZATION_IRON_GENERATED);
+        System.out.println(CIVILIZATION_FOOD_GENERATED + "\t" + CIVILIZATION_WOOD_GENERATED + "\t" + CIVILIZATION_IRON_GENERATED);
 
 	}
 }
+
+
+
+
+		
+
+
+

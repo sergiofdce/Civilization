@@ -9,12 +9,9 @@ public abstract class SpecialUnit implements MilitaryUnit, Variables {
 	private int initialArmor = 0;
 	private int baseDamage; 
 	private int experience;
-private int id_civi;
+	private int id_civi;
 	
 	
-
-	
-
 	public int getId_civi() {
 		return id_civi;
 	}
@@ -22,7 +19,7 @@ private int id_civi;
 	public void setId_civi(int id_civi) {
 		this.id_civi = id_civi;
 	}
-
+	
 	
 	// Setters
 	@Override

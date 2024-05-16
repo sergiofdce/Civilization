@@ -25,26 +25,115 @@ public class Battle {
 	
 	private int [][] resourcesLooses; 
 	
-	private int [][] initialArmi; 
+	private int [][] initialArmi;
+	private int [][] initialArmies;
 	
 	private ArrayList[] armies; 
 	
 
-	
 	private int [] actualNumberUnitsCivilization; 
 	private int [] actualNumberUnitsEnemy;
 	
-	public Battle() {
+public Battle() {
 		
 		civilizationArmy = new ArrayList<>();
 		enemyArmy = new ArrayList<>();
 		this.initializeCivilizationArmy();
 		civilizationArmy.get(0).add(new Cannon());
 		System.out.println(civilizationArmy.get(0).get(0).getId_civi());
+		actualNumberUnitsCivilization = new int[9];
+        actualNumberUnitsEnemy = new int[9];
+        initialArmies = new int[2][9];
+        initialNumberUnitsCivilization = 0;
+        initialNumberUnitsEnemy = 0;
+        
+
 		}
 
+
 	
-	public void initializeCivilizationArmy() {
+	public void initialFleetNumber() {
+        // Calcular el número inicial de unidades para el ejército de la civilización
+        for (int i = 0; i < 9; i++) {
+            initialNumberUnitsCivilization += initialArmies[0][i];
+        }
+
+        // Calcular el número inicial de unidades para el ejército enemigo
+        for (int i = 0; i < 9; i++) {
+            initialNumberUnitsEnemy += initialArmies[1][i];
+        }
+    }
+	
+	public int remainderPercentageFleet() {
+	    // Calcular los porcentajes de unidades restantes para la civilización
+	    int percentageCivilization = 0;
+	    for (int i = 0; i < actualNumberUnitsCivilization.length; i++) {
+	        percentageCivilization += actualNumberUnitsCivilization[i];
+	    }
+	    percentageCivilization = (percentageCivilization * 100) / initialNumberUnitsCivilization;
+
+	    // Calcular los porcentajes de unidades restantes para el enemigo
+	    int percentageEnemy = 0;
+	    for (int i = 0; i < actualNumberUnitsEnemy.length; i++) {
+	        percentageEnemy += actualNumberUnitsEnemy[i];
+	    }
+	    percentageEnemy = (percentageEnemy * 100) / initialNumberUnitsEnemy;
+
+	    
+	    if (percentageCivilization <= 20) {
+	        return -1; 
+	    } else if (percentageEnemy <= 20) {
+	        return -2; 
+	    } else {
+	        return 0; 
+	    }
+	}
+
+	public void initializeArmies() {
+		
+		
+		armies = new ArrayList [2];
+		
+	    for (int i = 0; i < armies.length; i++) {
+	        armies[i] = new ArrayList<>();
+	        for (int j = 1; j <= 9; j++) {
+	            
+	            armies[i].add(new ArrayList<MilitaryUnit>());
+	        }
+	    }
+	}
+	
+	
+	// Métodos para acceder y modificar los arreglos de unidades
+	
+	public int[][] getInitialArmies() {
+        return initialArmies;
+    }
+
+    public int getInitialNumberUnitsCivilization() {
+        return initialNumberUnitsCivilization;
+    }
+
+    public int getInitialNumberUnitsEnemy() {
+        return initialNumberUnitsEnemy;
+    }
+    public int[] getActualNumberUnitsCivilization() {
+        return actualNumberUnitsCivilization;
+    }
+
+    public void setActualNumberUnitsCivilization(int[] actualNumberUnitsCivilization) {
+        this.actualNumberUnitsCivilization = actualNumberUnitsCivilization;
+    }
+
+    public int[] getActualNumberUnitsEnemy() {
+        return actualNumberUnitsEnemy;
+    }
+
+    public void setActualNumberUnitsEnemy(int[] actualNumberUnitsEnemy) {
+        this.actualNumberUnitsEnemy = actualNumberUnitsEnemy;
+    }
+
+    public void initializeCivilizationArmy() {
         civilizationArmy = new ArrayList<>();
 
 	    for (int i = 1; i <= 9; i++) {
@@ -60,20 +149,7 @@ public class Battle {
 	    }
 	}
 	
-	public void initializeArmies() {
-		
-		
-		armies = new ArrayList [2];
-		
-	    for (int i = 0; i < armies.length; i++) {
-	        armies[i] = new ArrayList<>();
-	        for (int j = 1; j <= 9; j++) {
-	            
-	            armies[i].add(new ArrayList<MilitaryUnit>());
-	        }
-	    }
-	}
-	
+
 	
 	public String getBattleReport(int battles) {
 		return "";
@@ -142,14 +218,8 @@ public class Battle {
 	
 	public void fleetResourceCost(ArrayList<MilitaryUnit> army) {}
 	
-	public int remainderPercentageFleet(ArrayList<MilitaryUnit> army) {
-		return civilizationDrops;}
 	
-	public int getGroupDefender(ArrayList<MilitaryUnit> army) {
-		return civilizationDrops;}
-	
-	
-	
+     
 	public MilitaryUnit getCivilizationGroupAttacker() {
 		
 		int aleatorioGrupo =    (int) (Math.random() * (100 - 1 + 1)) + 1;
@@ -240,45 +310,6 @@ public class Battle {
 	}
 			
 	
-    public int[] initialFleetNumber(ArrayList<MilitaryUnit> army) {
-        // Inicializamos el array de números de unidades con todos los elementos en 0
-        int[] initialNumbers = new int[9];
-
-        // Iteramos sobre el ejército y contamos el número de unidades de cada tipo
-        for (MilitaryUnit unit : army) {
-            if (unit instanceof Swordsman) {
-                initialNumbers[0]++;
-            } else if (unit instanceof Spearman) {
-                initialNumbers[1]++;
-            } else if (unit instanceof Crossbow) {
-                initialNumbers[2]++;
-            } else if (unit instanceof Cannon) {
-                initialNumbers[3]++;
-            } else if (unit instanceof ArrowTower) {
-                initialNumbers[4]++;
-            } else if (unit instanceof Catapult) {
-                initialNumbers[5]++;
-            } else if (unit instanceof RocketLauncherTower) {
-                initialNumbers[6]++;
-            } else if (unit instanceof Magician) {
-                initialNumbers[7]++;
-            } else if (unit instanceof Priest) {
-                initialNumbers[8]++;
-            }
-        }
-
-        return initialNumbers;
-    }
-
-	public void initInitialCostFleet(int[][] initialCostFleet) {
-	     this.initialCostFleet = new int[2][3];
-	       for (int i = 0; i < 2; i++) {
-	         for (int j = 0; j < 3; j++) {
-	            this.initialCostFleet[i][j] = initialCostFleet[i][j];
-	            }
-	        }
-	       }
-	 
 	public int initInitialNumberUnits(int initialNumberUnitsCivilization, int initialNumberUnitsEnemy) {
 	    this.initialNumberUnitsCivilization = initialNumberUnitsCivilization;
 	    this.initialNumberUnitsEnemy = initialNumberUnitsEnemy;
