@@ -13,9 +13,6 @@ public abstract class DefenseUnit implements MilitaryUnit, Variables {
 	private int id_civi;
 	
 	
-
-	
-
 	public int getId_civi() {
 		return id_civi;
 	}
@@ -23,7 +20,7 @@ public abstract class DefenseUnit implements MilitaryUnit, Variables {
 	public void setId_civi(int id_civi) {
 		this.id_civi = id_civi;
 	}
-
+	
 	
 	// Setters
 	@Override
@@ -75,8 +72,10 @@ public abstract class DefenseUnit implements MilitaryUnit, Variables {
 
 	@Override
 	public int getExperience() {
-        return experience;
-        }
+		return experience;
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	public void setArmor(int armor) {

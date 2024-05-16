@@ -12,10 +12,6 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	private boolean sanctified;
 	private int id_civi;
 	
-	
-
-	
-
 	public int getId_civi() {
 		return id_civi;
 	}
@@ -23,6 +19,7 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	public void setId_civi(int id_civi) {
 		this.id_civi = id_civi;
 	}
+	
 
 	@Override
 	public int getActualArmor() {
@@ -31,7 +28,8 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	}
 
 	@Override
-	public abstract int getFoodCost();
+	public
+	abstract int getFoodCost();
 
 	@Override
 	abstract public int getWoodCost();
@@ -100,6 +98,8 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	public void setSanctified(boolean sanctified) {
 		this.sanctified = sanctified;
 	}
+	
+	
 	
 	
 	

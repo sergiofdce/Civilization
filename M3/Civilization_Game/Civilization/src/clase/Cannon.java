@@ -2,7 +2,7 @@ package clase;
 
 
 
-class Cannon extends AttackUnit {
+public class Cannon extends AttackUnit {
 
 	
 	// Constructor 1
