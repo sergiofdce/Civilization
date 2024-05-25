@@ -9,30 +9,77 @@ import interfaces.Variables;
 
 public class Civilization implements Variables {
 	
+	private String name;
 	private int technologyDefense, technologyAttack;
 	private int wood, iron, food, mana;
+	private int enemyWood, enemyIron, enemyFood;
 	private int magicTower, church, farm, smithy, carpentry;
 	private int battles;
+	private ArrayList<ArrayList<MilitaryUnit>> enemyArmy;
+	public int getEnemyWood() {
+		return enemyWood;
+	}
+
+	public void setEnemyWood(int enemyWood) {
+		this.enemyWood = enemyWood;
+	}
+
+	public int getEnemyIron() {
+		return enemyIron;
+	}
+
+	public void setEnemyIron(int enemyIron) {
+		this.enemyIron = enemyIron;
+	}
+
+	public int getEnemyFood() {
+		return enemyFood;
+	}
+
+	public void setEnemyFood(int enemyFood) {
+		this.enemyFood = enemyFood;
+	}
+
+	public ArrayList<ArrayList<MilitaryUnit>> getEnemyArmy() {
+		return enemyArmy;
+	}
+
+	public void setEnemyArmy(ArrayList<ArrayList<MilitaryUnit>> enemyArmy) {
+		this.enemyArmy = enemyArmy;
+	}
+
 	private ArrayList<ArrayList<MilitaryUnit>> army;
+	private ArrayList[] batallasGuardadas = new ArrayList[2];
 	
-	
+	public void initEnemyArmy() {
+		
+		
+		
+
+	        // Inicializar cada uno de los 3 ArrayLists dentro de civilizationArmy
+	    enemyArmy = new ArrayList<>();
+	        for (int i = 0; i < 9; i++) {
+	        	enemyArmy.add(new ArrayList<MilitaryUnit>());
+//	           System.out.println(enemyArmy);
+	        }
+	}
 	// Constructor 
 	public Civilization() {
 		
 		// Inicializar ArrayList
-        army = new ArrayList<>(9);
-        for (int i = 0; i < 9; i++) {
-            army.add(new ArrayList<>());
-        }
+		initArrayEjer();
         
         // Tecnologias
         this.technologyDefense = 0;
         this.technologyAttack = 0;
         // Materiales
-        this.wood = 0;
-        this.iron = 0;
-        this.food = 0;
-        this.mana = 0;
+        this.wood = 10000000;
+        this.iron = 10000000;
+        this.food = 10000000;
+        this.mana = 10000000;
+        enemyWood =	WOOD_BASE_ENEMY_ARMY;
+        enemyIron = IRON_BASE_ENEMY_ARMY;
+        enemyFood = FOOD_BASE_ENEMY_ARMY ;
         // Edificios
         this.magicTower = 0;
         this.church = 0;
@@ -41,12 +88,84 @@ public class Civilization implements Variables {
         this.carpentry = 0;
         // Batallas
         this.battles = 0;
-        
-        
+        batallasGuardadas[0] = new ArrayList<>();
+        batallasGuardadas[1] = new ArrayList<>();
+        initEnemyArmy();
         
        
     }
 	
+	public ArrayList[] getReportes() {
+		
+		return batallasGuardadas;
+	}
+	
+	public String returnSavedLargeReport(int i) {
+		return  (String) batallasGuardadas[1].get(i);
+		
+		
+	}
+	
+	public String returnSavedGeneralReport(int i) {
+		return  (String) batallasGuardadas[0].get(i);
+		
+		
+	}
+	
+	public void initArrayEjer() {
+ 		
+		army = new ArrayList<>();
+	
+	        // Inicializar cada uno de los 9 ArrayLists dentro de civilizationArmy
+	        for (int i = 0; i < 9; i++) {
+	            army.add(new ArrayList<>());
+	        
+	        }
+		
+		
+	}
+	
+public int getBattles(){
+	
+	return battles;
+	
+}
+public void setBattles(int x){
+	
+	this.battles = x;
+	
+}
+public void setName (String name) {
+	
+	this.name = name;
+	
+}
+
+public String getName () {
+	
+	return this.name;
+	
+}
+    public void insertBattle(String general, String large) {
+
+
+        if ( batallasGuardadas[0].size() == 5) {
+
+
+            batallasGuardadas[0].remove(4);
+            batallasGuardadas[1].remove(4);
+
+            batallasGuardadas[0].add(0,general);
+            batallasGuardadas[1].add(0,large);
+        }else {
+
+            batallasGuardadas[0].add(0,general);
+            batallasGuardadas[1].add(0,large);
+
+        }
+
+
+    }
 	
 	
 	// Getters y Setters
@@ -86,8 +205,15 @@ public class Civilization implements Variables {
 		this.mana = mana;
 	}
 	
+	public ArrayList<ArrayList<MilitaryUnit>> getArmy() {
+		return army;
+	}
+	
+	
 //	Edificios
 	
+
+
 	public int getMagicTower() {
 		return magicTower;
 	}
@@ -292,8 +418,43 @@ public class Civilization implements Variables {
 		    this.setFood(this.getFood() - food_cost);
 		    this.setWood(this.getWood() - wood_cost);
 		    this.setIron(this.getIron() - iron_cost);
-		        // Actualizar los niveles de tecnología
+		    
+		    
+	        // Actualizar los niveles de tecnología
 		    this.setTechnologyDefense(this.getTechnologyDefense() + 1);
+
+		    for (ArrayList<MilitaryUnit> array : army) {
+		    	
+		        for (MilitaryUnit unit : array) {
+		        	
+		            if (unit instanceof Swordsman) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Spearman) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Crossbow) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY));
+
+		            } else if (unit instanceof Cannon) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY));
+
+		            }else if (unit instanceof ArrowTower) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Catapult) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY));
+
+		            } else if (unit instanceof RocketLauncherTower) {
+		            	unit.setArmor(unit.getActualArmor() + (this.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY));
+
+		            }
+		            
+		        }
+		    }
+		    
+		    
+
 		        System.out.println("Attack technology has been improved!");
 		    } else {
 		        throw new ResourceException("You do not have enough resources to improve attack technology.");
@@ -315,8 +476,46 @@ public class Civilization implements Variables {
 		    this.setFood(this.getFood() - food_cost);
 		    this.setWood(this.getWood() - wood_cost);
 		    this.setIron(this.getIron() - iron_cost);
-		        // Actualizar los niveles de tecnología
+		    
+		    // Actualizar los niveles de tecnología
 		    this.setTechnologyAttack(this.getTechnologyAttack() + 1);
+		    
+		    for (ArrayList<MilitaryUnit> array : army) {
+		    	
+		        for (MilitaryUnit unit : array) {
+		        	
+		            if (unit instanceof Swordsman) {
+		            	unit.setBaseDamage(unit.getActualArmor() + (this.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Spearman) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Crossbow) {
+		            	unit.setBaseDamage(unit.attack() +(this.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY));
+
+		            } else if (unit instanceof Cannon) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY));
+
+		            }else if (unit instanceof ArrowTower) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY));
+		            	
+		            } else if (unit instanceof Catapult) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY));
+
+		            } else if (unit instanceof RocketLauncherTower) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY));
+
+		            } else if (unit instanceof Magician) {
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY));
+
+		            } 
+		            
+		        }
+		    }
+		
+		    
+		    
+		    
 		        System.out.println("Attack technology has been improved!");
 		    } else {
 		        throw new ResourceException("You do not have enough resources to improve attack technology.");
@@ -645,7 +844,7 @@ public class Civilization implements Variables {
 
 	            // Crear nueva unidad
 	            int armor = 0;
-	            int baseDamage = 0;
+	            int baseDamage = BASE_DAMAGE_MAGICIAN;
 
 	            // Añadir al ArrayList
 	            for (int i = 0; i < unitsToAdd; i++) {
@@ -701,6 +900,8 @@ public class Civilization implements Variables {
 	            for (int i = 0; i < maxUnitsPossible; i++) {
 	                army.get(8).add(new Priest(armor, baseDamage));
 	            }
+	            
+	            
 
 	            // Excepción si no se pueden crear todas las unidades solicitadas
 	            if (maxUnitsPossible < n) {
@@ -715,8 +916,24 @@ public class Civilization implements Variables {
 	}
 
 
+public void setSant() {
+	
+	 // Recorrer Army
+    for (ArrayList<MilitaryUnit> array : army) {
+        for (MilitaryUnit unit : array) {
+           
+        	unit.setSanti();
+        }
+    }
 
+	
+}
 
+public ArrayList[] devolverListaReportes() {
+	
+	return batallasGuardadas;
+	
+}
 	
 //	Mostrar Estadísticas
 	

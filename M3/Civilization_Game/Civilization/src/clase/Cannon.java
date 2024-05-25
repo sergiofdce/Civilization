@@ -26,11 +26,7 @@ public class Cannon extends AttackUnit {
 
 	
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public int getFoodCost() {
@@ -55,11 +51,20 @@ public class Cannon extends AttackUnit {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
-	public int attack() {
+	public String getSimpleName() {
 		// TODO Auto-generated method stub
-		return 0;
+		return "Cannon";
 	}
 
+
+	@Override
+	public void setSanti() {
+		this.setSanctified(true);
+		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
+		
+	}
+
+	
 }

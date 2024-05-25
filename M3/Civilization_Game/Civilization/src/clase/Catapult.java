@@ -2,7 +2,7 @@ package clase;
 
 import interfaces.Variables;
 
-class Catapult extends DefenseUnit  {
+public class Catapult extends DefenseUnit  {
 	
 	// Constructor 1
 		public Catapult( int armor, int baseDamage) {
@@ -16,11 +16,6 @@ class Catapult extends DefenseUnit  {
 				
 		}
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public int getFoodCost() {
@@ -41,6 +36,18 @@ class Catapult extends DefenseUnit  {
 	public int getManaCost() {
 		return Variables.MANA_COST_CATAPULT;
 	}
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return "Catapult";
+	}
 
+	@Override
+	public void setSanti() {
+		this.setSanctified(true);
+		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
+		
+	}
 
 }

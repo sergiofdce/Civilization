@@ -2,7 +2,7 @@ package clase;
 
 import interfaces.Variables;
 
-class ArrowTower extends DefenseUnit {
+public class ArrowTower extends DefenseUnit implements Variables {
 	
 
 	 public ArrowTower(int armor, int baseDamage) {
@@ -16,15 +16,11 @@ class ArrowTower extends DefenseUnit {
 	    }
 	
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public int getFoodCost() {
-		return Variables.FOOD_COST_ARROWTOWER;
+		return FOOD_COST_ARROWTOWER;
 	}
 
 	@Override
@@ -40,6 +36,24 @@ class ArrowTower extends DefenseUnit {
 	@Override
 	public int getManaCost() {
 		return Variables.MANA_COST_ARROWTOWER;
+	}
+
+
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return "ArrowTower";
+	}
+
+
+
+
+	@Override
+	public void setSanti() {
+		this.setSanctified(true);
+		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
+		
 	}
 
 

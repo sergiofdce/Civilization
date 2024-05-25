@@ -9,9 +9,12 @@ public abstract class SpecialUnit implements MilitaryUnit, Variables {
 	private int initialArmor = 0;
 	private int baseDamage; 
 	private int experience;
-	private int id_civi;
+private int id_civi = 1;
 	
 	
+
+	
+
 	public int getId_civi() {
 		return id_civi;
 	}
@@ -19,7 +22,7 @@ public abstract class SpecialUnit implements MilitaryUnit, Variables {
 	public void setId_civi(int id_civi) {
 		this.id_civi = id_civi;
 	}
-	
+
 	
 	// Setters
 	@Override
@@ -45,28 +48,34 @@ public abstract class SpecialUnit implements MilitaryUnit, Variables {
 	@Override
 	abstract  public int getManaCost();
 
-	@Override
-	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public void resetArmor() {
-		this.setArmor(initialArmor);
+		
+		int armor = initialArmor;
+		
+		if(experience != 0) {
+			
+			armor += this.getExperience() * PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT;
+		}
+		
+		
+			
+		
+		
+		this.setArmor(armor);
 	}
 
 	@Override
 	public void setExperience(int n) {
 		this.experience += n;
 		
+		this.setArmor(this.initialArmor + (this.getExperience() * PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT));
+		this.setBaseDamage(this.baseDamage + (this.getExperience() * PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT));
+		
 	}
+
 
 	@Override
 	public int getExperience() {
@@ -94,7 +103,11 @@ public abstract class SpecialUnit implements MilitaryUnit, Variables {
 		this.baseDamage = baseDamage;
 	}
 
-	
+	@Override
+	public void takeDamage(int receivedDamage) {
+		this.setArmor(this.getActualArmor() - receivedDamage);
+		
+	}
 	
 
 	
