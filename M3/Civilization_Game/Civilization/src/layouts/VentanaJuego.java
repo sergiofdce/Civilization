@@ -454,7 +454,7 @@ public class VentanaJuego extends JFrame {
 	    	
 	        // Parte central
 	    	
-	    	centralGame = new BackgroundPanel("Civilization/src/layouts/resources/background.jpg");
+	    	centralGame = new BackgroundPanel("src/layouts/resources/background.jpg");
 	    	buildCentralGame(civilization);
 	        
 	        
@@ -1214,7 +1214,7 @@ public class VentanaJuego extends JFrame {
 	        // Carpinteria
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("Civilization/src/layouts/resources/carpinteria.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/carpinteria.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
@@ -1249,7 +1249,7 @@ public class VentanaJuego extends JFrame {
 	        // Farm
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("Civilization/src/layouts/resources/farm.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/farm.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
@@ -1295,7 +1295,7 @@ public class VentanaJuego extends JFrame {
 	        // Herreria
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("Civilization/src/layouts/resources/herreria.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/herreria.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 190, Image.SCALE_SMOOTH);
@@ -1332,7 +1332,7 @@ public class VentanaJuego extends JFrame {
 	        // Torre de magos
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("Civilization/src/layouts/resources/torre.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/torre.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(240, 370, Image.SCALE_SMOOTH);
@@ -1367,7 +1367,7 @@ public class VentanaJuego extends JFrame {
 	        // Iglesia
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("Civilization/src/layouts/resources/iglesia.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/iglesia.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(350, 250, Image.SCALE_SMOOTH);
@@ -1427,7 +1427,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear un panel para la imagen con márgenes
 	            dialogImagePanel = new JPanel();
 	            dialogImagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	            icon = new ImageIcon("Civilization/src/layouts/resources/"+newItemImage+".png");
+	            icon = new ImageIcon("src/layouts/resources/"+newItemImage+".png");
 	            scaledImage = icon.getImage().getScaledInstance(250, 331, Image.SCALE_SMOOTH);
 	            scaledIcon = new ImageIcon(scaledImage);
 	            imageLabel = new JLabel(scaledIcon);
@@ -1458,10 +1458,10 @@ public class VentanaJuego extends JFrame {
 
 
 	            // Imágenes de recursos
-	            foodIcon = new ImageIcon("Civilization/src/layouts/resources/food.png");
-	            woodIcon = new ImageIcon("Civilization/src/layouts/resources/wood.png");
-	            ironIcon = new ImageIcon("Civilization/src/layouts/resources/iron.png");
-	            manaIcon = new ImageIcon("Civilization/src/layouts/resources/mana.png");
+	            foodIcon = new ImageIcon("src/layouts/resources/food.png");
+	            woodIcon = new ImageIcon("src/layouts/resources/wood.png");
+	            ironIcon = new ImageIcon("src/layouts/resources/iron.png");
+	            manaIcon = new ImageIcon("src/layouts/resources/mana.png");
 	            anchuraAltura = 30;
 	            foodIcon = new ImageIcon(foodIcon.getImage().getScaledInstance(anchuraAltura, anchuraAltura, Image.SCALE_SMOOTH));
 	            woodIcon = new ImageIcon(woodIcon.getImage().getScaledInstance(anchuraAltura, anchuraAltura, Image.SCALE_SMOOTH));
@@ -4275,18 +4275,7 @@ public class VentanaJuego extends JFrame {
 	  
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	public class MenuImage extends JPanel {
@@ -4296,7 +4285,7 @@ public class VentanaJuego extends JFrame {
 	    public MenuImage() {
 	        // Intentar cargar la imagen
 	        try {
-	            backgroundImage = ImageIO.read(new File("Civilization/src/layouts/resources/home_right_background.jpeg"));
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/home_right_background.jpeg"));
 	        } catch (IOException e) {
 	            System.err.println("Error al cargar background Menu Right: " + e.getMessage());
 	            setBackground(Color.GRAY);
@@ -4344,7 +4333,7 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Cargar la imagen
 	        try {
-	            backgroundImage = ImageIO.read(new File("Civilization/src/layouts/resources/home_buttons_background.webp"));
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/home_buttons_background.webp"));
 	        } catch (IOException e) {
 	            System.err.println("Error al cargar background Menu Left: " + e.getMessage());
 	            setBackground(Color.RED);
@@ -4356,7 +4345,7 @@ public class VentanaJuego extends JFrame {
 	        this.setPreferredSize(new Dimension(600, 100));
 
 	        // Cargar la imagen y redimensionarla
-	        originalIcon = new ImageIcon("Civilization/src/layouts/resources/logo.png"); 
+	        originalIcon = new ImageIcon("src/layouts/resources/logo.png"); 
 	        originalImage = originalIcon.getImage();
 
 	        // Define las dimensiones deseadas para la imagen
