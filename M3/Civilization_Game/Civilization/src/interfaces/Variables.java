@@ -1,4 +1,4 @@
-package interfaces;
+	package interfaces;
 
 public interface Variables {
 	
@@ -8,7 +8,7 @@ public interface Variables {
 	public final int FOOD_BASE_ENEMY_ARMY = 70000;
 	
 	// percentage increase of resources available to create enemy fleet
-	public final int ENEMY_FLEET_INCREASE = 6;
+	public final double ENEMY_FLEET_INCREASE = 0.06;
 	
 	// resources increment every minute
 	
@@ -16,7 +16,7 @@ public interface Variables {
 	public final int CIVILIZATION_WOOD_GENERATED = 5000; 
 	public final int CIVILIZATION_FOOD_GENERATED = 8000;
 
-		// Aumentar 10% producción
+	// Aumentar 10% producción
 	public final int CIVILIZATION_IRON_GENERATED_PER_SMITHY = (int) (0.1*CIVILIZATION_IRON_GENERATED); 
 	public final int CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY = (int) (0.1*CIVILIZATION_WOOD_GENERATED); 
 	public final int CIVILIZATION_FOOD_GENERATED_PER_FARM = (int) (0.1*CIVILIZATION_FOOD_GENERATED); 
@@ -125,14 +125,14 @@ public interface Variables {
 	
 	// ARMOR ATTACK UNITS
 	public final int ARMOR_SWORDSMAN = 400;
-	public final int ARMOR_SPEARMAN = 1000; 
-	public final int ARMOR_CROSSBOW = 6000; 
-	public final int ARMOR_CANNON = 8000;
+	public final int ARMOR_SPEARMAN = 800; 
+	public final int ARMOR_CROSSBOW = 2500; 
+	public final int ARMOR_CANNON = 4000;
 	
 	// ARMOR DEFENSES
 	public final int ARMOR_ARROWTOWER = 200;
 	public final int ARMOR_CATAPULT = 1200;
-	public final int ARMOR_ROCKETLAUNCHERTOWER = 7000;
+	public final int ARMOR_ROCKETLAUNCHERTOWER = 4500;
 			
 	//Attack Units armor increase percentage per tech level
 	public final int PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY = 5; 

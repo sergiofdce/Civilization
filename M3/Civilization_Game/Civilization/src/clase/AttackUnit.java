@@ -10,11 +10,11 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	private int baseDamage; 
 	private int experience;
 	private boolean sanctified;
-	private int id_civi;
+	private int id_civi = 1;
 	
 	
 
-	
+
 
 	public int getId_civi() {
 		return id_civi;
@@ -42,26 +42,37 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	@Override
 	abstract  public int getManaCost();
 
-	@Override
-	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public void resetArmor() {
-		this.setArmor(initialArmor);
+		
+		int armor = initialArmor;
+		
+		if(experience != 0) {
+			
+			armor += this.getExperience() * PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT;
+		}
+		
+		if(isSanctified() == true) {
+			
+			
+			armor += this.initialArmor * PLUS_ARMOR_UNIT_SANCTIFIED ;
+			
+			
+			
+			
+		}
+		
+		this.setArmor(armor);
 	}
 
 	@Override
 	public void setExperience(int n) {
 		this.experience += n;
+		
+		this.setArmor(this.initialArmor + (this.getExperience() * PLUS_ARMOR_UNIT_PER_EXPERIENCE_POINT));
+		this.setBaseDamage(this.baseDamage + (this.getExperience() * PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT));
 		
 	}
 
@@ -80,6 +91,7 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 	public int getInitialArmor() {
 		return initialArmor;
 	}
+
 
 	public void setInitialArmor(int initialArmor) {
 		this.initialArmor = initialArmor;
@@ -101,7 +113,11 @@ public abstract class AttackUnit implements MilitaryUnit, Variables {
 		this.sanctified = sanctified;
 	}
 	
-	
+	@Override
+	public void takeDamage(int receivedDamage) {
+		this.setArmor(this.getActualArmor() - receivedDamage);
+		
+	}
 	
 	
 

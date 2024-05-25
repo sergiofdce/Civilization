@@ -2,7 +2,7 @@ package clase;
 
 import interfaces.Variables;
 
-class RocketLauncherTower extends DefenseUnit  {
+public class RocketLauncherTower extends DefenseUnit  {
 	public RocketLauncherTower( int armor, int baseDamage) {
 		super();
 		
@@ -14,10 +14,7 @@ class RocketLauncherTower extends DefenseUnit  {
 			
 	}
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		
-	}
+	
 
 	@Override
 	public int getFoodCost() {
@@ -38,6 +35,17 @@ class RocketLauncherTower extends DefenseUnit  {
 	public int getManaCost() {
 		return Variables.MANA_COST_ROCKETLAUNCHERTOWER;
 	}
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return "RocketLauncherTower";
+	}
 
+	@Override
+	public void setSanti() {
+		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
+		
+	}
 	
 }

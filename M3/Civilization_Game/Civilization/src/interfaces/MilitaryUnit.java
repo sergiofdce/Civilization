@@ -24,11 +24,6 @@ public interface MilitaryUnit {
 	// 	Nos devolverá el coste de Mana que tiene crear una nueva unidad.
 	abstract int getManaCost();
 	
-	// 	Nos la probabilidad de generar residuos al ser totalmente eliminada (blindaje 0 o inferior). 
-	abstract int getChanceGeneratinWaste();
-	
-	// 	Nos la probabilidad de volver a atacar.
-	abstract int getChanceAttackAgain();
 	
 	// 	Nos restablecerá nuestro blindaje a su valor original. 
 	abstract void resetArmor();
@@ -41,5 +36,15 @@ public interface MilitaryUnit {
 	abstract int getId_civi();
 
 	abstract void setId_civi(int id_civi);
+	abstract void setArmor(int armor);
 
+	abstract String getSimpleName();
+	
+	abstract void setSanti();
+	
+	abstract void setBaseDamage(int x);
+
+	abstract boolean isSanctified();
+
+	
 }

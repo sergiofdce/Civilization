@@ -1,5 +1,6 @@
 package clase;
-class Priest extends SpecialUnit {
+
+public class Priest extends SpecialUnit {
 
 	public Priest( int armor, int baseDamage) {
 		super();
@@ -19,11 +20,6 @@ class Priest extends SpecialUnit {
 
 
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public int getFoodCost() {
@@ -47,4 +43,22 @@ class Priest extends SpecialUnit {
 	public int getManaCost() {
 		// TODO Auto-generated method stub
 		return MANA_COST_PRIEST;
-	}}
+	}
+	
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return "Priest";
+	}
+
+	@Override
+	public void setSanti() {
+		
+	}
+
+	@Override
+	public boolean isSanctified() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

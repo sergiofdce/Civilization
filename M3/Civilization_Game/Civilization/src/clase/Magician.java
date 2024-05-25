@@ -26,12 +26,6 @@ public class Magician extends SpecialUnit {
 	
 
 	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int getFoodCost() {
 		// TODO Auto-generated method stub
 		return FOOD_COST_MAGICIAN;
@@ -54,4 +48,23 @@ public class Magician extends SpecialUnit {
 		// TODO Auto-generated method stub
 		return MANA_COST_MAGICIAN;
 	}
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return "Magician";
+	}
+
+	@Override
+	public void setSanti() {
+		
+		
+	}
+
+	@Override
+	public boolean isSanctified() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 }

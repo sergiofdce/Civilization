@@ -51,10 +51,24 @@ package clase;
 	}
 
 	@Override
-	public void takeDamage(int receivedDamage) {
+	public String getSimpleName() {
 		// TODO Auto-generated method stub
+		return "Swordsman";
+	}
+	
+
+	
+	
+
+
+	@Override
+	public void setSanti() {
+		this.setSanctified(true);
+		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
 		
 	}
+
 
 	
 
