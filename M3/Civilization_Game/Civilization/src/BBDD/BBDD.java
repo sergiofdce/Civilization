@@ -42,42 +42,64 @@ public class BBDD implements Variables {
 		   
 		   
 	   }
+	   
+	   
+	   public void guardarBatalla(Civilization civilization) {
+       	
+       	
+       	try {
+       		
+       	
+       		saveReport(civilization.getReportes());
+				this.guardarTablaInventario(civilization);
+				this.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+				this.guardarTablaUnidadesEnemigo(civilization.getEnemyArmy());
+				this.guardarRecursosEnemigo(civilization);
+			} catch (ResourceException | BuildingException e1) {
+				e1.printStackTrace();
+			}
+       	
+       }
 
-	    public void guardarTablaCivilizacion(Civilization civilization) throws ResourceException, BuildingException {
-	        System.out.println("Creación de una nueva civilización...");
-	        borrarDatosTablas();
-	    
-	        try {
-	        	
-	            Class.forName("oracle.jdbc.driver.OracleDriver");
-	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+	   public void guardarTablaCivilizacion(Civilization civilization) throws ResourceException, BuildingException {
+//		    System.out.println("Guardando información de la civilización...");
+		    
+		    
 
-	            Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-	            System.out.println(civilization.getName() + "  trancaaaaaaaa");
+		    try {
+		        Class.forName("oracle.jdbc.driver.OracleDriver");
+		        borrarDatosTablas();
+		        
+		        Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
+//		        System.out.println("Conexión creada");
+
+		        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
 	            String insertQuery = "INSERT INTO civilizacion(nombre) VALUES ('" + civilization.getName() + "')";
-	            System.out.println("Ejecutamos query: " + insertQuery);
+//	            System.out.println("Ejecutamos query: " + insertQuery);
 	            st.executeUpdate(insertQuery);
+//	            System.out.println("Se ha creado una nueva civilización");
+	        
 
-	            System.out.println("Se ha creado la civilización");
+		        conn.close();
+		    } catch (ClassNotFoundException | SQLException e) {
+		        System.out.println(e.fillInStackTrace());
+		    }
+		}
 
-	            conn.close();
-	        } catch (ClassNotFoundException | SQLException e) {
-	        	  System.out.println( e.fillInStackTrace());
-	        }
-	    }
+
 
 
 	    
 	    public void guardarTablaInventario(Civilization civilization) throws ResourceException, BuildingException {
-	        System.out.println("Creación de una nueva civilization...");
+//	        System.out.println("Creación de una nueva civilization...");
 
 	      
 
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("conexion creada");
+//	            System.out.println("conexion creada");
 
 	            Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
@@ -104,12 +126,12 @@ public class BBDD implements Variables {
 	                stmt.setInt(5, civilization.getBattles());
 	            
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            } else {
 	                // Insertar nuevos datos
 	                query = "INSERT INTO inventario (id_civilizacion, madera, hierro, mana, comida, victorias) VALUES (?,?,?,?,?,?)";
 	                stmt = conn.prepareStatement(query);
-	                System.out.println("HOlaaaaaaaaaaaaaaaa");
+//	                System.out.println("HOlaaaaaaaaaaaaaaaa");
 	                stmt.setInt(1, 1);
 	                stmt.setInt(2, civilization.getWood());
 	                stmt.setInt(3, civilization.getIron());
@@ -117,16 +139,16 @@ public class BBDD implements Variables {
 	                stmt.setInt(5, civilization.getFood());
 	                stmt.setInt(6, civilization.getBattles());
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            }
 
 	            stmt.executeUpdate();
 
-	            if (count > 0) {
-	                System.out.println("Datos de inventario actualizados para la civilización con ID " + 1);
-	            } else {
-	                System.out.println("Se ha creado la civilización '" + civilization.getName() + "' con la ID " + 1);
-	            }	
+//	            if (count > 0) {
+//	                System.out.println("Datos de inventario actualizados para la civilización con ID " + 1);
+//	            } else {
+//	                System.out.println("Se ha creado la civilización '" + civilization.getName() + "' con la ID " + 1);
+//	            }	
 
 	            conn.close();
 	        } catch (ClassNotFoundException | SQLException e) {
@@ -140,14 +162,14 @@ public class BBDD implements Variables {
 	    
 
 	        public void saveReport(ArrayList[] reportes) throws ResourceException, BuildingException {
-	            System.out.println("Creación de una nueva civilización...");
+//	            System.out.println("Creación de una nueva civilización...");
 
 	           
 
 	            try {
 	                Class.forName("oracle.jdbc.driver.OracleDriver");
 	                Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	                System.out.println("Conexión creada");
+//	                System.out.println("Conexión creada");
 
 		            String deleteQuery = "DELETE FROM ReporteGeneralBatalla" ;
 	                PreparedStatement stmt = conn.prepareStatement(deleteQuery);
@@ -180,14 +202,14 @@ public class BBDD implements Variables {
 	    
 	    
 	    public void guardarTablaEdificios(Civilization civilization) throws ResourceException, BuildingException {
-	        System.out.println("Guardando edificios.");
+//	        System.out.println("Guardando edificios.");
 
 	       
 
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("conexion creada");
+//	            System.out.println("conexion creada");
 
 	            // Verificar si la tabla edificios tiene datos para la civilización actual
 	            String checkEdificiosQuery = "SELECT COUNT(*) FROM edificios WHERE id_civilizacion = ?";
@@ -212,7 +234,7 @@ public class BBDD implements Variables {
 	                stmt.setInt(5, civilization.getChurch());
 	             
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            } else {
 	                // Insertar nuevos datos
 	                query = "INSERT INTO edificios (id_civilizacion, herreria, granja, carpinteria, torre_magica, iglesia) VALUES ( ?, ?, ?, ?, ?,?)";
@@ -225,7 +247,7 @@ public class BBDD implements Variables {
 	                stmt.setInt(5, civilization.getMagicTower());
 	                stmt.setInt(6, civilization.getChurch());
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            }
 
 	            stmt.executeUpdate();
@@ -241,13 +263,13 @@ public class BBDD implements Variables {
 
 	    
 	    public void guardarTablaTecnologias(Civilization civilization) throws ResourceException, BuildingException {
-	        System.out.println("Creación de una nueva civilization...");
+//	        System.out.println("Creación de una nueva civilization...");
 
 	       
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("conexion creada");
+//	            System.out.println("conexion creada");
 
 	            // Verificar si la tabla tecnologias tiene datos para la civilización actual
 	            String checkTecnologiasQuery = "SELECT COUNT(*) FROM Tecnologias WHERE id_civilizacion = ?";
@@ -269,7 +291,7 @@ public class BBDD implements Variables {
 	                stmt.setInt(2, civilization.getTechnologyDefense());
 	                stmt.setInt(3, 1);
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            } else {
 	                // Insertar nuevos datos
 	                query = "INSERT INTO Tecnologias (id_civilizacion, ataque, defensa) VALUES (?, ?, ?)";
@@ -279,16 +301,16 @@ public class BBDD implements Variables {
 	                stmt.setInt(2, civilization.getTechnologyAttack());
 	                stmt.setInt(3, civilization.getTechnologyDefense());
 
-	                System.out.println("Ejecutando query: " + query);
+//	                System.out.println("Ejecutando query: " + query);
 	            }
 
 	            stmt.executeUpdate();
 
-	            if (count > 0) {
-	                System.out.println("Datos de tecnologías actualizados para la civilización con ID " + 1);
-	            } else {
-	                System.out.println("Se ha creado la civilización '" + civilization.getName() + "' con la ID " +1);
-	            }
+//	            if (count > 0) {
+//	                System.out.println("Datos de tecnologías actualizados para la civilización con ID " + 1);
+//	            } else {
+//	                System.out.println("Se ha creado la civilización '" + civilization.getName() + "' con la ID " +1);
+//	            }
 
 	            conn.close();
 	        } catch (ClassNotFoundException | SQLException e) {
@@ -299,7 +321,7 @@ public class BBDD implements Variables {
 
 	    public void guardarRecursosEnemigo(Civilization civilization)throws ResourceException, BuildingException {
 		       
-	        System.out.println("guardaRecursosEnemigo");
+//	        System.out.println("guardaRecursosEnemigo");
 	       
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -342,14 +364,14 @@ public class BBDD implements Variables {
 	    }
 	    
 	    public void guardarTablaUnidadesDeAtaque(ArrayList<ArrayList<MilitaryUnit>>  civilizationArmy) throws ResourceException, BuildingException {
-	        System.out.println("Creación Ejercitooo");
+//	        System.out.println("Creación Ejercitooo");
 
 	     
 
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("conexion creada");
+//	            System.out.println("conexion creada");
 	           
 	            String deleteQuery = "DELETE FROM Unidades" ;
                 PreparedStatement stmt = conn.prepareStatement(deleteQuery);
@@ -393,7 +415,7 @@ public class BBDD implements Variables {
 	                		
 	                
 
-	                System.out.println("Datos de unidades de ataque actualizados para la civilización con ID " + 1);
+//	                System.out.println("Datos de unidades de ataque actualizados para la civilización con ID " + 1);
 
 
 	            conn.close();
@@ -407,19 +429,19 @@ public class BBDD implements Variables {
 	    
 	    
 	    public void guardarTablaUnidadesEnemigo(ArrayList<ArrayList<MilitaryUnit>>  enemyArmy) throws ResourceException, BuildingException {
-	        System.out.println("Creación de una nueva civilization...");
+//	        System.out.println("Creación de una nueva civilization...");
 
 	    
 
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("conexion creada");
+//	            System.out.println("conexion creada");
 	           
 	            String deleteQuery = "DELETE FROM Enemy" ;
                 PreparedStatement stmt = conn.prepareStatement(deleteQuery);
                 stmt.executeUpdate();
-	           System.out.println("Entro");
+	         
 
 	            String query;
 	           
@@ -438,7 +460,7 @@ public class BBDD implements Variables {
 	    	                
 		                	}
 	                	
-	                System.out.println("Unidades del enemigo guardadas.\n");
+//	                System.out.println("Unidades del enemigo guardadas.\n");
 
 
 	            conn.close();
@@ -453,13 +475,13 @@ public class BBDD implements Variables {
 
 
 	    public void borrarDatosTablas() throws ResourceException, BuildingException {
-	        System.out.println("Borrando toda la información de las tablas...");
+//	        System.out.println("Borrando toda la información de las tablas...");
 
 	     
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión establecida");
+//	            System.out.println("Conexión establecida");
 
 	            // Borrar todos los datos de las tablas
 	            String[] tablas = {"civilizacion","inventario", "edificios", "tecnologias", "Unidades", "Enemy", "reportegeneralbatalla", "recursosenemy"};
@@ -468,10 +490,10 @@ public class BBDD implements Variables {
 	                String deleteQuery = "DELETE FROM " + tabla;
 	                PreparedStatement stmt = conn.prepareStatement(deleteQuery);
 	                stmt.executeUpdate();
-	                System.out.println("Datos de la tabla " + tabla + " borrados exitosamente.");
+//	                System.out.println("Datos de la tabla " + tabla + " borrados exitosamente.");
 	            }
 
-	            System.out.println("Toda la información de las tablas ha sido eliminada.");
+//	            System.out.println("Toda la información de las tablas ha sido eliminada.");
 
 	            conn.close();
 	        } catch (ClassNotFoundException | SQLException e) {
@@ -521,7 +543,7 @@ public class BBDD implements Variables {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+//	            System.out.println("Conexión creada");
 
 	            String query = "SELECT madera, hierro, mana, comida, victorias FROM inventario WHERE id_civilizacion = ?";
 	            PreparedStatement stmt = conn.prepareStatement(query);
@@ -561,7 +583,7 @@ public class BBDD implements Variables {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+//	            System.out.println("Conexión creada");
 
 	            String query = "SELECT herreria, granja, carpinteria, torre_magica, iglesia FROM edificios WHERE id_civilizacion = ?";
 	            PreparedStatement stmt = conn.prepareStatement(query);
@@ -600,7 +622,7 @@ public class BBDD implements Variables {
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
                 Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-                System.out.println("Conexión creada");
+//                System.out.println("Conexión creada");
 
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM ReporteGeneralBatalla");
@@ -626,7 +648,7 @@ public class BBDD implements Variables {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+//	            System.out.println("Conexión creada");
 
 	            String query = "SELECT ataque, defensa FROM Tecnologias WHERE id_civilizacion = ?";
 	            PreparedStatement stmt = conn.prepareStatement(query);
@@ -658,7 +680,7 @@ public class BBDD implements Variables {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+//	            System.out.println("Conexión creada");
 
 	            String query = "SELECT unitGroup,  armor, base_damage, experience, sanctified FROM Unidades";
 	            PreparedStatement stmt = conn.prepareStatement(query);
@@ -793,7 +815,7 @@ public class BBDD implements Variables {
 	    
 	    public void cargarRecursosEnemigo(Civilization civilization) throws ResourceException, BuildingException {
 	      
-	        System.out.println("cargarRecursosEnemigo");
+//	        System.out.println("cargarRecursosEnemigo");
 
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -830,7 +852,7 @@ public class BBDD implements Variables {
 	        try {
 	            Class.forName("oracle.jdbc.driver.OracleDriver");
 	            Connection conn = DriverManager.getConnection(urlDatos, USERNAME, PASSWORD);
-	            System.out.println("Conexión creada");
+//	            System.out.println("Conexión creada");
 
 	            String query = "SELECT unitGroup, cantidad from Enemy";
 	            PreparedStatement stmt = conn.prepareStatement(query);
@@ -901,7 +923,7 @@ public class BBDD implements Variables {
 	          
 	            }     
 	            
-	            System.out.println(enemyArmy);
+//	            System.out.println(enemyArmy);
 	            
 	            conn.close();  } catch (ClassNotFoundException | SQLException e) {
 	            	
@@ -915,13 +937,30 @@ public class BBDD implements Variables {
       
       
 	    
-	          
+	    public void guardarNuevoJuego(Civilization civilization) {
+        	
+        	
+        	try {
+        		guardarTablaCivilizacion(civilization);
+        	
+        		saveReport(civilization.getReportes());
+				this.guardarTablaInventario(civilization);
+				this.guardarTablaEdificios(civilization);
+				this.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+					this.guardarTablaTecnologias(civilization);
+					this.guardarTablaUnidadesEnemigo(civilization.getEnemyArmy());
+					this.guardarRecursosEnemigo(civilization);
+			} catch (ResourceException | BuildingException e1) {
+				e1.printStackTrace();
+			}
+        	
+        }
 	       
 	            public void guardarJuego(Civilization civilization) {
 	            	
 	            	
 	            	try {
-	            		guardarTablaCivilizacion(civilization);
+	            		
 	            	
 	            		saveReport(civilization.getReportes());
 						this.guardarTablaInventario(civilization);

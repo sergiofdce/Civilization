@@ -51,6 +51,7 @@ public class Civilization implements Variables {
 	}
 
 	private ArrayList<ArrayList<MilitaryUnit>> army;
+	
 	private ArrayList[] batallasGuardadas = new ArrayList[2];
 	
 	public void initEnemyArmy() {
@@ -75,10 +76,10 @@ public class Civilization implements Variables {
         this.technologyDefense = 0;
         this.technologyAttack = 0;
         // Materiales
-        this.wood = 10000000;
-        this.iron = 10000000;
-        this.food = 10000000;
-        this.mana = 10000000;
+        this.wood = 0;
+        this.iron = 0;
+        this.food = 0;
+        this.mana = 0;
         enemyWood =	WOOD_BASE_ENEMY_ARMY;
         enemyIron = IRON_BASE_ENEMY_ARMY;
         enemyFood = FOOD_BASE_ENEMY_ARMY ;
@@ -90,8 +91,8 @@ public class Civilization implements Variables {
         this.carpentry = 0;
         // Batallas
         this.battles = 0;
-        batallasGuardadas[0] = new ArrayList<>();
-        batallasGuardadas[1] = new ArrayList<>();
+        batallasGuardadas[0] = new ArrayList<String>();
+        batallasGuardadas[1] = new ArrayList<String>();
         initEnemyArmy();
         
        
@@ -166,8 +167,8 @@ public String getName () {
 
         }
 
-        BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+        
+        
     }
 	
 	
@@ -313,10 +314,14 @@ public String getName () {
             this.setChurch(this.getChurch() + n);
 
         } else {
-            throw new ResourceException("Recursos insuficientes para construir una nueva iglesia.");
+        	throw new ResourceException("Insufficient resources to build a new church.");
+
+
+
+
         }
-		BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+		
+        
 	}
 
 
@@ -333,10 +338,14 @@ public String getName () {
             this.setMagicTower(this.getMagicTower() + n);
             
         } else {
-            throw new ResourceException("Recursos insuficientes para construir una nueva Torre Mágica.");
+        	throw new ResourceException("Insufficient resources to build a new Magic Tower.");
+
+
+
+
         }
-		BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+		
+        
 	}
 	
 	public void newFarm(int n) throws ResourceException {
@@ -356,10 +365,10 @@ public String getName () {
             // +10% producción de comida
             
         } else {
-            throw new ResourceException("Recursos insuficientes para construir una nueva Granja.");
+        	throw new ResourceException("Insufficient resources to build a new Farm.");
         }
-		BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+		
+        
 	}
 	
 	public void newCarpentry(int n) throws ResourceException {
@@ -377,7 +386,11 @@ public String getName () {
             // +10% producción de madera
             
         } else {
-            throw new ResourceException("Recursos insuficientes para construir una nueva Carpintería.");
+        	throw new ResourceException("Insufficient resources to build a new Carpentry.");
+
+
+
+
         }
 		
 	}
@@ -397,10 +410,10 @@ public String getName () {
             // +10% producción de hierro
             
         } else {
-            throw new ResourceException("Recursos insuficientes para construir una nueva Herrería.");
+        	throw new ResourceException("Insufficient resources to build a new Blacksmith.");
         }
-		BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+		
+        
 	}
 	
 	
@@ -457,13 +470,12 @@ public String getName () {
 
 		            }
 		            
-		        }BBDD carga = new BBDD();
-		        carga.guardarJuego(this);
+		        }
+		        
 		    }
 		    
 		    
 
-		        System.out.println("Attack technology has been improved!");
 		    } else {
 		        throw new ResourceException("You do not have enough resources to improve attack technology.");
 		    }
@@ -493,7 +505,7 @@ public String getName () {
 		        for (MilitaryUnit unit : array) {
 		        	
 		            if (unit instanceof Swordsman) {
-		            	unit.setBaseDamage(unit.getActualArmor() + (this.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY));
+		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY));
 		            	
 		            } else if (unit instanceof Spearman) {
 		            	unit.setBaseDamage(unit.attack() + (this.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY));
@@ -518,14 +530,13 @@ public String getName () {
 
 		            } 
 		            
-		        }BBDD carga = new BBDD();
-		        carga.guardarJuego(this);
+		        }
+		        
 		    }
 		
 		    
 		    
 		    
-		        System.out.println("Attack technology has been improved!");
 		    } else {
 		        throw new ResourceException("You do not have enough resources to improve attack technology.");
 		    }
@@ -573,16 +584,14 @@ public String getName () {
 	        }	   
 	        // Excepciones
 	        if (unitsToAdd < n) {
-	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Espadachines.");
-	        } else {
-	            System.out.println("Se han añadido " + unitsToAdd + " Espadachines.");
-	        }
+	        	throw new ResourceException("Insufficient resources, only " + unitsToAdd + " Swordsmen could be added.");
+	        } 
 	        
 	    } else {
-	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Espadachín.");
+	    	throw new ResourceException("Insufficient resources to train a new Swordsman.");
 	    }
-	    BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	    
+        
 	}
 	   
 	public void newSpearman(int n) throws ResourceException {
@@ -619,15 +628,13 @@ public String getName () {
 	        }	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
-	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Lanceros.");
-	        } else {
-	            System.out.println("Se han añadido " + unitsToAdd + " Lanceros.");
-	        }
+	        	throw new ResourceException("Insufficient resources, only " + unitsToAdd + " Spearmen could be added.");
+	        } 
 	        
 	    } else {
-	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Lancero.");
-	    }	BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	    	throw new ResourceException("Insufficient resources to train a new Spearman.");
+	    }	
+        
 	}
 	
 	public void newCrossbow(int n) throws ResourceException {
@@ -661,15 +668,13 @@ public String getName () {
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
-	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Ballesteros.");
-	        } else {
-	            System.out.println("Se han añadido " + unitsToAdd + " Ballesteros.");
-	        }
+	        	throw new ResourceException("Insufficient resources, only " + unitsToAdd + " Crossbowmen could be added.");
+	        } 
 	        
 	    } else {
-	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Ballestero.");
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Crossbow.");
+	    }
+        
 	}
 
 
@@ -704,15 +709,13 @@ public String getName () {
 	        
 	        // Excepciones
 	        if (unitsToAdd < n) {
-	            throw new ResourceException("Recursos insuficientes, solo se pudieron añadir " + unitsToAdd + " Artilleros.");
-	        } else {
-	            System.out.println("Se han añadido " + unitsToAdd + " Artilleros.");
-	        }
+	        	throw new ResourceException("Insufficient resources, only " + unitsToAdd + " Cannon could be added.");
+	        } 
 	        
 	    } else {
-	        throw new ResourceException("Recursos insuficientes para instruir un nuevo Artillero.");
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	    	throw new ResourceException("Insufficient resources to train a new Cannon.");
+	    }
+        
 	}
 
 	
@@ -747,14 +750,12 @@ public String getName () {
 	        // Excepciones
 	        if (unitsToAdd < n) {
 	            throw new ResourceException("Insufficient resources, could only be added " + unitsToAdd + " ArrowTower.");
-	        } else {
-	            System.out.println("Have been added " + unitsToAdd + " Artilleros.");
-	        }
+	        } 
 	        
 	    } else {
-	        throw new ResourceException("Insufficient resources to train a new ArrowTower.");
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	        throw new ResourceException("Insufficient resources to build a new ArrowTower.");
+	    }
+        
 	}
 
 
@@ -795,9 +796,9 @@ public String getName () {
 	        }
 	        
 	    } else {
-	        throw new ResourceException("Insufficient resources to train a new Catapult.");
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	        throw new ResourceException("Insufficient resources to build a new Catapult.");
+	    }
+        
 	}
 
 	public void newRocketLauncher(int n) throws ResourceException {
@@ -837,14 +838,14 @@ public String getName () {
 	        }
 	        
 	    } else {
-	        throw new ResourceException("Insufficient resources to train a new RocketLauncher.");
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	        throw new ResourceException("Insufficient resources to build a new RocketLauncher.");
+	    }
+        
 	}
 
 	public void newMagician(int n) throws ResourceException, BuildingException {
 	    if (magicTower == 0) {
-	        throw new BuildingException("You haven't any Magic Tower.");
+	        throw new BuildingException("At least 1 Magic Tower is required to train a new Magician.");
 	    } else {
 	        // Comprobar número máximo de unidades que podemos crear
 	        int availableUnit = Math.min(
@@ -877,8 +878,8 @@ public String getName () {
 	        } else {
 	            throw new ResourceException("Insufficient resources to train a new Magician.");
 	        }
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	    }
+        
 	}
 
 	
@@ -923,14 +924,12 @@ public String getName () {
 	            // Excepción si no se pueden crear todas las unidades solicitadas
 	            if (maxUnitsPossible < n) {
 	                throw new ResourceException("Insufficient resources, could only be added " + maxUnitsPossible + " Priest.");
-	            } else {
-	                System.out.println("Have been added " + maxUnitsPossible + " Priest.");
-	            }
+	            } 
 	        } else {
 	            throw new ResourceException("Insufficient resources to train a new Priest.");
 	        }
-	    }BBDD carga = new BBDD();
-        carga.guardarJuego(this);
+	    }
+        
 	}
 
 
@@ -944,8 +943,8 @@ public void setSant() {
         }
     }
 
-    BBDD carga = new BBDD();
-    carga.guardarJuego(this);
+    
+    
 }
 
 public ArrayList[] devolverListaReportes() {

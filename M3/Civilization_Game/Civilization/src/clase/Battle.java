@@ -223,14 +223,14 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 	       
 	        if (percentageCivilization <= 20) {
 	        	
-	        	insertLargeReport("\n Has perdido más del 20% de las unidades! Se acabó la partida. \n");
+	        	insertLargeReport("\nYou've lost more than 20% of the units! The game is over. \n");
 	        	
 	        	if(resourcesLooses[0][3] >resourcesLooses[1][3]) {
 	        		
-	        		insertLargeReport("\n Tu enemigo ha perdido menos recursos que tu, es el ganador! \n");
+	        		insertLargeReport("\nYour opponent has lost fewer resources than you, they are the winner! \n");
 	        	}else {
 	        		
-	        		insertLargeReport("\n Tu enemigo ha perdido más recursos que tu, eres el ganador! \n");
+	        		insertLargeReport("\nYour opponent has lost more resources than you, you are the winner! \n");
 	        		
 	        	}
 	            return -1; 
@@ -238,14 +238,14 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 	            
 	        	
 	        } else if (percentageEnemy <= 20) {
-	        	insertLargeReport("\n El enemigo ha perdido más del 20% de las unidades! Se acabó la partida. \n");
+	        	insertLargeReport("\nThe enemy has lost more than 20% of the units! The game is over. \n");
 	        	
 	        	if(resourcesLooses[0][3] >resourcesLooses[1][3]) {
 	        		
-	        		insertLargeReport("\n Tu enemigo ha perdido menos recursos que tu, es el ganador! \n");
+	        		insertLargeReport("\nYour opponent has lost fewer resources than you, they are the winner! \n");
 	        	}else {
 	        		
-	        		insertLargeReport("\n Tu enemigo ha perdido más recursos que tu, eres el ganador! \n");
+	        		insertLargeReport("\nYour opponent has lost more resources than you, you are the winner! \n");
 	        		
 	        	}
 	            return -2; 
@@ -276,7 +276,6 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 		        posGrupo = i;
 		        
 		        if(civilizationArmy.get(i).isEmpty()) {
-		        	System.out.print("muuuuu");
 		        	comprobarGrupo = false;
 		        	break;
 		        	
@@ -303,7 +302,7 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 	
 		posicion = random.nextInt(lenGrupo);
 		System.out.println(posicion);
-		insertLargeReport("\nTu nuevo atacante será: " + civilizationArmy.get(posGrupo).get(posicion).getSimpleName() + ". \n");
+		insertLargeReport("\nYour new attacker will be: " + civilizationArmy.get(posGrupo).get(posicion).getSimpleName() + ". \n");
 		return civilizationArmy.get(posGrupo).get(posicion);
 	}
 	
@@ -349,7 +348,7 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 		grupoAtacanteEne = posGrupo;
 		posicion = random.nextInt(lenGrupo);
 		
-		insertLargeReport("\nEl nuevo atacante del enemigo será: " + enemyArmy.get(posGrupo).get(posicion).getSimpleName() + ". \n");
+		insertLargeReport("\nThe enemy's new attacker will be: " + enemyArmy.get(posGrupo).get(posicion).getSimpleName() + ". \n");
 		
 		return enemyArmy.get(posGrupo).get(posicion);
 	
@@ -466,7 +465,7 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 		    grupoDefenEne = grupo;
 		    
 			elegido = random.nextInt(lenGrupo);
-			insertLargeReport("\n El nuevo defensor del enemigo será: " + enemyArmy.get(grupo).get(elegido).getSimpleName() + ".\n");
+			insertLargeReport("\nThe new defender of the enemy will be: " + enemyArmy.get(grupo).get(elegido).getSimpleName() + ".\n");
 			
 			return enemyArmy.get(grupo).get(elegido);
 			
@@ -534,11 +533,12 @@ public void initAll(ArrayList<ArrayList<MilitaryUnit>> civilization1,ArrayList<A
 	    
 
 	    if (x.getId_civi() == 2) {
-	        insertLargeReport("\nPor derrotar a tu enemigo has ganado " + wateGene[0] + " de madera y " + wateGene[1] + " de hierro. \n");
+	    	insertLargeReport("\nBy defeating your enemy, you have gained " + wateGene[0] + " wood and " + wateGene[1] + " iron. \n");
 	        recursosGenerados[0][0] +=  wateGene[0];
 	        recursosGenerados[0][1] +=  wateGene[1];
+	        
 	    } else if (x.getId_civi() == 1) {
-	        insertLargeReport("\nPor derrotarte tu enemigo ha ganado " + wateGene[0] + " de madera y " + wateGene[1] + " de hierro. \n");
+	    	insertLargeReport("\nBy defeating you, your enemy has gained " + wateGene[0] + " wood and " + wateGene[1] + " iron. \n");
 	        recursosGenerados[1][0] +=  wateGene[0];
 	        recursosGenerados[1][1] +=  wateGene[1];
 	    }
@@ -681,7 +681,7 @@ public void comprobarVida(MilitaryUnit x) {
 	
 		
 		if(x.getId_civi() == 1) {
-			insertLargeReport("\nTu defensor ha muerto! Se generaran recursos. \n ");
+			insertLargeReport("\nYour defender has died! Resources will be generated. \n");
 			civilizationDrops[grupoDefenCivi] +=1;
 			generarRecursosBatalla(actual);
 			if(actual instanceof Priest) {
@@ -704,7 +704,7 @@ public void comprobarVida(MilitaryUnit x) {
 			}
 			
 		}else if(x.getId_civi() == 2) {
-			insertLargeReport("\nEl defensor enemigo ha muerto! Se generaran recursos. \n");
+			insertLargeReport("\nThe enemy defender has died! Resources will be generated. \n");
 			generarRecursosBatalla(actual);
 			enemyDrops [grupoDefenEne] +=1;
 			enemyArmy.get(grupoDefenEne).remove(actual);
@@ -731,9 +731,8 @@ public void ataque() {
 		
 	
 		defenEne.takeDamage(atacanteCivi.attack());
-		
-		insertLargeReport(atacanteCivi.getSimpleName() + " Ataca a la unidad " + defenEne.getSimpleName() + " de tu enemigo. \n");
-		insertLargeReport(defenEne.getSimpleName() + " perdio " +  atacanteCivi.attack() + " de armadura y ahora tiene " + defenEne.getActualArmor() + " de vida. \n");
+		insertLargeReport(atacanteCivi.getSimpleName() + " attacks the unit " + defenEne.getSimpleName() + " of your enemy. \n");
+		insertLargeReport(defenEne.getSimpleName() + " lost " +  atacanteCivi.attack() + " armor and now has " + defenEne.getActualArmor() + " life left. \n");
 
 		comprobarVida(defenEne);
 		
@@ -743,8 +742,8 @@ public void ataque() {
 	}else if(turno == 2) {
 		
 		defenCivi.takeDamage(atacanteEne.attack());
-		insertLargeReport("El " +  atacanteEne.getSimpleName() + " de tu enemigo ha atacado a la siguiente unidad de tu ejercito: " + defenCivi.getSimpleName() + "\n");
-		insertLargeReport(defenCivi.getSimpleName() + " perdio " +  atacanteEne.attack() + " de armadura y ahora tiene " + defenCivi.getActualArmor() + " de vida. \n");
+		insertLargeReport("Your enemy's " +  atacanteEne.getSimpleName() + " has attacked the following unit of your army: " + defenCivi.getSimpleName() + "\n");
+		insertLargeReport(defenCivi.getSimpleName() + " lost " +  atacanteEne.attack() + " armor and now has " + defenCivi.getActualArmor() + " life left. \n");
 
 		
 		comprobarVida(defenCivi);
@@ -761,14 +760,14 @@ private void cambioTurno() {
 	
 	if(turno == 1) {
 		
-		insertLargeReport("\n +++++++++++++++ Cambio de turno, le toca al enemigo! +++++++++++++++ \n\n");
+		insertLargeReport("\n +++ Turn change, it's the enemy's turn! +++ \n\n");
 		
 		turno = 2;
 		
 	}else {
 		
 		turno = 1;
-		insertLargeReport("\n +++++++++++++++Cambio de turno, enseñales lo que sabes hacer! +++++++++++++++ \n\n");
+		insertLargeReport("\n +++ Turn change, show them what you can do! +++ \n\n");
 		
 	}
 	
@@ -1028,7 +1027,7 @@ public String generalReportToString() {
 private int newAtack;
 	
 public void  battleGame() {
-		insertLargeReport("Empieza la batalla!\n\n");
+	insertLargeReport("The battle begins!\n\n");
 		remainderPercentageFleet();
 		atacanteCivi = getCivilizationGroupAttacker() ;
 				
@@ -1037,9 +1036,9 @@ public void  battleGame() {
 		defenCivi = getGroupDefenderCivi();
 		defenEne = getGroupDefenderEne();
 		ataqueInicial();
-		insertLargeReport("Tu atacante será  " + atacanteCivi.getSimpleName() + " y te defenderá " + defenCivi.getSimpleName() + ".\n");
-		insertLargeReport("El atacante rival  será  " + atacanteEne.getSimpleName() + " y te defenderá " + defenEne.getSimpleName() + ".\n");
-		
+		insertLargeReport("Your attacker will be " + atacanteCivi.getSimpleName() + " and your defender will be " + defenCivi.getSimpleName() + ".\n");
+		insertLargeReport("The opponent's attacker will be " + atacanteEne.getSimpleName() + " and their defender will be " + defenEne.getSimpleName() + ".\n");
+
 		while(true) {
 			
 			ataque();
@@ -1063,11 +1062,11 @@ public void  battleGame() {
 				
 				if(turno == 1) {
 					
-					insertLargeReport("Tu guerrero vuelve a atacar! \n");
+					insertLargeReport("Your warrior attacks again! \n");
 					
 				}else {
 					
-					insertLargeReport("Tu enemigo vuelve a atacar! \n");
+					insertLargeReport("Your enemy attacks again! \n");
 					
 				}
 				continue;

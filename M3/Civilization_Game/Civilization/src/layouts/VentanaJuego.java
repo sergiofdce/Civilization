@@ -4,17 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -31,6 +34,8 @@ import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -107,6 +112,7 @@ class VentanaBattle extends JFrame {
         setResizable(false);
         
         
+
         
         
         addWindowFocusListener(new WindowFocusListener() {
@@ -129,11 +135,11 @@ class VentanaBattle extends JFrame {
         
         // Titulo
         estadoBattle = new JPanel();
-        victoryDefeat = new JLabel();
+        victoryDefeat = new JLabel("");
         estadoBattle.setPreferredSize(new Dimension(200, 100));
-        if (batallaActual.getLargeReport().contains("Tu enemigo ha perdido menos recursos que tu, has perdido!")) {
+        if (batallaActual.getLargeReport().contains("they are the winner")) {
         	victoryDefeat.setText("DEFEAT");
-        } else if (batallaActual.getLargeReport().contains("Tu enemigo ha perdido más recursos que tu, eres el ganador!")) {
+        } else if (batallaActual.getLargeReport().contains("you are the winner")) {
         	victoryDefeat.setText("VICTORY");
         }
         victoryDefeat.setFont(new Font("Arial", Font.BOLD, 70));
@@ -147,7 +153,6 @@ class VentanaBattle extends JFrame {
         
         // Mostrar reporte de unidades
         resumenUnidades = new JPanel();
-        resumenUnidades.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         resumenUnidades.setPreferredSize(new Dimension(600, 650));
         resumenUnidades.add(new JLabel("Summary of Units"));        
         JLabel registroUnidadesJLabel = new JLabel();
@@ -165,7 +170,6 @@ class VentanaBattle extends JFrame {
         pasoPasoBattle = new JPanel();
         pasoPasoBattle.setPreferredSize(new Dimension(400, 600));
         pasoPasoBattle.setLayout(new BorderLayout());
-        pasoPasoBattle.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         String reportePasoPasoString = batallaActual.getLargeReport();
         JTextArea reportTextArea = new JTextArea(reportePasoPasoString);
         reportTextArea.setEditable(false);
@@ -185,7 +189,7 @@ class VentanaBattle extends JFrame {
 
         
         
-
+        
         
         
         
@@ -294,6 +298,9 @@ public class VentanaJuego extends JFrame {
 	       
 	        // -------------- //
 	        
+	        Image icon = Toolkit.getDefaultToolkit().getImage("src/layouts/resources/escudo.png");
+	        setIconImage(icon);
+	        
 	        
 	        // Menu Image
 	        menuImage = new MenuImage();
@@ -348,7 +355,7 @@ public class VentanaJuego extends JFrame {
 	    private ImageIcon foodIcon, woodIcon, ironIcon, manaIcon, icon, scaledIcon;
 	    private Image scaledImage;
 	    private String newItemTitle, newItemImage, newItemDialogo, newItemLabel, variableName;
-	    private String text, sourceButton;
+	    private String text, sourceButton, mostrarRecursosString;
 	    
 	    // Selector 
 	    private JSpinner spinner;
@@ -375,10 +382,14 @@ public class VentanaJuego extends JFrame {
 	    private JPanel EnemyUnitPanel, contentPanelEnemyArmy, enemyarmyInfo, armyInfo, techInfo,battleReportesPanel, battleInfo, enemyInfo, marginLeftJPanel, marginRightJPanel, contenedorRightJPanel, infoCivilization, panelRecursos, panelEdificios, panelUnidades, panelTecnologias, contador;
 	    private GridBagConstraints gbc_contador, gbc_info, gbc_building, gbc_units, gbc_tech;
 	    private JLabel labelTimer, labelTiempo;
-	    private JLabel labelComidaUnidades, labelMaderaUnidades, labelHierroUnidades, labelManaUnidades;
-	    private JLabel mensajeBattleJLabel, mensajeEnemyArmyJLabel, countSwordman, countSpearman, countCrossbow, countCannon, countArrowTower, countCatapult, countRocketLauncher, countMagician, countPriest;
+	    private JLabel mostrarRecursosJLabel, labelComidaUnidades, labelMaderaUnidades, labelHierroUnidades, labelManaUnidades;
+	    private JLabel mostrarBattlesJLabel, numeroBatallasJLabel, noBatallasLabel, EnemyUnitLabel1, EnemyUnitLabel2, EnemyUnitLabel3, EnemyUnitLabel4, mensajeBattleJLabel, mensajeEnemyArmyJLabel, countSwordman, countSpearman, countCrossbow, countCannon, countArrowTower, countCatapult, countRocketLauncher, countMagician, countPriest;
 	    private JTabbedPane tabbedPaneRight;
 	    private JButton btnPlayPause, botonMas30s;
+	    private int totalBattles, savedBattles, startIndex;
+	    
+	    // Tech Info
+	    private JLabel attacklevelLabel, ATechSwordman, ATechSwordmanBaseDamage, ATechLancerBaseDamage, ATechLancerIncrement, ATechLancerTotal, ATechCrossbowmanBaseDamage, ATechCrossbowmanIncrement, ATechCrossbowmanTotal, ATechCannonBaseDamage, defenselevelLabel, ATechCannonIncrement, ATechCannonTotal, ATechArcherTowerBaseDamage, ATechArcherTowerIncrement, DTechSwordmanBaseArmor, DTechSwordmanIncrement, DTechSwordmanTotal, DTechLancerBaseArmor, DTechLancerIncrement, DTechLancerTotal, DTechCrossbowmanBaseArmor, DTechCrossbowmanIncrement, DTechCrossbowmanTotal, DTechCannonBaseArmor, DTechCannonIncrement, DTechCannonTotal, DTechArcherTowerBaseArmor, DTechArcherTowerIncrement, DTechArcherTowerTotal, DTechCatapultBaseArmor, DTechCatapultIncrement, DTechCatapultTotal, DTechRocketTowerBaseArmor, DTechRocketTowerIncrement, DTechRocketTowerTotal, ATechArcherTowerTotal, ATechCatapultBaseDamage, ATechCatapultIncrement, ATechCatapultTotal, ATechRocketTowerBaseDamage, ATechRocketTowerIncrement, ATechRocketTowerTotal, ATechMageBaseDamage, ATechMageIncrement, ATechMageTotal, ATechSwordmanIncrement, ATechSwordmanTotal;
 	    
 	    // Consola
 	    private JTextArea consoleTextArea;
@@ -402,17 +413,13 @@ public class VentanaJuego extends JFrame {
 
 	    public Game(JFrame parentFrame, Civilization civilization, Timer timer) {
 	        this.setTitle("Game");
-	        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//	        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	        this.setSize(1510, 885);
 	        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que solo cierre este JFrame
 	        this.setLocationRelativeTo(null);
 	        this.setResizable(false);
 	       
-	     
- 	        
-
-// 	        Comprobar SO
-// 	       sSistemaOperativo = System.getProperty("os.name");
-// 	       System.out.println(sSistemaOperativo);
+	        
 	        
 //	        JPanels
 
@@ -454,7 +461,7 @@ public class VentanaJuego extends JFrame {
 	    	
 	        // Parte central
 	    	
-	    	centralGame = new BackgroundPanel("src/layouts/resources/background.jpg");
+	    	centralGame = new BackgroundPanel("src/layouts/resources/background.png");
 	    	buildCentralGame(civilization);
 	        
 	        
@@ -476,7 +483,6 @@ public class VentanaJuego extends JFrame {
 	        bottomFrame = new JPanel();
 	        bottomFrame.setOpaque(false);
 	        bottomFrame.setPreferredSize(new Dimension(-1, 100));
-//	        buildBottomFrame(bottomFrame);
 	        
 	        // Timer
 	        iniciarTemporizador(civilization, timer);
@@ -539,12 +545,12 @@ public class VentanaJuego extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 	                int respuesta = JOptionPane.showConfirmDialog(null, "¿Quieres volver al menú principal?", "Guardar y Salir", JOptionPane.YES_NO_OPTION);
 	                if (respuesta == JOptionPane.YES_OPTION) {
-	                    System.out.println("Volviendo al menú principal...");
+//	                    System.out.println("Volviendo al menú principal...");
 	                    BBDD carga = new BBDD();
 	                    carga.guardarJuego(civilization);
 	                    dispose();
 	                } else {
-	                    System.out.println("Permaneciendo en la aplicación...");
+//	                    System.out.println("Permaneciendo en la aplicación...");
 	                }
 	            }
 	        });
@@ -556,12 +562,12 @@ public class VentanaJuego extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 	                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea salir del juego?", "Guardar y Salir", JOptionPane.YES_NO_OPTION);
 	                if (respuesta == JOptionPane.YES_OPTION) {
-	                    System.out.println("Saliendo del juego...");
+//	                    System.out.println("Saliendo del juego...");
 	                    BBDD carga = new BBDD();
 	                    carga.guardarJuego(civilization);
 	                    System.exit(0);
 	                } else {
-	                    System.out.println("Permaneciendo en el juego...");
+//	                    System.out.println("Permaneciendo en el juego...");
 	                }
 	            }
 	        });
@@ -738,11 +744,22 @@ public class VentanaJuego extends JFrame {
 	        
 	        // Help
 	        
-				// Show Tutorial
-				// About
-				// Credits
+	
 				// Contact Support
-	        
+		        contactSupportMenuItem.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                try {
+		                    // Abre el navegador predeterminado con la URL de Google
+		                    Desktop.getDesktop().browse(new URI("https://github.com/sergiofdce/Civilization"));
+		                } catch (IOException ex) {
+		                    ex.printStackTrace();
+		                } catch (URISyntaxException ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+		        });
+
+
 	        
 	        
 	        
@@ -751,8 +768,6 @@ public class VentanaJuego extends JFrame {
 
 	        // Hacer visible el JFrame
 	        this.setVisible(true);
-	        
-	        
 	        
 	        
 	    }
@@ -769,8 +784,7 @@ public class VentanaJuego extends JFrame {
                 int tiempoRestante = 180; // 180 = 3 minutos
                 boolean enemyArmyCreated = false;
 
-                
-                
+
 
 	            @Override
 	            public void run() {
@@ -778,10 +792,9 @@ public class VentanaJuego extends JFrame {
 	            	botonMas30s.addActionListener(new ActionListener() {
 	            	    @Override
 	            	    public void actionPerformed(ActionEvent e) {
-	            	    	tiempoRestante = 62;
+	            	    	tiempoRestante = 61;
+	            	    	botonMas30s.setEnabled(false);
 
-//            	            int minutos = tiempoRestante / 60;
-//            	            int segundos = tiempoRestante % 60;
 	            	    }
 	            	});
 
@@ -789,22 +802,40 @@ public class VentanaJuego extends JFrame {
 	            	// Avanzar Temporizador
 	                if (!enPausa) {
 	                    int tiempoAnterior = tiempoRestante;
+	                    
+	                    
 	                    tiempoRestante--;
-	                    	                    
+
+	                    int contador;
+	                    boolean avisoMostrado;
+
+	                                     
 	                    // Chequear si se ha pasado por un múltiplo de un minuto
 	                    int minutosPasados = (tiempoAnterior / 60) - (tiempoRestante / 60);
 	                    if (minutosPasados > 0) {
 	                        for (int i = 0; i < minutosPasados; i++) {
 	                        	// Generar recursos
-	                            generarRecursos();
+	                        	mostrarRecursosString = generarRecursos();
+	                            mostrarRecursosJLabel.setText(mostrarRecursosString);
+	                            avisoMostrado = true;
+	  
 	                            
 	                        }
 	                    }
 	                    
 	                    labelTiempo.setText(String.format("%02d:%02d", tiempoRestante / 60, tiempoRestante % 60));
 	                }
-	                
-	                if (tiempoRestante == 61 && !enemyArmyCreated) {
+	                    
+	                // Eventos temporizador
+	                if (tiempoRestante == 60 && !enemyArmyCreated) {
+	                	
+	                    tiempoRestante--;
+                        enPausa = true;
+                        labelTiempo.setForeground(Color.RED);
+
+
+
+	                    
 	                	// Mostrar tab Army
                         mostrarEnemyArmy = true;
                         mensajeEnemyArmyJLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -819,20 +850,31 @@ public class VentanaJuego extends JFrame {
                         	createEnemyArmy(civilization);
                         	System.out.println("El ejercito enemigo ha sido creado:");
                         	System.out.println(civilization.getEnemyArmy() + "\n");
+
+                        	
                         	contentPanelEnemyArmy.setVisible(true);
+                        	
+                        	BBDD carga = new BBDD();
+                        	try {
+								carga.guardarRecursosEnemigo(civilization);
+								carga.guardarTablaUnidadesEnemigo(civilization.getEnemyArmy());
+
+							} catch (ResourceException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (BuildingException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+                        	
                         }
-                         
-	                }
-	                    
-	                // Eventos temporizador
-	                if (tiempoRestante == 60 && !enemyArmyCreated) {
-	                	
-	                    tiempoRestante--;
 	                    
 	                    // Mostrar mensaje de creación del ejército enemigo
 	                    JDialog dialog = new JDialog();
+	                    dialog.setUndecorated(true);
+	                    dialog.setModal(true); // Make the dialog modal
 	                    JPanel panel = new JPanel(new BorderLayout());
-	                    JLabel label = new JLabel("Puedes ver el ejercito enemigo");
+	                    JLabel label = new JLabel("You can see the enemy in the distance.");
 	                    label.setHorizontalAlignment(SwingConstants.CENTER);
 	                    
 	                    JButton okButton = new JButton("Close");
@@ -860,15 +902,13 @@ public class VentanaJuego extends JFrame {
 	                    
 	                    dialog.setContentPane(panel);
 	                    dialog.setSize(300, 150);
-	                    dialog.setTitle("El enemigo se acerca");
+	                    dialog.setTitle("The enemy is approaching");
 	                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	                    dialog.setLocationRelativeTo(null);
 	                    dialog.setResizable(false);
 	                    dialog.setVisible(true);
 	                   
 	                    
-	                    enPausa = true; 
-	                    labelTiempo.setForeground(Color.RED);
 	                }
                     
                     if (tiempoRestante == 0) {
@@ -894,6 +934,8 @@ public class VentanaJuego extends JFrame {
                     		
 
                     		JDialog dialog = new JDialog();
+                    		dialog.setModal(true); // Make the dialog modal
+                    		dialog.setUndecorated(true);
                             JLabel label = new JLabel("Battle postponed");
                             label.setHorizontalAlignment(SwingConstants.CENTER);
                             
@@ -927,6 +969,9 @@ public class VentanaJuego extends JFrame {
         			                
                                 }
                             });
+                            
+	            	    	botonMas30s.setEnabled(true);
+
 
 
                             	
@@ -935,19 +980,37 @@ public class VentanaJuego extends JFrame {
  	                    	// Iniciar batalla
  	                    	Battle batallaActual= new Battle(civilization.getArmy(), civilization.getEnemyArmy());
  	                    	batallaActual.battleGame();
+ 	                    	
+ 	                    	// Guardar recursos
+ 	                    	int [][] recursosGenerados;
+
+ 	                    	recursosGenerados = batallaActual.getRecursosGanados();
+ 	                    	
+ 	                    	civilization.setWood(civilization.getWood() + recursosGenerados[0][0]);
+ 	                    	civilization.setIron(civilization.getIron() + recursosGenerados[0][1]);
+ 	                    	
+ 	                    	civilization.setEnemyWood(civilization.getEnemyIron() + recursosGenerados[1][0]);
+ 	                    	civilization.setEnemyIron(civilization.getEnemyIron() + recursosGenerados[1][1]);
+
+ 	                    	
  	                    	civilization.insertBattle(batallaActual.generalReportToString(), batallaActual.getLargeReport());
  	                    	BBDD carga = new BBDD();
- 	                    	carga.guardarJuego(civilization);
- 	                    	try {
-								carga.saveReport(civilization.getReportes());
-							} catch (ResourceException | BuildingException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+ 	                    	carga.guardarBatalla(civilization);
+ 	                    	
+ 	                    	
+ 	                      
+ 	                    	// Battle reports
+  	                       	civilization.setBattles(civilization.getBattles() +1);
+ 	                   		updateBattleReportsPanel(civilization);
+
+
+
  	                        // Comenzar batalla
  	                    	mostrarEnemyArmy = false;
  	                        iniciarBatalla(civilization, globalJPanel, backgroundImageJPanel, batallaActual, timer);
  	                        enemyArmyCreated = false;
+	            	    	botonMas30s.setEnabled(true);
+
 
                     	}
                     	
@@ -1087,41 +1150,48 @@ public class VentanaJuego extends JFrame {
 
 
 				// Función para generar recursos
-	            private void generarRecursos() {
-	            
-	            	
-	                System.out.println("Generando recursos...");
-	                
-	                // Calcular recursos adicionales generados por cada edificio
-	                int ironFromSmithies = CIVILIZATION_IRON_GENERATED_PER_SMITHY * civilization.getSmithy();
-	                int woodFromCarpentries = CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY * civilization.getCarpentry();
-	                int foodFromFarms = CIVILIZATION_FOOD_GENERATED_PER_FARM * civilization.getFarm();
+	    		private String generarRecursos() {
+	    		    StringBuilder sb = new StringBuilder();
 
-	                // Sumar los recursos base y los generados por los edificios
-	                int totalIronGenerated = CIVILIZATION_IRON_GENERATED + ironFromSmithies;
-	                int totalWoodGenerated = CIVILIZATION_WOOD_GENERATED + woodFromCarpentries;
-	                int totalFoodGenerated = CIVILIZATION_FOOD_GENERATED + foodFromFarms;
-	                
-	                // Añadir recursos
-	                civilization.setFood(civilization.getFood() + totalFoodGenerated);
-	                civilization.setIron(civilization.getIron() + totalIronGenerated);
-	                civilization.setWood(civilization.getWood() + totalWoodGenerated);
+	    		    sb.append("<html><b>Last recources generated...</b><br>");
 
-	                updateInfoCivilization(civilization);
-	                
-	                // Imprimir resultados
-	                System.out.println("Food Generated: " + CIVILIZATION_FOOD_GENERATED + " base +" + foodFromFarms + " from farms");
-	                System.out.println("Wood Generated: " + CIVILIZATION_WOOD_GENERATED + " base +" + woodFromCarpentries + " from carpentries");
-	                System.out.println("Iron Generated: " + CIVILIZATION_IRON_GENERATED + " base +" + ironFromSmithies + " from smithies");
+	    		    // Calcular recursos adicionales generados por cada edificio
+	    		    int ironFromSmithies = CIVILIZATION_IRON_GENERATED_PER_SMITHY * civilization.getSmithy();
+	    		    int woodFromCarpentries = CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY * civilization.getCarpentry();
+	    		    int foodFromFarms = CIVILIZATION_FOOD_GENERATED_PER_FARM * civilization.getFarm();
 
-	                if (civilization.getMagicTower() > 0) {
-	                	int totalManaGenerated =  CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER * civilization.getMagicTower();
-		                System.out.println("Mana Generated: " + totalManaGenerated + " from magic towers");
+	    		    // Sumar los recursos base y los generados por los edificios
+	    		    int totalIronGenerated = CIVILIZATION_IRON_GENERATED + ironFromSmithies;
+	    		    int totalWoodGenerated = CIVILIZATION_WOOD_GENERATED + woodFromCarpentries;
+	    		    int totalFoodGenerated = CIVILIZATION_FOOD_GENERATED + foodFromFarms;
 
-	                }
-	                BBDD carga = new BBDD();
-	                carga.guardarJuego(civilization);
-	            }
+	    		    // Añadir recursos
+	    		    civilization.setFood(civilization.getFood() + totalFoodGenerated);
+	    		    civilization.setIron(civilization.getIron() + totalIronGenerated);
+	    		    civilization.setWood(civilization.getWood() + totalWoodGenerated);
+
+	    		    updateInfoCivilization(civilization);
+
+	    		    // Imprimir resultados
+	    		    sb.append("Food: ").append(CIVILIZATION_FOOD_GENERATED).append(" base +").append(foodFromFarms).append(" from farms<br>");
+	    		    sb.append("Wood: ").append(CIVILIZATION_WOOD_GENERATED).append(" base +").append(woodFromCarpentries).append(" from carpentries<br>");
+	    		    sb.append("Iron: ").append(CIVILIZATION_IRON_GENERATED).append(" base +").append(ironFromSmithies).append(" from smithies<br>");
+
+	    		    if (civilization.getMagicTower() > 0) {
+	    		        int totalManaGenerated = CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER * civilization.getMagicTower();
+	    		        sb.append("Mana Generated: ").append(totalManaGenerated).append(" from magic towers<br>");
+	    		    }
+
+	    		    BBDD carga = new BBDD();
+	    		    try {
+	    		        carga.guardarTablaInventario(civilization);
+	    		    } catch (ResourceException | BuildingException e) {
+	    		        e.printStackTrace();
+	    		    }
+
+	    		    sb.append("</html>");
+	    		    return sb.toString();
+	    		}
 	            
 	            
 	            private void generarRecursosEnemigo() {
@@ -1131,6 +1201,15 @@ public class VentanaJuego extends JFrame {
 	                civilization.setEnemyWood((int) (civilization.getEnemyWood() + WOOD_BASE_ENEMY_ARMY + (WOOD_BASE_ENEMY_ARMY * ENEMY_FLEET_INCREASE)));
 	                civilization.setEnemyIron((int) (civilization.getEnemyIron() + IRON_BASE_ENEMY_ARMY + (IRON_BASE_ENEMY_ARMY * ENEMY_FLEET_INCREASE)));
 	             
+	                BBDD carga = new BBDD();
+	                try {
+						carga.guardarRecursosEnemigo(civilization);
+					} catch (ResourceException e) {
+						e.printStackTrace();
+					} catch (BuildingException e) {
+						e.printStackTrace();
+					}
+	                
 				    
 	            }
 
@@ -1172,6 +1251,10 @@ public class VentanaJuego extends JFrame {
 	    
 	    private void buildCentralGame(Civilization civilization) {
 			
+	    	
+	    	
+	    	
+	    	
 	    	// Parametros layout
 	    	centralGame.setLayout(new BorderLayout());
 	        centralGame.setOpaque(false);
@@ -1182,21 +1265,29 @@ public class VentanaJuego extends JFrame {
 
 	        // Crear un JPanel para los JLabels
 	        JPanel infoPanel = new JPanel();
-	        infoPanel.setOpaque(true);
+	        infoPanel.setOpaque(false);
 	        infoPanel.setVisible(false);
 	        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS)); // Establecer el layout a BoxLayout con orientación vertical
 
 	        // Lugar y Tamaño del panel
-	        infoPanel.setBounds( 375, 50, 300, 50);
+	        infoPanel.setBounds(420, 50, 200, 50);
 
 
 	        // Crear los JLabels
 	        JLabel buildingLabel = new JLabel("Edificio X");
 	        buildingLabel.setFont(buildingLabel.getFont().deriveFont(Font.BOLD)); // Establecer la fuente en negrita
 	        buildingLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar horizontalmente
+	        buildingLabel.setFont(buildingLabel.getFont().deriveFont(Font.BOLD, 16)); // 16 es el nuevo tamaño de la fuente
+
 	        JLabel detailLabel = new JLabel("Información detallada");
 	        detailLabel.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto horizontalmente
 	        detailLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar horizontalmente
+	        detailLabel.setFont(detailLabel.getFont().deriveFont(Font.BOLD, 16)); // 16 es el nuevo tamaño de la fuente
+
+	        buildingLabel.setForeground(Color.WHITE);
+	        detailLabel.setForeground(Color.WHITE);
+	        
+	        
 
 
 	        // Agregar un margen en la parte superior del buildingLabel
@@ -1205,9 +1296,76 @@ public class VentanaJuego extends JFrame {
 	        // Agregar los JLabels al JPanel
 	        infoPanel.add(buildingLabel);
 	        infoPanel.add(detailLabel);
+	        
 
 	        // Agregar el JPanel al JLayeredPane
 	        layeredPane.add(infoPanel, JLayeredPane.PALETTE_LAYER);
+	        
+	        
+	        
+//	        Escudo
+
+	        try {
+	            // Intenta cargar la imagen
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/escudo.png");
+	            
+	            // Escalar la imagen
+	            Image scaledImage = originalIcon.getImage().getScaledInstance(120, -1, Image.SCALE_SMOOTH);
+	            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+	            // Crear el JLabel con la imagen escalada
+	            JLabel imageLabel = new JLabel(scaledIcon);
+		        // Lugar y Tamaño del panel
+	            imageLabel.setBounds(50, 30, 120, 120);
+	            
+	            layeredPane.add(imageLabel, JLayeredPane.DEFAULT_LAYER);
+	        } catch (Exception e) {
+	            // En caso de error, muestra un mensaje de error
+	            JOptionPane.showMessageDialog(null, "Error al cargar la imagen: " + e.getMessage(), "Error de carga de imagen", JOptionPane.ERROR_MESSAGE);
+	        }
+	        
+	        // Crear el JLabel con el nombre de la civilización
+	        JLabel mostrarNombreCivilizacionJLabel = new JLabel(civilization.getName()); 
+	        mostrarNombreCivilizacionJLabel.setFont(new Font("Arial", Font.BOLD, 30));
+	        mostrarNombreCivilizacionJLabel.setForeground(Color.WHITE);
+
+//	        JLabel mostrarNombreCivilizacionJLabel = new JLabel(civilization.getName());
+
+	        // Establecer el tamaño y la posición del JLabel
+	        mostrarNombreCivilizacionJLabel.setBounds(180, 60, 700, 24);
+
+	        // Agregar el JLabel al JLayeredPane
+	        layeredPane.add(mostrarNombreCivilizacionJLabel, JLayeredPane.DEFAULT_LAYER);
+	        
+	        // Crear el JLabel con el nombre de la civilización
+	        mostrarBattlesJLabel = new JLabel("Battles: " + civilization.getBattles()); 
+	        mostrarBattlesJLabel.setFont(new Font("Arial", Font.BOLD, 20));
+	        mostrarBattlesJLabel.setForeground(Color.WHITE);
+
+
+	        // Establecer el tamaño y la posición del JLabel
+	        mostrarBattlesJLabel.setBounds(180, 90, 700, 30);
+	        
+	        // Recursos aliados
+	        mostrarRecursosJLabel = new JLabel(""); 
+	        mostrarRecursosJLabel.setFont(new Font("Arial", Font.BOLD, 14));
+	        mostrarRecursosJLabel.setForeground(Color.YELLOW);
+	        
+	        mostrarRecursosJLabel.setBounds(180, 10, 500, 300);
+	        
+
+	        // Agregar el JLabel al JLayeredPane
+	        layeredPane.add(mostrarBattlesJLabel, JLayeredPane.DEFAULT_LAYER);
+	        layeredPane.add(mostrarRecursosJLabel, JLayeredPane.DEFAULT_LAYER);
+
+	        
+
+
+
+
+	        
+	        
+	        
 	        
 //	        Edificios
 	        
@@ -1223,7 +1381,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear el JLabel con la imagen escalada
 	            JLabel imageLabel = new JLabel(scaledIcon);
 		        // Lugar y Tamaño del panel
-	            imageLabel.setBounds(570, 390, 300, 150);
+	            imageLabel.setBounds(570, 440, 300, 150);
 	            
 	            imageLabel.addMouseListener(new MouseAdapter() {
 	                @Override
@@ -1258,7 +1416,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear el JLabel con la imagen escalada
 	            JLabel imageLabel = new JLabel(scaledIcon);
 		        // Lugar y Tamaño del panel
-	            imageLabel.setBounds(750, 300, 300, 200);
+	            imageLabel.setBounds(710, 350, 300, 200);
 	            
 	            
 	            
@@ -1304,7 +1462,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear el JLabel con la imagen escalada
 	            JLabel imageLabel = new JLabel(scaledIcon);
 		        // Lugar y Tamaño del panel
-	            imageLabel.setBounds(170, 360, 300, 190);
+	            imageLabel.setBounds(170, 380, 300, 190);
 	            
 	            
 	            imageLabel.addMouseListener(new MouseAdapter() {
@@ -1341,7 +1499,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear el JLabel con la imagen escalada
 	            JLabel imageLabel = new JLabel(scaledIcon);
 		        // Lugar y Tamaño del panel
-	            imageLabel.setBounds(0, 140, 240, 370);
+	            imageLabel.setBounds(10, 160, 240, 370);
 	            
 	            imageLabel.addMouseListener(new MouseAdapter() {
 	                @Override
@@ -1376,7 +1534,7 @@ public class VentanaJuego extends JFrame {
 	            // Crear el JLabel con la imagen escalada
 	            JLabel imageLabel = new JLabel(scaledIcon);
 		        // Lugar y Tamaño del panel
-	            imageLabel.setBounds(350, 250, 350, 250);
+	            imageLabel.setBounds(350, 280, 350, 250);
 	            
 	            imageLabel.addMouseListener(new MouseAdapter() {
 	                @Override
@@ -1716,213 +1874,310 @@ public class VentanaJuego extends JFrame {
 	                    sourceButton = actionCommand;
 	                    int numeroCreate = (int) spinner.getValue();
 
-
+	                    BBDD carga = new BBDD();
 
 	                    if (sourceButton.equals("newFarm")) {
 								try {
 									civilization.newFarm(numeroCreate);
 //				                    updateInfoCivilization(civilization);
-			                        System.out.println("New Farm was created");
+//			                        System.out.println("New Farm was created");
+			                        try {
+										carga.guardarTablaEdificios(civilization);
+									} catch (BuildingException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 
-
-								} catch (ResourceException e1) {
-									// TODO Auto-generated catch block
-								    System.out.println(e1.getMessage());
-								}
+									} catch (ResourceException e1) {
+										// TODO Auto-generated catch block
+								        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+								        
+									}
 		
 
 	                    } else if (sourceButton.equals("newCarpentry")) {
 	                        try {
 								civilization.newCarpentry(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Carpentry was created");
+//		                        System.out.println("New Carpentry was created");
+		                        try {
+									carga.guardarTablaEdificios(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newBlacksmith")) {
 	                    	try {
 								civilization.newSmithy(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Blacksmith was created");
+//		                        System.out.println("New Blacksmith was created");
+		                        try {
+									carga.guardarTablaEdificios(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newMagicTower")) {
 	                    	try {
 								civilization.newMagicTower(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Magic Tower was created");
+//		                        System.out.println("New Magic Tower was created");
+		                        try {
+									carga.guardarTablaEdificios(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null,  e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newChurch")) {
 	                    	try {
 								civilization.newChurch(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Church button was created");
+//		                        System.out.println("New Church button was created");
+		                        try {
+									carga.guardarTablaEdificios(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newSwordsman")) {
 	                    	try {
 								civilization.newSwordsman(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Swordsman was created");
+//		                        System.out.println("New Swordsman was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newSpearman")) {
 	                    	try {
 								civilization.newSpearman(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Spearman was created");
+//		                        System.out.println("New Spearman was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newCrossbow")) {
 	                    	try {
 								civilization.newCrossbow(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Crossbow was created");
+//		                        System.out.println("New Crossbow was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newCannon")) {
 	                    	try {
 								civilization.newCannon(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Cannon was created");
+//		                        System.out.println("New Cannon was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newArrowTower")) {
 	                    	try {
 								civilization.newArrowTower(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Arrow Tower was created");
+//		                        System.out.println("New Arrow Tower was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newCatapult")) {
 	                    	try {
 								civilization.newCatapult(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Catapult was created");
+//		                        System.out.println("New Catapult was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newRocketLauncher")) {
 	                    	try {
 								civilization.newRocketLauncher(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Rocket Launcher was created");
+//		                        System.out.println("New Rocket Launcher was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newMagician")) {
 	                    	try {
 								civilization.newMagician(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Magician was created");
+//		                        System.out.println("New Magician was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							} catch (BuildingException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newPriest")) {
 	                    	try {
 								civilization.newPriest(numeroCreate);
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("New Priest was created");
+//		                        System.out.println("New Priest was created");
+		                        try {
+									carga.guardarTablaUnidadesDeAtaque(civilization.getArmy());
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							} catch (BuildingException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 	                        
 	                    } else if (sourceButton.equals("newTechAttack")) {
 	                    	try {
-								civilization.upgradeTechnologyAttack();
+	                    		for (int i = 0; i < numeroCreate; i++) {
+									civilization.upgradeTechnologyAttack();
+	                    		}
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("Attack tech was upgraded");
-
+//		                        System.out.println("Attack tech was upgraded");
+		                        try {
+									carga.guardarTablaTecnologias(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 
 	                        
 	                    } else if (sourceButton.equals("newTechDefense")) {
 	                    	try {
-								civilization.upgradeTechnologyDefense();
+	                    		for (int i = 0; i < numeroCreate; i++) {
+									civilization.upgradeTechnologyDefense();
+	                    		}
 //			                    updateInfoCivilization(civilization);
-		                        System.out.println("Defense tech was upgraded");
+//		                        System.out.println("Defense tech was upgraded");
+		                        try {
+									carga.guardarTablaTecnologias(civilization);
+								} catch (BuildingException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 
 							} catch (ResourceException e1) {
 								// TODO Auto-generated catch block
-							    System.out.println(e1.getMessage());
+						        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 
 	                    	
 	                    }
 	                    
 	                    updateInfoCivilization(civilization);
-
 	                    System.out.println(civilization.getArmy());
-	                    
 	                    dialog.dispose();
 
 	                }
@@ -1996,6 +2251,91 @@ public class VentanaJuego extends JFrame {
 	        // JPanel Main
 	        infoCivilization.repaint();
 	        infoCivilization.revalidate();
+	        
+	        
+	        // Enemy Army Info
+	        EnemyUnitLabel1.setText("<html><b>Crossbow</b> x" + civilization.getEnemyArmy().get(0).size() + "</html>");
+	        EnemyUnitLabel2.setText("<html><b>Spearman</b> x" + civilization.getEnemyArmy().get(1).size() + "</html>");
+	        EnemyUnitLabel3.setText("<html><b>Crossbow</b> x" + civilization.getEnemyArmy().get(2).size() + "</html>");
+	        EnemyUnitLabel4.setText("<html><b>Cannon</b> x" + civilization.getEnemyArmy().get(3).size() + "</html>");
+	        enemyInfo.repaint();
+	        enemyInfo.revalidate();
+
+	        // Tech Info 
+	        attacklevelLabel.setText("Attack Technology level: " + civilization.getTechnologyAttack());
+	        ATechSwordmanBaseDamage.setText(Integer.toString(BASE_DAMAGE_SWORDSMAN));
+	        ATechSwordmanIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY)));
+	        ATechSwordmanTotal.setText(Integer.toString((BASE_DAMAGE_SWORDSMAN + (civilization.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY))));
+	        
+	        ATechLancerBaseDamage.setText(Integer.toString(BASE_DAMAGE_SPEARMAN));
+	        ATechLancerIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY)));
+	        ATechLancerTotal.setText(Integer.toString((BASE_DAMAGE_SPEARMAN + (civilization.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY))));
+
+	        ATechCrossbowmanBaseDamage.setText(Integer.toString(BASE_DAMAGE_CROSSBOW));
+	        ATechCrossbowmanIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)));
+	        ATechCrossbowmanTotal.setText(Integer.toString((BASE_DAMAGE_CROSSBOW + (civilization.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY))));
+
+	        ATechCannonBaseDamage.setText(Integer.toString(BASE_DAMAGE_CANNON));
+	        ATechCannonIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY)));
+	        ATechCannonTotal.setText(Integer.toString((BASE_DAMAGE_CANNON + (civilization.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY))));
+
+	        ATechArcherTowerBaseDamage.setText(Integer.toString(BASE_DAMAGE_ARROWTOWER));
+	        ATechArcherTowerIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)));
+	        ATechArcherTowerTotal.setText(Integer.toString((BASE_DAMAGE_ARROWTOWER + (civilization.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY))));
+
+	        ATechCatapultBaseDamage.setText(Integer.toString(BASE_DAMAGE_CATAPULT));
+	        ATechCatapultIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)));
+	        ATechCatapultTotal.setText(Integer.toString((BASE_DAMAGE_CATAPULT + (civilization.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY))));
+
+	        ATechRocketTowerBaseDamage.setText(Integer.toString(BASE_DAMAGE_ROCKETLAUNCHERTOWER));
+	        ATechRocketTowerIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)));
+	        ATechRocketTowerTotal.setText(Integer.toString((BASE_DAMAGE_ROCKETLAUNCHERTOWER + (civilization.getTechnologyAttack() * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY))));
+
+	        ATechMageBaseDamage.setText(Integer.toString(BASE_DAMAGE_MAGICIAN));
+	        ATechMageIncrement.setText("+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY)));
+	        ATechMageTotal.setText(Integer.toString((BASE_DAMAGE_MAGICIAN + (civilization.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY))));
+	        
+	        //
+	        defenselevelLabel.setText("Defense Technology level: " + civilization.getTechnologyDefense());
+	        DTechRocketTowerBaseArmor.setText(Integer.toString(ARMOR_ROCKETLAUNCHERTOWER));
+	        DTechRocketTowerIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)));
+	        DTechRocketTowerTotal.setText(Integer.toString((ARMOR_ROCKETLAUNCHERTOWER + (civilization.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY))));
+
+	        DTechCatapultBaseArmor.setText(Integer.toString(ARMOR_CATAPULT));
+	        DTechCatapultIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)));
+	        DTechCatapultTotal.setText(Integer.toString((ARMOR_CATAPULT + (civilization.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY))));
+
+	        DTechArcherTowerBaseArmor.setText(Integer.toString(ARMOR_ARROWTOWER));
+	        DTechArcherTowerIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)));
+	        DTechArcherTowerTotal.setText(Integer.toString((ARMOR_ARROWTOWER + (civilization.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY))));
+
+	        DTechCannonBaseArmor.setText(Integer.toString(ARMOR_CANNON));
+	        DTechCannonIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY)));
+	        DTechCannonTotal.setText(Integer.toString((ARMOR_CANNON + (civilization.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY))));
+
+	        DTechCrossbowmanBaseArmor.setText(Integer.toString(ARMOR_CROSSBOW));
+	        DTechCrossbowmanIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)));
+	        DTechCrossbowmanTotal.setText(Integer.toString((ARMOR_CROSSBOW + (civilization.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY))));
+
+	        DTechLancerBaseArmor.setText(Integer.toString(ARMOR_SPEARMAN));
+	        DTechLancerIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)));
+	        DTechLancerTotal.setText(Integer.toString((ARMOR_SPEARMAN + (civilization.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY))));
+
+	        DTechSwordmanBaseArmor.setText(Integer.toString(ARMOR_SWORDSMAN));
+	        DTechSwordmanIncrement.setText("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)));
+	        DTechSwordmanTotal.setText(Integer.toString((ARMOR_SWORDSMAN + (civilization.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY))));
+	        
+	        techInfo.repaint();
+	        techInfo.revalidate();
+	        
+	        // Juego
+	        mostrarBattlesJLabel.setText("Battles: " + civilization.getBattles());
+	        
+	        
+	        // Battle Info
+	        battleInfo.repaint();
+	        battleInfo.revalidate();
+
 	        
 
 	    }
@@ -2300,14 +2640,7 @@ public class VentanaJuego extends JFrame {
 
 	        // Help
 	        helpMenu = new JMenu("Help");
-	        showTutorial = new JMenuItem("Show Tutorial");
-	        aboutMenuItem = new JMenuItem("About");
-	        creditsMenuItem = new JMenuItem("Credits");
 	        contactSupportMenuItem = new JMenuItem("Contact Support");
-	        helpMenu.add(showTutorial);
-	        helpMenu.addSeparator(); // Separador para agrupar opciones relacionadas
-	        helpMenu.add(aboutMenuItem);
-	        helpMenu.add(creditsMenuItem);
 	        helpMenu.add(contactSupportMenuItem);
 
 	        // Agregar menús al JMenuBar
@@ -2328,12 +2661,18 @@ public class VentanaJuego extends JFrame {
 	        JPanel unitInfoPanel = new JPanel(new BorderLayout());
 	        JPanel showInfoJPanel =  new JPanel();
 	        
+	        unitInfoPanel.setOpaque(false);
+	        showInfoJPanel.setOpaque(false);
+
+	        
 	        
 	        // Body
 	        switch(unitName) {
 	        	case "Swordsman":
 	        		
 	        		JLabel unitInfoLabel = new JLabel("Swordsmen Info");
+	        		unitInfoLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        		unitInfoLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	    	        unitInfoLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
 	    	        unitInfoLabel.setFont(unitInfoLabel.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 
@@ -2343,6 +2682,8 @@ public class VentanaJuego extends JFrame {
 	        		// No hay unidades
 	        		if (swordsmanArmy.isEmpty()) {
 	        			JLabel emptyLabel = new JLabel("You don't have any swordsman right now.");
+	        			emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        			emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        		    showInfoJPanel.add(emptyLabel);
 	        		} else {
 	        		    // Mostrar unidades
@@ -2393,6 +2734,8 @@ public class VentanaJuego extends JFrame {
 
 	        	case "Spearman":
 	        	    JLabel unitInfoLabelSpearman = new JLabel("Spearman Info");
+	        	    unitInfoLabelSpearman.setForeground(Color.BLACK); // Establecer el color blanco
+	        	    unitInfoLabelSpearman.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	    unitInfoLabelSpearman.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelSpearman.setFont(unitInfoLabelSpearman.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2400,6 +2743,8 @@ public class VentanaJuego extends JFrame {
 
 	        	    if (spearmanArmy.isEmpty()) {
 	        	        JLabel emptyLabel = new JLabel("You don't have any spearman right now.");
+	        	        emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
 	        	        String[] columnasSpearman = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2440,6 +2785,8 @@ public class VentanaJuego extends JFrame {
 	        	    
 	        	case "Crossbow":
 	        	    JLabel unitInfoLabelCrossbow = new JLabel("Crossbow Info");
+	        	    unitInfoLabelCrossbow.setForeground(Color.BLACK); // Establecer el color blanco
+	        	    unitInfoLabelCrossbow.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	    unitInfoLabelCrossbow.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelCrossbow.setFont(unitInfoLabelCrossbow.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2447,6 +2794,8 @@ public class VentanaJuego extends JFrame {
 
 	        	    if (crossbowArmy.isEmpty()) {
 	        	        JLabel emptyLabel = new JLabel("You don't have any crossbow right now.");
+	        	        emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
 	        	        String[] columnasCrossbow = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2487,6 +2836,8 @@ public class VentanaJuego extends JFrame {
 	        	    
 	        	case "Cannon":
 	        	    JLabel unitInfoLabelCannon = new JLabel("Cannon Info");
+	        	    unitInfoLabelCannon.setForeground(Color.BLACK); // Establecer el color blanco
+	        	    unitInfoLabelCannon.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	    unitInfoLabelCannon.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelCannon.setFont(unitInfoLabelCannon.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2494,6 +2845,8 @@ public class VentanaJuego extends JFrame {
 
 	        	    if (cannonArmy.isEmpty()) {
 	        	        JLabel emptyLabel = new JLabel("You don't have any cannon right now.");
+	        	        emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
 	        	        String[] columnasCannon = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2534,6 +2887,8 @@ public class VentanaJuego extends JFrame {
 	        	    
 	        	case "Arrow Tower":
 	        		JLabel unitInfoLabelArrowTower = new JLabel("Arrow Tower Info");
+	        		unitInfoLabelArrowTower.setForeground(Color.BLACK); // Establecer el color blanco
+	        		unitInfoLabelArrowTower.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	        		unitInfoLabelArrowTower.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        		unitInfoLabelArrowTower.setFont(unitInfoLabelArrowTower.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2541,6 +2896,8 @@ public class VentanaJuego extends JFrame {
 
 	        		if (arrowTowerArmy.isEmpty()) {
 	        		    JLabel emptyLabel = new JLabel("You don't have any arrow towers right now.");
+	        		    emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        		    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        		    showInfoJPanel.add(emptyLabel);
 	        		} else {
 	        		    String[] columnasArrowTower = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2581,6 +2938,8 @@ public class VentanaJuego extends JFrame {
 	        	    
 	            case "Catapult":
 	            	JLabel unitInfoLabelCatapult = new JLabel("Catapult Info");
+	            	unitInfoLabelCatapult.setForeground(Color.BLACK); // Establecer el color blanco
+	            	unitInfoLabelCatapult.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 	            	unitInfoLabelCatapult.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	            	unitInfoLabelCatapult.setFont(unitInfoLabelCatapult.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2588,6 +2947,8 @@ public class VentanaJuego extends JFrame {
 
 	            	if (catapultArmy.isEmpty()) {
 	            	    JLabel emptyLabel = new JLabel("You don't have any catapults right now.");
+	            	    emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	            	    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	            	    showInfoJPanel.add(emptyLabel);
 	            	} else {
 	            	    String[] columnasCatapult = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2628,6 +2989,8 @@ public class VentanaJuego extends JFrame {
 	            	
 		            case "Rocket Launcher":
 		            	JLabel unitInfoLabelRocketLauncher = new JLabel("Rocket Launcher Info");
+		            	unitInfoLabelRocketLauncher.setForeground(Color.BLACK); // Establecer el color blanco
+		            	unitInfoLabelRocketLauncher.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 		            	unitInfoLabelRocketLauncher.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		            	unitInfoLabelRocketLauncher.setFont(unitInfoLabelRocketLauncher.getFont().deriveFont(Font.BOLD, 16));
 	
@@ -2635,6 +2998,8 @@ public class VentanaJuego extends JFrame {
 	
 		            	if (rocketLauncherArmy.isEmpty()) {
 		            	    JLabel emptyLabel = new JLabel("You don't have any rocket launchers right now.");
+		            	    emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+		            	    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		            	    showInfoJPanel.add(emptyLabel);
 		            	} else {
 		            	    String[] columnasRocketLauncher = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
@@ -2675,6 +3040,8 @@ public class VentanaJuego extends JFrame {
 	            	
 		            case "Magician":
 		                JLabel unitInfoLabelMagician = new JLabel("Magician Info");
+		                unitInfoLabelMagician.setForeground(Color.BLACK); // Establecer el color blanco
+		                unitInfoLabelMagician.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 		                unitInfoLabelMagician.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		                unitInfoLabelMagician.setFont(unitInfoLabelMagician.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2682,6 +3049,8 @@ public class VentanaJuego extends JFrame {
 
 		                if (magicianArmy.isEmpty()) {
 		                    JLabel emptyLabel = new JLabel("You don't have any magicians right now.");
+		                    emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+		                    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		                    showInfoJPanel.add(emptyLabel);
 		                } else {
 		                    String[] columnasMagician = {"ID", "Armor", "Damage", "Experience"};
@@ -2721,6 +3090,8 @@ public class VentanaJuego extends JFrame {
 		                
 		            case "Priest":
 		                JLabel unitInfoLabelPriest = new JLabel("Priest Info");
+		                unitInfoLabelPriest.setForeground(Color.BLACK); // Establecer el color blanco
+		                unitInfoLabelPriest.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16	
 		                unitInfoLabelPriest.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		                unitInfoLabelPriest.setFont(unitInfoLabelPriest.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2728,6 +3099,8 @@ public class VentanaJuego extends JFrame {
 
 		                if (priestArmy.isEmpty()) {
 		                    JLabel emptyLabel = new JLabel("You don't have any priests right now.");
+		                    emptyLabel.setForeground(Color.BLACK); // Establecer el color blanco
+		                    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		                    showInfoJPanel.add(emptyLabel);
 		                } else {
 		                    String[] columnasPriest = {"ID", "Armor", "Damage", "Experience"};
@@ -2797,6 +3170,10 @@ public class VentanaJuego extends JFrame {
 	        JPanel unitInfoPanel = new JPanel(new BorderLayout());
 	        JPanel showInfoJPanel =  new JPanel();
 	        
+	        unitInfoPanel.setOpaque(false);
+	        showInfoJPanel.setOpaque(false);
+
+	        
 	        
 	        // Body
 	        switch(unitName) {
@@ -2804,7 +3181,8 @@ public class VentanaJuego extends JFrame {
 	        		
 	        		JLabel unitInfoLabel = new JLabel("Swordsmen Info");
 	    	        unitInfoLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
-	    	        unitInfoLabel.setFont(unitInfoLabel.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
+	    	        unitInfoLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	        unitInfoLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
 
 
 	        		ArrayList<MilitaryUnit> swordsmanArmy = civilization.getEnemyArmy().get(0);
@@ -2861,6 +3239,9 @@ public class VentanaJuego extends JFrame {
 
 	        	case "Spearman":
 	        	    JLabel unitInfoLabelSpearman = new JLabel("Spearman Info");
+	        	    unitInfoLabelSpearman.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	        	    unitInfoLabelSpearman.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
+
 	        	    unitInfoLabelSpearman.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelSpearman.setFont(unitInfoLabelSpearman.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2907,6 +3288,9 @@ public class VentanaJuego extends JFrame {
 	        	    
 	        	case "Crossbow":
 	        	    JLabel unitInfoLabelCrossbow = new JLabel("Crossbow Info");
+	        	    unitInfoLabelCrossbow.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	        	    unitInfoLabelCrossbow.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
+
 	        	    unitInfoLabelCrossbow.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelCrossbow.setFont(unitInfoLabelCrossbow.getFont().deriveFont(Font.BOLD, 16));
 
@@ -2953,6 +3337,9 @@ public class VentanaJuego extends JFrame {
 	        	    
 	        	case "Cannon":
 	        	    JLabel unitInfoLabelCannon = new JLabel("Cannon Info");
+	        	    unitInfoLabelCannon.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	        	    unitInfoLabelCannon.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
+
 	        	    unitInfoLabelCannon.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 	        	    unitInfoLabelCannon.setFont(unitInfoLabelCannon.getFont().deriveFont(Font.BOLD, 16));
 
@@ -3035,10 +3422,12 @@ public class VentanaJuego extends JFrame {
 
 	    	contenedorRightJPanel = new JPanel();
 	    	contenedorRightJPanel.setLayout(new BorderLayout());
-	    	contenedorRightJPanel.setOpaque(false);
+	    	contenedorRightJPanel.setOpaque(true);
 	    	
 	    	
 	        rightFrame = new JPanel();
+	        rightFrame.setOpaque(false);
+	        
 //	    	rightFrame.setOpaque(false);
 	    	rightFrame.setPreferredSize(new Dimension(400, 400)); // Establecer un tamaño predeterminado
 
@@ -3049,6 +3438,9 @@ public class VentanaJuego extends JFrame {
 	    	contador.setLayout(new GridBagLayout());
 	    	gbc_contador = new GridBagConstraints();
 	    	labelTimer = new JLabel("TIME UNTIL BATTLE");
+	        labelTimer.setForeground(Color.BLACK);
+	        labelTimer.setFont(new Font("Arial", Font.BOLD, 16)); 
+
 	    	labelTimer.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
 
 	    	labelTiempo = new JLabel();
@@ -3090,7 +3482,7 @@ public class VentanaJuego extends JFrame {
 	    	});
 
 	    	// Creación del botón ">30s"
-	    	botonMas30s = new JButton(">30s");
+	    	botonMas30s = new JButton("> Battle");
 	    	
 
 	    	// Establecer márgenes
@@ -3156,11 +3548,15 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Creación del JPanel armyInfo
 	    	armyInfo = new JPanel(new BorderLayout());
+	    	armyInfo.setOpaque(false);
 	    	
 	    	JPanel contentPanelArmy = new JPanel();
+	    	contentPanelArmy.setOpaque(false);
 	    	contentPanelArmy.setLayout(new BoxLayout(contentPanelArmy, BoxLayout.Y_AXIS)); // Usar BoxLayout para apilamiento vertical
 
 	    	JLabel mensajeArmy = new JLabel("Army");
+	    	mensajeArmy.setForeground(Color.BLACK); // Establecer el color blanco
+	    	mensajeArmy.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	    	
 	    	mensajeArmy.setFont(mensajeArmy.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 	    	mensajeArmy.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Añadir margen superior e inferior
 	    	mensajeArmy.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -3168,6 +3564,8 @@ public class VentanaJuego extends JFrame {
 	    	contentPanelArmy.add(mensajeArmy);
 
 	    	JLabel armyInfoText = new JLabel("<html>Here you can see the statistics of each unit, click on <br>the 'Show Info' button to display its information.</html>");
+	    	armyInfoText.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	armyInfoText.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	armyInfoText.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0)); // Añadir margen superior e inferior
 	    	armyInfoText.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	armyInfoText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3191,9 +3589,12 @@ public class VentanaJuego extends JFrame {
 
 	    	for (String unitName : unitNames) {
 	    	    JPanel unitPanel = new JPanel(new BorderLayout());
+	    	    unitPanel.setOpaque(false);
 	    	    
 	    	    // Crear la etiqueta con el nombre de la unidad
 	    	    JLabel unitLabel = new JLabel(unitName);
+	    	    unitLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	    unitLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
 	    	    unitPanel.add(unitLabel, BorderLayout.CENTER);
 	    	    
 	    	    // Crear el botón "Show Info"
@@ -3234,20 +3635,28 @@ public class VentanaJuego extends JFrame {
 
 	    	// Tech
 	    	techInfo = new JPanel();
+	    	techInfo.setOpaque(false);
+
 	    	techInfo.setLayout(new BorderLayout());
 	    	
 	    	// Titulo
 	    	JPanel techtitle = new JPanel();
+	    	techtitle.setOpaque(false);
+
 	    	techtitle.setLayout(new BoxLayout(techtitle, BoxLayout.Y_AXIS)); // Usar BoxLayout para apilamiento vertical
 
 	    	JLabel mensajeTech = new JLabel("Technologies");
+	    	mensajeTech.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeTech.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
 	    	mensajeTech.setFont(mensajeTech.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 	    	mensajeTech.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0)); // Añadir margen superior e inferior
 	    	mensajeTech.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	mensajeTech.setHorizontalAlignment(SwingConstants.CENTER);
 	    	techtitle.add(mensajeTech);
 
-	    	JLabel techInfoText = new JLabel("<html>Here you can see the statistics of each technology, click on <br>the button to display its information.</html>");
+	    	JLabel techInfoText = new JLabel("<html>Here you can see the statistics of each technology, <br>click on the button to display its information.</html>");
+	    	techInfoText.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	techInfoText.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	techInfoText.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Añadir margen superior e inferior
 	    	techInfoText.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	techInfoText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3257,6 +3666,8 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Botones
 	    	JPanel panelBotones = new JPanel();
+	    	panelBotones.setOpaque(false);
+
 	    	panelBotones.setLayout(new GridBagLayout()); // Usar GridBagLayout para centrado vertical y horizontal
 	    	GridBagConstraints gbc = new GridBagConstraints();
 	    	gbc.gridx = 0;
@@ -3273,20 +3684,28 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Ataque
 	    	JPanel techAttackPanel = new JPanel(new BorderLayout());
+	    	techAttackPanel.setOpaque(false);
+
 	    	JLabel attackDetails = new JLabel("Attack Technology Information");
+	    	attackDetails.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+
 	    	attackDetails.setFont(attackDetails.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 	    	attackDetails.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
 	    	attackDetails.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	attackDetails.setHorizontalAlignment(SwingConstants.CENTER);
 
 	    	JLabel secondLabel = new JLabel("<html>This table shows the increase in statistics that we have<br> in our army thanks to attack technology.</html>");
+	    	secondLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	secondLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	secondLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Añadir margen superior e inferior
 	    	secondLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	secondLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    	
 	    	
-    	    JLabel attacklevelLabel = new JLabel("Attack Technology level: " + civilization.getTechnologyAttack());
-    	    attacklevelLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 10, 0)); // Añadir margen superior e inferior
+	    	attacklevelLabel = new JLabel("Attack Technology level: " + civilization.getTechnologyAttack());
+	    	attacklevelLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	attacklevelLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+	    	attacklevelLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 10, 0)); // Añadir margen superior e inferior
 	    	attacklevelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	attacklevelLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -3294,6 +3713,8 @@ public class VentanaJuego extends JFrame {
 
 	    	// Crear un contenedor para albergar ambos JLabels en la región norte
 	    	JPanel labelsPanel = new JPanel(new GridLayout(3, 1)); // GridLayout con 2 filas y 1 columna
+	    	labelsPanel.setOpaque(false);
+
 	    	labelsPanel.add(attackDetails);
 	    	labelsPanel.add(secondLabel);
 	    	labelsPanel.add(attacklevelLabel);
@@ -3303,6 +3724,8 @@ public class VentanaJuego extends JFrame {
 
 	    	// Contenido de Ataque
 	    	JPanel techAttackinfoJPanel = new JPanel();
+	    	techAttackinfoJPanel.setOpaque(false);
+
 	    	techAttackinfoJPanel.setLayout(new GridBagLayout());
 	    	
 	    	// Crear las constraints para cada componente
@@ -3314,9 +3737,20 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 0;
 	    	gbc.gridx = 0;
 	    	JLabel encabezado1 = new JLabel("<html><b>Unit</b></html>");
+	    	encabezado1.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado1.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado2 = new JLabel("<html><b>Base Damage</b></html>");
+	    	encabezado2.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado2.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado3 = new JLabel("<html><b>Increment</b></html>");
+	    	encabezado3.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado3.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado4 = new JLabel("<html><b>Total</b></html>");
+	    	encabezado4.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado4.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
 
 	    	// Add the JLabels to the techAttackinfoJPanel as before
 	    	techAttackinfoJPanel.add(encabezado1, gbc);
@@ -3330,10 +3764,24 @@ public class VentanaJuego extends JFrame {
 	    	// Fila 2: Espadachín
 	    	gbc.gridy = 1;
 	    	gbc.gridx = 0;
-	    	JLabel ATechSwordman = new JLabel("Swordsman");
-	    	JLabel ATechSwordmanBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_SWORDSMAN));
-	    	JLabel ATechSwordmanIncrement = new JLabel("+");
-	    	JLabel ATechSwordmanTotal = new JLabel("");
+	    	ATechSwordman = new JLabel("Swordsman");
+	    	ATechSwordman.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechSwordman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechSwordmanBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_SWORDSMAN));
+	    	ATechSwordmanBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechSwordmanBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	int attackIncrement = civilization.getTechnologyAttack() * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY;
+	    	ATechSwordmanIncrement = new JLabel("+" + Integer.toString(attackIncrement));
+	    	ATechSwordmanIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechSwordmanIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	int totalDamage = BASE_DAMAGE_SWORDSMAN + attackIncrement;
+	    	ATechSwordmanTotal = new JLabel(Integer.toString(totalDamage));
+	    	ATechSwordmanTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechSwordmanTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+	    	
 	    	techAttackinfoJPanel.add(ATechSwordman, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechSwordmanBaseDamage, gbc);
@@ -3346,9 +3794,22 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 2;
 	    	gbc.gridx = 0;
 	    	JLabel ATechLancer = new JLabel("Lancer");
-	    	JLabel ATechLancerBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_SPEARMAN));
-	    	JLabel ATechLancerIncrement = new JLabel("+");
-	    	JLabel ATechLancerTotal = new JLabel("");
+	    	ATechLancer.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechLancer.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechLancerBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_SPEARMAN));
+	    	ATechLancerBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechLancerBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	int lancerIncrement = civilization.getTechnologyAttack() * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY;
+	    	ATechLancerIncrement = new JLabel("+" + Integer.toString(lancerIncrement));
+	    	ATechLancerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechLancerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	int lancerTotalDamage = BASE_DAMAGE_SPEARMAN + lancerIncrement;
+	    	ATechLancerTotal = new JLabel(Integer.toString(lancerTotalDamage));
+	    	ATechLancerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechLancerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	techAttackinfoJPanel.add(ATechLancer, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechLancerBaseDamage, gbc);
@@ -3361,9 +3822,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 3;
 	    	gbc.gridx = 0;
 	    	JLabel ATechCrossbowman = new JLabel("Crossbowman");
-	    	JLabel ATechCrossbowmanBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_CROSSBOW));
-	    	JLabel ATechCrossbowmanIncrement = new JLabel("+");
-	    	JLabel ATechCrossbowmanTotal = new JLabel("");
+	    	ATechCrossbowman.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCrossbowman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCrossbowmanBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_CROSSBOW) + "</b></html>");
+	    	ATechCrossbowmanBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCrossbowmanBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCrossbowmanIncrement = new JLabel("<html><b>+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY)) + "</b></html>");
+	    	ATechCrossbowmanIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCrossbowmanIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCrossbowmanTotal = new JLabel("<html><b>" + Integer.toString((BASE_DAMAGE_CROSSBOW + (civilization.getTechnologyAttack() * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY))) + "</b></html>");
+	    	ATechCrossbowmanTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCrossbowmanTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechCrossbowman, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechCrossbowmanBaseDamage, gbc);
@@ -3376,9 +3849,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 4;
 	    	gbc.gridx = 0;
 	    	JLabel ATechCannon = new JLabel("Cannon");
-	    	JLabel ATechCannonBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_CANNON));
-	    	JLabel ATechCannonIncrement = new JLabel("+");
-	    	JLabel ATechCannonTotal = new JLabel("");
+	    	ATechCannon.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCannon.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCannonBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_CANNON) + "</b></html>");
+	    	ATechCannonBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCannonBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCannonIncrement = new JLabel("<html><b>+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY)) + "</b></html>");
+	    	ATechCannonIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCannonIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCannonTotal = new JLabel("<html><b>" + Integer.toString((BASE_DAMAGE_CANNON + (civilization.getTechnologyAttack() * PLUS_ATTACK_CANNON_BY_TECHNOLOGY))) + "</b></html>");
+	    	ATechCannonTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCannonTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechCannon, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechCannonBaseDamage, gbc);
@@ -3391,9 +3876,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 5;
 	    	gbc.gridx = 0;
 	    	JLabel ATechArcherTower = new JLabel("Archer Tower");
-	    	JLabel ATechArcherTowerBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_ARROWTOWER));
-	    	JLabel ATechArcherTowerIncrement = new JLabel("+");
-	    	JLabel ATechArcherTowerTotal = new JLabel("");
+	    	ATechArcherTower.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechArcherTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechArcherTowerBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_ARROWTOWER) + "</b></html>");
+	    	ATechArcherTowerBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechArcherTowerBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechArcherTowerIncrement = new JLabel("<html><b>+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY)) + "</b></html>");
+	    	ATechArcherTowerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechArcherTowerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechArcherTowerTotal = new JLabel("<html><b>" + Integer.toString((BASE_DAMAGE_ARROWTOWER + (civilization.getTechnologyAttack() * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY))) + "</b></html>");
+	    	ATechArcherTowerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechArcherTowerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechArcherTower, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechArcherTowerBaseDamage, gbc);
@@ -3406,9 +3903,24 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 6;
 	    	gbc.gridx = 0;
 	    	JLabel ATechCatapult = new JLabel("Catapult");
-	    	JLabel ATechCatapultBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_CATAPULT));
-	    	JLabel ATechCatapultIncrement = new JLabel("+");
-	    	JLabel ATechCatapultTotal = new JLabel("");
+	    	ATechCatapult.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCatapult.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechArcherTower.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechArcherTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCatapultBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_CATAPULT) + "</b></html>");
+	    	ATechCatapultBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCatapultBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCatapultIncrement = new JLabel("<html><b>+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY)) + "</b></html>");
+	    	ATechCatapultIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCatapultIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechCatapultTotal = new JLabel("<html><b>" + Integer.toString((BASE_DAMAGE_CATAPULT + (civilization.getTechnologyAttack() * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY))) + "</b></html>");
+	    	ATechCatapultTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechCatapultTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechCatapult, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechCatapultBaseDamage, gbc);
@@ -3421,9 +3933,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 7;
 	    	gbc.gridx = 0;
 	    	JLabel ATechRocketTower = new JLabel("Rocket Tower");
-	    	JLabel ATechRocketTowerBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_ROCKETLAUNCHERTOWER));
-	    	JLabel ATechRocketTowerIncrement = new JLabel("+");
-	    	JLabel ATechRocketTowerTotal = new JLabel("");
+	    	ATechRocketTower.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechRocketTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechRocketTowerBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_ROCKETLAUNCHERTOWER) + "</b></html>");
+	    	ATechRocketTowerBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechRocketTowerBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechRocketTowerIncrement = new JLabel("<html><b>+</b></html>");
+	    	ATechRocketTowerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechRocketTowerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechRocketTowerTotal = new JLabel("<html><b></b></html>");
+	    	ATechRocketTowerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechRocketTowerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechRocketTower, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechRocketTowerBaseDamage, gbc);
@@ -3436,9 +3960,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 8;
 	    	gbc.gridx = 0;
 	    	JLabel ATechMage = new JLabel("Mage");
-	    	JLabel ATechMageBaseDamage = new JLabel(Integer.toString(BASE_DAMAGE_MAGICIAN));
-	    	JLabel ATechMageIncrement = new JLabel("+");
-	    	JLabel ATechMageTotal = new JLabel("");
+	    	ATechMage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechMage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechMageBaseDamage = new JLabel("<html><b>" + Integer.toString(BASE_DAMAGE_MAGICIAN) + "</b></html>");
+	    	ATechMageBaseDamage.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechMageBaseDamage.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechMageIncrement = new JLabel("<html><b>+" + Integer.toString((civilization.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY)) + "</b></html>");
+	    	ATechMageIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechMageIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	ATechMageTotal = new JLabel("<html><b>" + Integer.toString((BASE_DAMAGE_MAGICIAN + (civilization.getTechnologyAttack() * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY))) + "</b></html>");
+	    	ATechMageTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	ATechMageTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techAttackinfoJPanel.add(ATechMage, gbc);
 	    	gbc.gridx = 1;
 	    	techAttackinfoJPanel.add(ATechMageBaseDamage, gbc);
@@ -3467,24 +4003,36 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Defensa
 	    	JPanel techDefensePanel = new JPanel(new BorderLayout());
+	    	techDefensePanel.setOpaque(false);
 	    	JLabel defenseDetails = new JLabel("Defense Technology Information");
+	    	defenseDetails.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	defenseDetails.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	defenseDetails.setFont(defenseDetails.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 	    	defenseDetails.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
 	    	defenseDetails.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	defenseDetails.setHorizontalAlignment(SwingConstants.CENTER);
 	    	
 	    	JLabel mensajeDefensa = new JLabel("<html>This table shows the increase in statistics that we have<br> in our army thanks to defense technology.</html>");
+	    	mensajeDefensa.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeDefensa.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	mensajeDefensa.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Añadir margen superior e inferior
 	    	mensajeDefensa.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    	mensajeDefensa.setHorizontalAlignment(SwingConstants.CENTER);
 	    	
-    	    JLabel defenselevelLabel = new JLabel("Defense Technology level: " + civilization.getTechnologyDefense());
+    	    defenselevelLabel = new JLabel("Defense Technology level: " + civilization.getTechnologyDefense());
+    	    defenselevelLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+    	    defenselevelLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
     	    defenselevelLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 10, 0)); // Añadir margen superior e inferior
     	    defenselevelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     	    defenselevelLabel.setHorizontalAlignment(SwingConstants.CENTER);
     	    
 	    	// Crear un contenedor para albergar ambos JLabels en la región norte
 	    	JPanel labelsPanelDefensa = new JPanel(new GridLayout(3, 1)); // GridLayout con 2 filas y 1 columna
+	    	labelsPanelDefensa.setOpaque(false);
+
 	    	labelsPanelDefensa.add(defenseDetails);
 	    	labelsPanelDefensa.add(mensajeDefensa);
 	    	labelsPanelDefensa.add(defenselevelLabel);
@@ -3498,6 +4046,8 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Contenido Defensa
 	    	JPanel techDefenseinfoJPanel = new JPanel();
+	    	techDefenseinfoJPanel.setOpaque(false);
+
 	    	techDefenseinfoJPanel.setLayout(new GridBagLayout());
 
 	    	// Crear las constraints para cada componente
@@ -3509,9 +4059,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 0;
 	    	gbc.gridx = 0;
 	    	JLabel encabezado1Defensa = new JLabel("<html><b>Unit</b></html>");
+	    	encabezado1Defensa.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado1Defensa.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado2Defensa = new JLabel("<html><b>Base Armor</b></html>");
+	    	encabezado2Defensa.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado2Defensa.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado3Defensa = new JLabel("<html><b>Increment</b></html>");
+	    	encabezado3Defensa.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado3Defensa.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 	    	JLabel encabezado4Defensa = new JLabel("<html><b>Total</b></html>");
+	    	encabezado4Defensa.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	encabezado4Defensa.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial en negrita con tamaño 16
+
 
 	    	// Add the JLabels to the techAttackinfoJPanel as before
 	    	techDefenseinfoJPanel.add(encabezado1Defensa, gbc);
@@ -3526,9 +4088,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 1;
 	    	gbc.gridx = 0;
 	    	JLabel DTechSwordman = new JLabel("Swordsman");
-	    	JLabel DTechSwordmanBaseArmor = new JLabel(Integer.toString(ARMOR_SWORDSMAN));
-	    	JLabel DTechSwordmanIncrement = new JLabel("+");
-	    	JLabel DTechSwordmanTotal = new JLabel("");
+	    	DTechSwordman.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechSwordman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechSwordmanBaseArmor = new JLabel(Integer.toString(ARMOR_SWORDSMAN));
+	    	DTechSwordmanBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechSwordmanBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechSwordmanIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY)));
+	    	DTechSwordmanIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechSwordmanIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechSwordmanTotal = new JLabel(Integer.toString((ARMOR_SWORDSMAN + (civilization.getTechnologyDefense() * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY))));
+	    	DTechSwordmanTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechSwordmanTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechSwordman, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechSwordmanBaseArmor, gbc);
@@ -3541,9 +4115,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 2;
 	    	gbc.gridx = 0;
 	    	JLabel DTechLancer = new JLabel("Lancer");
-	    	JLabel DTechLancerBaseArmor = new JLabel(Integer.toString(ARMOR_SPEARMAN));
-	    	JLabel DTechLancerIncrement = new JLabel("+");
-	    	JLabel DTechLancerTotal = new JLabel("");
+	    	DTechLancer.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechLancer.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechLancerBaseArmor = new JLabel(Integer.toString(ARMOR_SPEARMAN));
+	    	DTechLancerBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechLancerBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechLancerIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY)));
+	    	DTechLancerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechLancerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechLancerTotal = new JLabel(Integer.toString((ARMOR_SPEARMAN + (civilization.getTechnologyDefense() * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY))));
+	    	DTechLancerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechLancerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechLancer, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechLancerBaseArmor, gbc);
@@ -3556,9 +4142,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 3;
 	    	gbc.gridx = 0;
 	    	JLabel DTechCrossbowman = new JLabel("Crossbowman");
-	    	JLabel DTechCrossbowmanBaseArmor = new JLabel(Integer.toString(ARMOR_CROSSBOW));
-	    	JLabel DTechCrossbowmanIncrement = new JLabel("+");
-	    	JLabel DTechCrossbowmanTotal = new JLabel("");
+	    	DTechCrossbowman.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCrossbowman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCrossbowmanBaseArmor = new JLabel(Integer.toString(ARMOR_CROSSBOW));
+	    	DTechCrossbowmanBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCrossbowmanBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCrossbowmanIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY)));
+	    	DTechCrossbowmanIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCrossbowmanIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCrossbowmanTotal = new JLabel(Integer.toString((ARMOR_CROSSBOW + (civilization.getTechnologyDefense() * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY))));
+	    	DTechCrossbowmanTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCrossbowmanTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechCrossbowman, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechCrossbowmanBaseArmor, gbc);
@@ -3571,9 +4169,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 4;
 	    	gbc.gridx = 0;
 	    	JLabel DTechCannon = new JLabel("Cannon");
-	    	JLabel DTechCannonBaseArmor = new JLabel(Integer.toString(ARMOR_CANNON));
-	    	JLabel DTechCannonIncrement = new JLabel("+");
-	    	JLabel DTechCannonTotal = new JLabel("");
+	    	DTechCannon.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCannon.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCannonBaseArmor = new JLabel(Integer.toString(ARMOR_CANNON));
+	    	DTechCannonBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCannonBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCannonIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY)));
+	    	DTechCannonIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCannonIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCannonTotal = new JLabel(Integer.toString((ARMOR_CANNON + (civilization.getTechnologyDefense() * PLUS_ARMOR_CANNON_BY_TECHNOLOGY))));
+	    	DTechCannonTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCannonTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechCannon, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechCannonBaseArmor, gbc);
@@ -3586,9 +4196,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 5;
 	    	gbc.gridx = 0;
 	    	JLabel DTechArcherTower = new JLabel("Archer Tower");
-	    	JLabel DTechArcherTowerBaseArmor = new JLabel(Integer.toString(ARMOR_ARROWTOWER));
-	    	JLabel DTechArcherTowerIncrement = new JLabel("+50");
-	    	JLabel DTechArcherTowerTotal = new JLabel("1050");
+	    	DTechArcherTower.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechArcherTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechArcherTowerBaseArmor = new JLabel(Integer.toString(ARMOR_ARROWTOWER));
+	    	DTechArcherTowerBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechArcherTowerBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechArcherTowerIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY)));
+	    	DTechArcherTowerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechArcherTowerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechArcherTowerTotal = new JLabel(Integer.toString((ARMOR_ARROWTOWER + (civilization.getTechnologyDefense() * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY))));
+	    	DTechArcherTowerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechArcherTowerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechArcherTower, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechArcherTowerBaseArmor, gbc);
@@ -3601,9 +4223,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 6;
 	    	gbc.gridx = 0;
 	    	JLabel DTechCatapult = new JLabel("Catapult");
-	    	JLabel DTechCatapultBaseArmor = new JLabel(Integer.toString(ARMOR_CATAPULT));
-	    	JLabel DTechCatapultIncrement = new JLabel("+");
-	    	JLabel DTechCatapultTotal = new JLabel("");
+	    	DTechCatapult.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCatapult.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCatapultBaseArmor = new JLabel(Integer.toString(ARMOR_CATAPULT));
+	    	DTechCatapultBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCatapultBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCatapultIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY)));
+	    	DTechCatapultIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCatapultIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechCatapultTotal = new JLabel(Integer.toString((ARMOR_CATAPULT + (civilization.getTechnologyDefense() * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY))));
+	    	DTechCatapultTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechCatapultTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechCatapult, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechCatapultBaseArmor, gbc);
@@ -3616,9 +4250,21 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = 7;
 	    	gbc.gridx = 0;
 	    	JLabel DTechRocketTower = new JLabel("Rocket Tower");
-	    	JLabel DTechRocketTowerBaseArmor = new JLabel(Integer.toString(ARMOR_ROCKETLAUNCHERTOWER));
-	    	JLabel DTechRocketTowerIncrement = new JLabel("+");
-	    	JLabel DTechRocketTowerTotal = new JLabel("");
+	    	DTechRocketTower.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechRocketTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechRocketTowerBaseArmor = new JLabel(Integer.toString(ARMOR_ROCKETLAUNCHERTOWER));
+	    	DTechRocketTowerBaseArmor.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechRocketTowerBaseArmor.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechRocketTowerIncrement = new JLabel("+" + Integer.toString((civilization.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY)));
+	    	DTechRocketTowerIncrement.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechRocketTowerIncrement.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	DTechRocketTowerTotal = new JLabel(Integer.toString((ARMOR_ROCKETLAUNCHERTOWER + (civilization.getTechnologyDefense() * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY))));
+	    	DTechRocketTowerTotal.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	DTechRocketTowerTotal.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	techDefenseinfoJPanel.add(DTechRocketTower, gbc);
 	    	gbc.gridx = 1;
 	    	techDefenseinfoJPanel.add(DTechRocketTowerBaseArmor, gbc);
@@ -3722,9 +4368,14 @@ public class VentanaJuego extends JFrame {
 
 	    	// Enemy Army
 	    	enemyInfo = new JPanel();
+	    	enemyInfo.setOpaque(false);
+
 	    	enemyInfo.setLayout(new BoxLayout(enemyInfo, BoxLayout.Y_AXIS)); // Establecer un BoxLayout en el eje Y
 
 	    	JLabel mensajeEnemyArmy = new JLabel("Enemy Army");
+	    	mensajeEnemyArmy.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeEnemyArmy.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	mensajeEnemyArmy.setFont(mensajeEnemyArmy.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
 	    	mensajeEnemyArmy.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Añadir margen superior e inferior
 	    	mensajeEnemyArmy.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -3733,6 +4384,9 @@ public class VentanaJuego extends JFrame {
 
 	    	// Mensaje
 	    	mensajeEnemyArmyJLabel = new JLabel("Enemy forces are regrouping. Come back later.");
+	    	mensajeEnemyArmyJLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeEnemyArmyJLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	mensajeEnemyArmyJLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
     		mensajeEnemyArmyJLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     	    enemyInfo.add(mensajeEnemyArmyJLabel);
@@ -3741,6 +4395,10 @@ public class VentanaJuego extends JFrame {
 
 	    	// Crear un panel adicional para contener el contenido centrado
 	    	contentPanelEnemyArmy = new JPanel(new GridLayout(0, 1));
+	    	contentPanelEnemyArmy.setOpaque(false);
+	    	contentPanelEnemyArmy.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+
+
 
 	    	// Nombres de las imágenes y etiquetas
 	    	String[] EnemyUnitNames = {
@@ -3748,22 +4406,65 @@ public class VentanaJuego extends JFrame {
 	    	    "Cannon"
 	    	};
 
-	    	for (String unitName : EnemyUnitNames) {
-	    	    EnemyUnitPanel = new JPanel(new BorderLayout());
-	    	    
-	    	    // Crear la etiqueta con el nombre de la unidad
-	    	    JLabel EnemyUnitLabel = new JLabel(unitName);
-	    	    EnemyUnitPanel.add(EnemyUnitLabel, BorderLayout.CENTER);
-	    	    
-	    	    // Crear el botón "Show Info"
-	    	    JButton showEnemyInfoButton = new JButton("Show Info");
-	    	    
-	    	    showEnemyInfoButton.addActionListener(e -> showEnemyUnitInfo(unitName, civilization));
+	    	// Variables para la primera unidad
+	    	String unitName1 = EnemyUnitNames[0];
+	    	JPanel EnemyUnitPanel1 = new JPanel(new BorderLayout());
+	    	EnemyUnitPanel1.setOpaque(false);
 
-	
-	    	    EnemyUnitPanel.add(showEnemyInfoButton, BorderLayout.EAST);
-	    	    contentPanelEnemyArmy.add(EnemyUnitPanel);
-	    	}
+	    	EnemyUnitLabel1 = new JLabel("<html><b>Swordsman</b> " + "x"+civilization.getEnemyArmy().get(0).size() + "</html>");
+	    	EnemyUnitLabel1.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	EnemyUnitLabel1.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	JButton showEnemyInfoButton1 = new JButton("Show Info");
+	    	showEnemyInfoButton1.addActionListener(e -> showEnemyUnitInfo(unitName1, civilization));
+	    	EnemyUnitPanel1.add(EnemyUnitLabel1, BorderLayout.CENTER);
+	    	EnemyUnitPanel1.add(showEnemyInfoButton1, BorderLayout.EAST);
+	    	contentPanelEnemyArmy.add(EnemyUnitPanel1);
+
+	    	// Variables para la segunda unidad
+	    	String unitName2 = EnemyUnitNames[1];
+	    	JPanel EnemyUnitPanel2 = new JPanel(new BorderLayout());
+	    	EnemyUnitPanel2.setOpaque(false);
+
+	    	EnemyUnitLabel2 = new JLabel("<html><b>Spearman</b> " + "x"+civilization.getEnemyArmy().get(1).size() + "</html>");
+	    	EnemyUnitLabel2.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	EnemyUnitLabel2.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	JButton showEnemyInfoButton2 = new JButton("Show Info");
+	    	showEnemyInfoButton2.addActionListener(e -> showEnemyUnitInfo(unitName2, civilization));
+	    	EnemyUnitPanel2.add(EnemyUnitLabel2, BorderLayout.CENTER);
+	    	EnemyUnitPanel2.add(showEnemyInfoButton2, BorderLayout.EAST);
+	    	contentPanelEnemyArmy.add(EnemyUnitPanel2);
+
+	    	// Variables para la tercera unidad
+	    	String unitName3 = EnemyUnitNames[2];
+	    	JPanel EnemyUnitPanel3 = new JPanel(new BorderLayout());
+	    	EnemyUnitPanel3.setOpaque(false);
+
+	    	EnemyUnitLabel3 = new JLabel("<html><b>Crossbow</b> " + "x"+civilization.getEnemyArmy().get(2).size() + "</html>");
+	    	EnemyUnitLabel3.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	EnemyUnitLabel3.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	JButton showEnemyInfoButton3 = new JButton("Show Info");
+	    	showEnemyInfoButton3.addActionListener(e -> showEnemyUnitInfo(unitName3, civilization));
+	    	EnemyUnitPanel3.add(EnemyUnitLabel3, BorderLayout.CENTER);
+	    	EnemyUnitPanel3.add(showEnemyInfoButton3, BorderLayout.EAST);
+	    	contentPanelEnemyArmy.add(EnemyUnitPanel3);
+
+	    	// Variables para la cuarta unidad
+	    	String unitName4 = EnemyUnitNames[3];
+	    	JPanel EnemyUnitPanel4 = new JPanel(new BorderLayout());
+	    	EnemyUnitPanel4.setOpaque(false);
+
+	    	EnemyUnitLabel4 = new JLabel("<html><b>Cannon</b> " + "x"+civilization.getEnemyArmy().get(3).size() + "</html>");
+	    	EnemyUnitLabel4.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	EnemyUnitLabel4.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	JButton showEnemyInfoButton4 = new JButton("Show Info");
+	    	showEnemyInfoButton4.addActionListener(e -> showEnemyUnitInfo(unitName4, civilization));
+	    	EnemyUnitPanel4.add(EnemyUnitLabel4, BorderLayout.CENTER);
+	    	EnemyUnitPanel4.add(showEnemyInfoButton4, BorderLayout.EAST);
+	    	contentPanelEnemyArmy.add(EnemyUnitPanel4);
 
 
 	    	contentPanelEnemyArmy.setVisible(false);
@@ -3783,67 +4484,76 @@ public class VentanaJuego extends JFrame {
 	    	
 //	    	 Battle Info
 	    	battleInfo = new JPanel();
+	    	battleInfo.setOpaque(false);
+
 	    	battleInfo.setLayout(new BoxLayout(battleInfo, BoxLayout.Y_AXIS)); // Establecer un BoxLayout en el eje Y
 
 	    	JLabel mensajeBattleInfo = new JLabel("Battle Reports");
-	    	mensajeBattleInfo.setFont(mensajeBattleInfo.getFont().deriveFont(Font.BOLD, 16)); // Aumentar el tamaño de la fuente
+	    	mensajeBattleInfo.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeBattleInfo.setFont(new Font("Arial", Font.BOLD, 16)); // Establecer la fuente Arial con tamaño 16
 	    	mensajeBattleInfo.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Añadir margen superior e inferior
 	    	mensajeBattleInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 	    	battleInfo.add(mensajeBattleInfo);
 
 	    	// Mensaje
-	    	mensajeBattleJLabel = new JLabel("<html> From here you can view the details of your latest battles. <br>Only the last 5 battles will be visible.</html>");
+	    	mensajeBattleJLabel = new JLabel("<html> From here you can view the details of your latest battles.<br>Only the last 5 battles will be visible.</html>");
+	    	mensajeBattleJLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	mensajeBattleJLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
 	    	mensajeBattleJLabel.setHorizontalAlignment(JLabel.CENTER); // Centrar horizontalmente
 	    	mensajeBattleJLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Añadir margen superior e inferior
-
 	    	mensajeBattleJLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar verticalmente
+	    	
 	    	battleInfo.add(mensajeBattleJLabel);
+	    	
+	    	
+	    	
     	    
-	    	// Contenido
-	    	ArrayList<String> reportes = new ArrayList<>();
-	    	// Add some elements to the ArrayList
-	    	reportes.add("Reporte 1");
-	    	reportes.add("Reporte 2");
-	    	reportes.add("Reporte 3");
-	    	reportes.add("Reporte 4");
-	    	reportes.add("Reporte 5");
-
-	    	int battles = 23; // Cambiar el número de batallas a 0 para simular el escenario sin batallas
-
+//	    	// Contenido
 	    	battleReportesPanel = new JPanel();
+	    	battleReportesPanel.setOpaque(false);
+
 	    	battleReportesPanel.setLayout(new GridLayout(0, 1, 10, 10)); // Establecer un GridLayout con espacio entre los paneles
 
-	    	if (battles == 0) {
-	    	    JLabel noBatallasLabel = new JLabel("<html>Don't be impatient, you just need to create<br> your first unit and wait 3 minutes.</html>");
-	    	    noBatallasLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
-	    	    noBatallasLabel.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
-	    	    
-	    	    battleReportesPanel.add(noBatallasLabel);
-	    	    mensajeBattleJLabel.setVisible(false);
+	    	if (civilization.getBattles() == 0) {
+	    	    mensajeBattleJLabel.setText("<html>Don't be impatient, you just need to create<br> your first unit and wait 3 minutes.</html>");
 	    	    
 	    	    
 	    	} else {
-	    	    mensajeBattleJLabel.setVisible(true);
+	    		
+	    	    mensajeBattleJLabel.setText("<html> From here you can view <br>the details of your latest battles. <br>Only the last 5 battles <br>will be visible.</html>");
 
-	    	    JLabel numeroBatallasJLabel = new JLabel("Amount of Battles: " + battles);
+	    	    numeroBatallasJLabel = new JLabel("Amount of Battles: " + civilization.getBattles());
+	    	    numeroBatallasJLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	    numeroBatallasJLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+		    	
+	    	    
 	    	    numeroBatallasJLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
 	    	    numeroBatallasJLabel.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
 	    	    battleReportesPanel.add(numeroBatallasJLabel);
 
 	    	    // Obtener las últimas 5 batallas
-	    	    int startIndex = Math.max(0, battles - 5);
+	    	    int startIndex = Math.max(0, civilization.getBattles() - 5);
 
-	    	    for (int i = battles - 1; i >= Math.max(0, battles - 5); i--) {
-	    	        int index = i; // Captura final del índice actual
+	    	    totalBattles = civilization.getBattles();
+	    	    savedBattles = 5;
+
+	    	    startIndex = Math.max(0, civilization.getBattles() - 5);
+
+	    	    for (int i = civilization.getBattles() - 1; i >= startIndex; i--) {
+	    	        int reportIndex = i - startIndex; // Ajusta el índice para que esté dentro del rango de 0 a 4
+
 	    	        JPanel reportePanel = new JPanel(new BorderLayout());
+	    	        reportePanel.setOpaque(false);
 
-	    	        JLabel reporteLabel = new JLabel("Battle: " + (index + 1));
+	    	        JLabel reporteLabel = new JLabel("Battle: " + (i - startIndex + 1)); // Muestra el número de batalla correcto
+	    	        reporteLabel.setForeground(Color.BLACK);
+	    	        reporteLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 	    	        reportePanel.add(reporteLabel, BorderLayout.CENTER);
 
 	    	        JButton showReportButton = new JButton("Show Report");
-	    	        showReportButton.addActionListener(e -> showReportInfo(reportes.get(battles > 4 ? index - (battles - 5) : index))); // Calcular el índice correcto en el ArrayList
-
+	    	        showReportButton.addActionListener(e -> showReportInfo(civilization.returnSavedGeneralReport(reportIndex), civilization.returnSavedLargeReport(reportIndex)));
 	    	        reportePanel.add(showReportButton, BorderLayout.EAST);
 
 	    	        battleReportesPanel.add(reportePanel);
@@ -3851,11 +4561,13 @@ public class VentanaJuego extends JFrame {
 
 	    	}
 
-
+	    	
 	        
 	        // Añadir panels en blanco
 	        while (battleReportesPanel.getComponentCount() < 9) {
 	            JPanel emptyPanel = new JPanel();
+	            emptyPanel.setOpaque(false);
+
 	            battleReportesPanel.add(emptyPanel);
 	        }
 
@@ -3863,6 +4575,10 @@ public class VentanaJuego extends JFrame {
 	        
 	    	// Agregar márgenes laterales
 	        battleInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 50, 20));
+	    	
+	    	
+
+	    	
 	        
 	        
 	        
@@ -3911,6 +4627,8 @@ public class VentanaJuego extends JFrame {
 	    	
 //	    	Recursos
 	    	labelRecursos = new JLabel("RESOURCES");
+	    	labelRecursos.setForeground(Color.BLACK);
+	    	labelRecursos.setFont(new Font("Arial", Font.BOLD, 16)); 
 	    	gbc_info.gridx = 0; 
 	    	gbc_info.gridy = 0; 
 	    	infoCivilization.add(labelRecursos, gbc_info);
@@ -3934,27 +4652,42 @@ public class VentanaJuego extends JFrame {
 
 	    	// Fila 1
 	    	JPanel panelComida = new JPanel();
+	    	panelComida.setOpaque(false);
 	    	panelComida.add(new JLabel(iconoComidaRedimensionado));
 	    	labelComidaUnidades = new JLabel(String.valueOf(civilization.getFood()));
+	    	labelComidaUnidades.setForeground(Color.BLACK); // Establecer el color blanco
+	    	labelComidaUnidades.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	    	
 	    	panelComida.add(labelComidaUnidades);
 	    	panelRecursos.add(panelComida);
 
 	    	JPanel panelMadera = new JPanel();
+	    	panelMadera.setOpaque(false);
+
 	    	panelMadera.add(new JLabel(iconoMaderaRedimensionado));
 	    	labelMaderaUnidades = new JLabel(String.valueOf(civilization.getWood()));
+	    	labelMaderaUnidades.setForeground(Color.BLACK); // Establecer el color blanco
+	    	labelMaderaUnidades.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	panelMadera.add(labelMaderaUnidades);
 	    	panelRecursos.add(panelMadera);
 
 	    	// Fila 2
 	    	JPanel panelHierro = new JPanel();
+	    	panelHierro.setOpaque(false);
+
 	    	panelHierro.add(new JLabel(iconoHierroRedimensionado));
 	    	labelHierroUnidades = new JLabel(String.valueOf(civilization.getIron()));
+	    	labelHierroUnidades.setForeground(Color.BLACK); // Establecer el color blanco
+	    	labelHierroUnidades.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	panelHierro.add(labelHierroUnidades);
 	    	panelRecursos.add(panelHierro);
 
 	    	JPanel panelMana = new JPanel();
+	    	panelMana.setOpaque(false);
+
 	    	panelMana.add(new JLabel(iconoManaRedimensionado));
 	    	labelManaUnidades = new JLabel(String.valueOf(civilization.getMana()));
+	    	labelManaUnidades.setForeground(Color.BLACK); // Establecer el color blanco
+	    	labelManaUnidades.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 	    	panelMana.add(labelManaUnidades);
 	    	panelRecursos.add(panelMana);
 
@@ -3971,6 +4704,8 @@ public class VentanaJuego extends JFrame {
 
 //	    	Unidades
 	    	labelUnidades = new JLabel("ARMY");
+	    	labelUnidades.setForeground(Color.BLACK);
+	    	labelUnidades.setFont(new Font("Arial", Font.BOLD, 16)); 
 	    	gbc_info.gridx = 0; 
 	    	gbc_info.gridy = 5; 
 	    	infoCivilization.add(labelUnidades, gbc_info);
@@ -3989,77 +4724,136 @@ public class VentanaJuego extends JFrame {
 	        // Swordman
 	        gbc_units.gridx = 0; 
 	        gbc_units.gridy = 0;
-	        panelUnidades.add(new JLabel("Swordsman"), gbc_units);
+	        JLabel label = new JLabel("Swordsman");
+	        label.setForeground(Color.BLACK); // Establecer el color blanco
+	        label.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial
+
+	        panelUnidades.add(label, gbc_units);
 	        gbc_units.gridx = 1;
 	        countSwordman = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(0)));
-	        panelUnidades.add(countSwordman, gbc_units);
+	        countSwordman.setForeground(Color.BLACK); // Establecer el color blanco
+	        countSwordman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(countSwordman, gbc_units);	        panelUnidades.add(countSwordman, gbc_units);
 
 	        
 	        // Spearman
 	        gbc_units.gridx = 0; 
 	        gbc_units.gridy = 1;
-	        panelUnidades.add(new JLabel("Spearman"), gbc_units);
-	        gbc_units.gridx = 1;
+	        JLabel spearmanLabel = new JLabel("Spearman");
+	        spearmanLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        spearmanLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial
+
+	        panelUnidades.add(spearmanLabel, gbc_units);	        gbc_units.gridx = 1;
 	        countSpearman = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(1)));
-	        panelUnidades.add(countSpearman, gbc_units);
+	        countSpearman.setForeground(Color.BLACK); // Establecer el color blanco
+	        countSpearman.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(countSpearman, gbc_units);	        panelUnidades.add(countSpearman, gbc_units);
 	        
 	        // Crossbow
 	        gbc_units.gridx = 0; 
 	        gbc_units.gridy = 2;
-	        panelUnidades.add(new JLabel("Crossbow"), gbc_units);
-	        gbc_units.gridx = 1;
-	        countCrossbow  = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(2)));
-	        panelUnidades.add(countCrossbow, gbc_units);
+	        JLabel crossbowLabel = new JLabel("Crossbow");
+	        crossbowLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        crossbowLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(crossbowLabel, gbc_units);	        gbc_units.gridx = 1;
+	        countCrossbow = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(2)));
+	        countCrossbow.setForeground(Color.BLACK); // Establecer el color blanco
+	        countCrossbow.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(countCrossbow, gbc_units);	        panelUnidades.add(countCrossbow, gbc_units);
 	        
 	        // Cannon
 	        gbc_units.gridx = 0; 
 	        gbc_units.gridy = 3;
-	        panelUnidades.add(new JLabel("Cannon"), gbc_units);
-	        gbc_units.gridx = 1;
+	        JLabel cannonLabel = new JLabel("Cannon");
+	        cannonLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        cannonLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(cannonLabel, gbc_units);	        gbc_units.gridx = 1;
 	        countCannon = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(3)));
-	        panelUnidades.add(countCannon, gbc_units);
+	        countCannon.setForeground(Color.BLACK); // Establecer el color blanco
+	        countCannon.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(countCannon, gbc_units);	        panelUnidades.add(countCannon, gbc_units);
 	        
 	        // Arrow Tower
 	        gbc_units.gridx = 2; 
 	        gbc_units.gridy = 0; 
-	        panelUnidades.add(new JLabel("Arrow Tower"), gbc_units);
-	        gbc_units.gridx = 3; 
+	        JLabel arrowTowerLabel = new JLabel("Arrow Tower");
+	        arrowTowerLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        arrowTowerLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(arrowTowerLabel, gbc_units);	        gbc_units.gridx = 3; 
 	        countArrowTower = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(4)));
-	        panelUnidades.add(countArrowTower, gbc_units);
+	        countArrowTower.setForeground(Color.BLACK); // Establecer el color blanco
+	        countArrowTower.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(countArrowTower, gbc_units);	        panelUnidades.add(countArrowTower, gbc_units);
 	        
 	        // Catapult
 	        gbc_units.gridx = 2; 
 	        gbc_units.gridy = 1; 
-	        panelUnidades.add(new JLabel("Catapult"), gbc_units);
+	        JLabel catapultLabel = new JLabel("Catapult");
+	        catapultLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        catapultLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(catapultLabel, gbc_units);
 	        gbc_units.gridx = 3; 
 	        countCatapult = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(5)));
-	        panelUnidades.add(countCatapult, gbc_units);
+	        countCatapult.setForeground(Color.BLACK); // Set the text color to white
+	        countCatapult.setFont(new Font("Arial", Font.PLAIN, 16)); // Set the font to Arial with size 16
+
+	        panelUnidades.add(countCatapult, gbc_units);	        panelUnidades.add(countCatapult, gbc_units);
 	        
 	        // Rocket Launcher
 	        gbc_units.gridx = 2; 
 	        gbc_units.gridy = 2;
-	        panelUnidades.add(new JLabel("Rocket Launcher"), gbc_units);
+	        JLabel rocketLauncherLabel = new JLabel("Rocket Launcher");
+	        rocketLauncherLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        rocketLauncherLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(rocketLauncherLabel, gbc_units);
 	        gbc_units.gridx = 3;
 	        countRocketLauncher = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(6)));
-	        panelUnidades.add(countRocketLauncher, gbc_units);
+	        countRocketLauncher.setForeground(Color.BLACK); // Set the text color to white
+	        countRocketLauncher.setFont(new Font("Arial", Font.PLAIN, 16)); // Set the font to Arial with size 16
+
+	        panelUnidades.add(countRocketLauncher, gbc_units);	        panelUnidades.add(countRocketLauncher, gbc_units);
 	        
 	        
 	        // Magician
 	        gbc_units.gridx = 4; // Nueva columna para Magician y Priest
 	        gbc_units.gridy = 0;
-	        panelUnidades.add(new JLabel("Magician"), gbc_units);
+	        JLabel magicianLabel = new JLabel("Magician");
+	        magicianLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        magicianLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(magicianLabel, gbc_units);
 	        gbc_units.gridx = 5;
 	        countMagician = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(7)));
-	        panelUnidades.add(countMagician, gbc_units);
+	        countMagician.setForeground(Color.BLACK); // Set the text color to white
+	        countMagician.setFont(new Font("Arial", Font.PLAIN, 16)); // Set the font to Arial with size 16
+
+	        panelUnidades.add(countMagician, gbc_units);	        panelUnidades.add(countMagician, gbc_units);
 	        
 	        // Priest
 	        gbc_units.gridx = 4;
 	        gbc_units.gridy = 1;
-	        panelUnidades.add(new JLabel("Priest"), gbc_units);
+	        JLabel priestLabel = new JLabel("Priest");
+	        priestLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        priestLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelUnidades.add(priestLabel, gbc_units);
 	        gbc_units.gridx = 5;
 
 	        countPriest = new JLabel(String.valueOf(civilization.calculateLengthAtIndex(8)));
-	        panelUnidades.add(countPriest, gbc_units);
+	        countPriest.setForeground(Color.BLACK); // Set the text color to white
+	        countPriest.setFont(new Font("Arial", Font.PLAIN, 16)); // Set the font to Arial with size 16
+
+	        panelUnidades.add(countPriest, gbc_units);	        panelUnidades.add(countPriest, gbc_units);
 	        // Añadir la tabla de units al panel principal
 	        gbc_info.gridy = 6; 
 	        infoCivilization.add(panelUnidades, gbc_info);
@@ -4068,6 +4862,8 @@ public class VentanaJuego extends JFrame {
 	        
 //	    	Edificios
 	    	labelEdificios = new JLabel("BUILDINGS");
+	    	labelEdificios.setForeground(Color.BLACK);
+	    	labelEdificios.setFont(new Font("Arial", Font.BOLD, 16)); 
 	    	gbc_info.gridx = 0; 
 	    	gbc_info.gridy = 7; 
 	    	infoCivilization.add(labelEdificios, gbc_info);
@@ -4086,38 +4882,87 @@ public class VentanaJuego extends JFrame {
 	        // Farm
 	        gbc_building.gridx = 0; 
 	        gbc_building.gridy = 0;
-	        panelEdificios.add(new JLabel("Farm"), gbc_building);
+	        JLabel farmLabel = new JLabel("Farm");
+	        farmLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        farmLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(farmLabel, gbc_building);
+
 	        gbc_building.gridx = 1;
-	        panelEdificios.add(new JLabel(String.valueOf(civilization.getFarm())), gbc_building);
+
+	        JLabel farmCountLabel = new JLabel(String.valueOf(civilization.getFarm()));
+	        farmCountLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        farmCountLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(farmCountLabel, gbc_building);
 
 	        // Carpentry
 	        gbc_building.gridx = 0;
 	        gbc_building.gridy = 1;
-	        panelEdificios.add(new JLabel("Carpentry"), gbc_building);
+	        JLabel carpentryLabel = new JLabel("Carpentry");
+	        carpentryLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        carpentryLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(carpentryLabel, gbc_building);
+
 	        gbc_building.gridx = 1;
-	        panelEdificios.add(new JLabel(String.valueOf(civilization.getCarpentry())), gbc_building);
+
+	        JLabel carpentryCountLabel = new JLabel(String.valueOf(civilization.getCarpentry()));
+	        carpentryCountLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        carpentryCountLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(carpentryCountLabel, gbc_building);
 
 	        // Blacksmith
 	        gbc_building.gridx = 0;
 	        gbc_building.gridy = 2;
-	        panelEdificios.add(new JLabel("Blacksmith"), gbc_building);
+	        JLabel blacksmithLabel = new JLabel("Blacksmith");
+	        blacksmithLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        blacksmithLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(blacksmithLabel, gbc_building);
+
 	        gbc_building.gridx = 1;
-	        panelEdificios.add(new JLabel(String.valueOf(civilization.getSmithy())), gbc_building);
+
+	        JLabel smithyCountLabel = new JLabel(String.valueOf(civilization.getSmithy()));
+	        smithyCountLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        smithyCountLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(smithyCountLabel, gbc_building);
 
 	        // Magic Tower
 	        gbc_building.gridx = 2;
 	        gbc_building.gridy = 0;
-	        panelEdificios.add(new JLabel("Magic Tower"), gbc_building);
+	        JLabel magicTowerLabel = new JLabel("Magic Tower");
+	        magicTowerLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        magicTowerLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(magicTowerLabel, gbc_building);
+
 	        gbc_building.gridx = 3;
-	        panelEdificios.add(new JLabel(String.valueOf(civilization.getMagicTower())), gbc_building);
+
+	        JLabel magicTowerCountLabel = new JLabel(String.valueOf(civilization.getMagicTower()));
+	        magicTowerCountLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        magicTowerCountLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(magicTowerCountLabel, gbc_building);
 
 	        // Church
 	        gbc_building.gridx = 2;
 	        gbc_building.gridy = 1;
-	        panelEdificios.add(new JLabel("Church"), gbc_building);
-	        gbc_building.gridx = 3;
-	        panelEdificios.add(new JLabel(String.valueOf(civilization.getChurch())), gbc_building);
+	        JLabel churchLabel = new JLabel("Church");
+	        churchLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        churchLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
 
+	        panelEdificios.add(churchLabel, gbc_building);
+
+	        gbc_building.gridx = 3;
+
+	        JLabel churchCountLabel = new JLabel(String.valueOf(civilization.getChurch()));
+	        churchCountLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        churchCountLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelEdificios.add(churchCountLabel, gbc_building);
 	        // Añadir la tabla de edificios al panel principal
 	        gbc_info.gridy = 8; 
 	        infoCivilization.add(panelEdificios, gbc_info);
@@ -4126,6 +4971,8 @@ public class VentanaJuego extends JFrame {
 	    	
 //	    	Tecnologias
 	    	labelTencologias = new JLabel("TECHNOLOGY");
+	    	labelTencologias.setForeground(Color.BLACK);
+	    	labelTencologias.setFont(new Font("Arial", Font.BOLD, 16)); 
 	    	gbc_info.gridx = 0; 
 	    	gbc_info.gridy = 9; 
 	    	infoCivilization.add(labelTencologias, gbc_info);
@@ -4140,19 +4987,39 @@ public class VentanaJuego extends JFrame {
 	        gbc_tech.anchor = GridBagConstraints.WEST;
 	        gbc_tech.insets = new Insets(5, 5, 5, 5);
 	    	
-	        // Tecnologías de ataque
+	     // Tecnologías de ataque
 	        gbc_tech.gridx = 0; 
 	        gbc_tech.gridy = 0;
-	        panelTecnologias.add(new JLabel("Attack Level"), gbc_tech);
-	        gbc_tech.gridx = 1; // Mantén el mismo valor de gridx para ambos elementos
-	        panelTecnologias.add(new JLabel(String.valueOf(civilization.getTechnologyAttack())), gbc_tech);
+	        JLabel attackLevelLabel = new JLabel("Attack Level");
+	        attackLevelLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        attackLevelLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelTecnologias.add(attackLevelLabel, gbc_tech);
+
+	        // Incrementa el valor de gridx para separar los elementos
+	        gbc_tech.gridx = 1;
+	        JLabel attackLevelValueLabel = new JLabel(String.valueOf(civilization.getTechnologyAttack()));
+	        attackLevelValueLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        attackLevelValueLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelTecnologias.add(attackLevelValueLabel, gbc_tech);
 
 	        // Tecnologías de defensa
 	        gbc_tech.gridx = 2; // Incrementa el valor de gridx para colocarlo en la siguiente "columna"
 	        gbc_tech.gridy = 0; // Mantén el mismo valor de gridy para ambos elementos
-	        panelTecnologias.add(new JLabel("Defense Level"), gbc_tech);
-	        gbc_tech.gridx = 3; // Mantén el mismo valor de gridy para ambos elementos
-	        panelTecnologias.add(new JLabel(String.valueOf(civilization.getTechnologyDefense())), gbc_tech);
+	        JLabel defenseLevelLabel = new JLabel("Defense Level");
+	        defenseLevelLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        defenseLevelLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelTecnologias.add(defenseLevelLabel, gbc_tech);
+
+	        // Incrementa el valor de gridx para separar los elementos
+	        gbc_tech.gridx = 3;
+	        JLabel defenseLevelValueLabel = new JLabel(String.valueOf(civilization.getTechnologyDefense()));
+	        defenseLevelValueLabel.setForeground(Color.BLACK); // Establecer el color blanco
+	        defenseLevelValueLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	        panelTecnologias.add(defenseLevelValueLabel, gbc_tech);
 	        
 	        // Añadir la tabla de tecnologias al panel principal
 	        gbc_info.gridy = 10; 
@@ -4165,38 +5032,168 @@ public class VentanaJuego extends JFrame {
 	        
 	    }
 	    
+	 // Método para actualizar el panel de "Battle Reports"
+	    public void updateBattleReportsPanel(Civilization civilization) {
+	        // Eliminar todos los componentes del panel battleReportesPanel
+	        battleReportesPanel.removeAll();
+
+	        // Verificar si hay batallas
+	        if (civilization.getBattles() == 0) {
+	            mensajeBattleJLabel.setText("<html>Don't be impatient, you just need to create<br> your first unit and wait 3 minutes.</html>");
+	        } else {
+	            mensajeBattleJLabel.setText("<html> From here you can view the details <br> of your latest battles. Only the last <br> 5 battles will be visible.</html>");
+
+	            // Mostrar el número de batallas
+	            numeroBatallasJLabel = new JLabel("Amount of Battles: " + civilization.getBattles());
+	            numeroBatallasJLabel.setForeground(Color.BLACK);
+	            numeroBatallasJLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+	            numeroBatallasJLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	            numeroBatallasJLabel.setVerticalAlignment(SwingConstants.CENTER);
+	            battleReportesPanel.add(numeroBatallasJLabel);
+
+	            // Obtener las últimas 5 batallas
+
+	            int startIndex = Math.max(0, civilization.getBattles() - 5);
+
+	            for (int i = civilization.getBattles() - 1; i >= startIndex; i--) {
+	                int reportIndex = i - startIndex; // Ajusta el índice para que esté dentro del rango de 0 a 4
+
+	                JPanel reportePanel = new JPanel(new BorderLayout());
+	                reportePanel.setOpaque(false);
+
+	                JLabel reporteLabel = new JLabel("Battle: " + (i - startIndex + 1)); // Muestra el número de batalla correcto
+	                reporteLabel.setForeground(Color.BLACK);
+	                reporteLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+	                reportePanel.add(reporteLabel, BorderLayout.CENTER);
+
+	                JButton showReportButton = new JButton("Show Report");
+	                showReportButton.addActionListener(e -> showReportInfo(civilization.returnSavedGeneralReport(reportIndex), civilization.returnSavedLargeReport(reportIndex)));
+	                reportePanel.add(showReportButton, BorderLayout.EAST);
+
+	                battleReportesPanel.add(reportePanel);
+	            }
+	        }
+
+	        // Añadir paneles en blanco
+	        while (battleReportesPanel.getComponentCount() < 9) {
+	            JPanel emptyPanel = new JPanel();
+	            emptyPanel.setOpaque(false);
+	            battleReportesPanel.add(emptyPanel);
+	        }
+
+	        // Actualizar el panel principal
+	        battleInfo.revalidate();
+	        battleInfo.repaint();
+	    }
+	    
+
+	    private void mostrarBattleInfo (Civilization civilization) {
+	    	
+	    	
+	    	
+	    	battleReportesPanel = new JPanel();
+	    	battleReportesPanel.setOpaque(false);
+
+	    	battleReportesPanel.setLayout(new GridLayout(0, 1, 10, 10)); // Establecer un GridLayout con espacio entre los paneles
+
+	    	if (civilization.getBattles() == 0) {
+	    	    JLabel noBatallasLabel = new JLabel("<html>Don't be impatient, you just need to create<br> your first unit and wait 3 minutes.</html>");
+	    	    noBatallasLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	    noBatallasLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+		    	
+	    	    
+	    	    noBatallasLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
+	    	    noBatallasLabel.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+	    	    
+	    	    battleReportesPanel.add(noBatallasLabel);
+	    	    mensajeBattleJLabel.setVisible(false);
+	    	    
+	    	    
+	    	} else {
+	    	    mensajeBattleJLabel.setVisible(true);
+
+	    	    JLabel numeroBatallasJLabel = new JLabel("Amount of Battles: " + civilization.getBattles());
+	    	    numeroBatallasJLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	    numeroBatallasJLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+		    	
+	    	    
+	    	    numeroBatallasJLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
+	    	    numeroBatallasJLabel.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+	    	    battleReportesPanel.add(numeroBatallasJLabel);
+
+	    	    // Obtener las últimas 5 batallas
+	    	    int startIndex = Math.max(0, civilization.getBattles() - 5);
+
+	    	    totalBattles = civilization.getBattles();
+	    	    savedBattles = 5;
+	    	    startIndex = Math.max(0, totalBattles - savedBattles);
+
+	    	    for (int i = totalBattles - 1; i >= startIndex; i--) {
+	    	        int index = i - startIndex; // Ajuste del índice para que esté en el rango de 0 a 4
+	    	        JPanel reportePanel = new JPanel(new BorderLayout());
+	    	        reportePanel.setOpaque(false);
+
+	    	        JLabel reporteLabel = new JLabel("Battle: " + (i + 1)); // Mostrar el número real de batalla
+	    	        reporteLabel.setForeground(Color.BLACK); // Establecer el color del texto en blanco
+	    	        reporteLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16
+
+	    	        reportePanel.add(reporteLabel, BorderLayout.CENTER);
+
+	    	        JButton showReportButton = new JButton("Show Report");
+	    	        showReportButton.addActionListener(e -> showReportInfo(civilization.returnSavedGeneralReport(index), civilization.returnSavedLargeReport(index)));
+
+	    	        reportePanel.add(showReportButton, BorderLayout.EAST);
+
+	    	        battleReportesPanel.add(reportePanel);
+	    	    }
+
+	    	}
+
+	    	
+	        
+	        // Añadir panels en blanco
+	        while (battleReportesPanel.getComponentCount() < 9) {
+	            JPanel emptyPanel = new JPanel();
+	            emptyPanel.setOpaque(false);
+
+	            battleReportesPanel.add(emptyPanel);
+	        }
+
+	        battleInfo.add(battleReportesPanel);
+	        
+	    	// Agregar márgenes laterales
+	        battleInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 50, 20));
+	        
+	        battleReportesPanel.revalidate();
+	        battleReportesPanel.repaint();
+	    }
 
 
 
 
+	 // Método para mostrar la información del reporte en un JDialog
+	    private void showReportInfo(String reporte1, String reporte2) {
+	        // Crear el JPanel con BorderLayout
+	        JPanel panel = new JPanel(new BorderLayout());
+	        
+	        // Crear el JLabel para reporte1 y agregarlo al oeste
+	        JLabel lblReporte1 = new JLabel(reporte1);
+	        panel.add(lblReporte1, BorderLayout.WEST);
+	        
+	        // Crear el JScrollPane para reporte2 y agregarlo al centro
+	        JTextArea txtReporte2 = new JTextArea(reporte2);
+	        txtReporte2.setEditable(false);
+	        JScrollPane scrollPane = new JScrollPane(txtReporte2);
+	        scrollPane.setPreferredSize(new Dimension(700, 650));  // Ajusta el ancho a 700 px
 
-
-
-
-	    // Método para mostrar la información del reporte en un JDialog
-	    private void showReportInfo(String reporte) {
-	        JDialog reportDialog = new JDialog(this, "Report Information", true);
-	        reportDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        reportDialog.setModalityType(JDialog.ModalityType.APPLICATION_MODAL);
-
-
-	        JTextArea reportTextArea = new JTextArea(reporte);
-	        reportTextArea.setEditable(false);
-	        reportTextArea.setLineWrap(true);
-	        reportTextArea.setWrapStyleWord(true);
-
-	        JScrollPane scrollPane = new JScrollPane(reportTextArea);
-	        reportDialog.add(scrollPane, BorderLayout.CENTER);
-	        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Añadir márgenes de 10px alrededor del JTextArea
-
-
-	        JButton closeButton = new JButton("Close");
-	        closeButton.addActionListener(e -> reportDialog.dispose());
-	        reportDialog.add(closeButton, BorderLayout.SOUTH);
-
-	        reportDialog.setSize(400, 300);
-	        reportDialog.setLocationRelativeTo(this);
-	        reportDialog.setVisible(true);
+	        panel.add(scrollPane, BorderLayout.CENTER);
+	        
+	        // Permitir modificar el tamaño de cada panel del BorderLayout
+	        panel.setPreferredSize(new Dimension(1200, 650));
+	        lblReporte1.setPreferredSize(new Dimension(600, 650));
+	        
+	        // Mostrar el panel
+	        JOptionPane.showMessageDialog(null, panel, "Report backup", JOptionPane.PLAIN_MESSAGE);
 	    }
 
 
@@ -4204,70 +5201,8 @@ public class VentanaJuego extends JFrame {
 
 
 
-		// Parte inferior -> Console output
-	    private static void buildBottomFrame(JPanel bottomFrame) {
-	        bottomFrame.setOpaque(false);
-	        bottomFrame.setPreferredSize(new Dimension(100, 20)); // Establecer un tamaño predeterminado
-//
-//	        JPanel customConsole = new JPanel();
-//	        customConsole.setLayout(new BorderLayout());
-//	        customConsole.setOpaque(false);
-//	        customConsole.setBorder(new EmptyBorder(10, 100, 10, 100));
-//
-//	        JTextArea textArea = new JTextArea(10, 50);
-//	        textArea.setBackground(Color.BLACK);
-//	        textArea.setForeground(Color.WHITE);
-//	        textArea.setFont(new Font("Consolas", Font.PLAIN, 12));
-//	        textArea.setEditable(false);
-//
-//	        JScrollPane scrollPane = new JScrollPane(textArea);
-//	        customConsole.add(scrollPane, BorderLayout.CENTER);
-//
-//	        JTextField commandField = new JTextField(50);
-//	        commandField.setBackground(Color.BLACK);
-//	        commandField.setForeground(Color.WHITE);
-//	        commandField.setFont(new Font("Consolas", Font.PLAIN, 12));
-//	        commandField.addActionListener(new ActionListener() {
-//	            @Override
-//	            public void actionPerformed(ActionEvent e) {
-//	                String command = commandField.getText();
-//	                textArea.append("> " + command + "\n");
-//	                // Aquí puedes procesar el comando ingresado
-//	                commandField.setText("");
-//	            }
-//	        });
-//
-//	        customConsole.add(commandField, BorderLayout.SOUTH);
-//
-//	        OutputStream outputStream = new OutputStream() {
-//	            @Override
-//	            public void write(int b) {
-//	                SwingUtilities.invokeLater(() -> {
-//	                    textArea.append(String.valueOf((char) b));
-//	                    textArea.setCaretPosition(textArea.getDocument().getLength());
-//	                });
-//	            }
-//
-//	            @Override
-//	            public void write(byte[] b, int off, int len) {
-//	                SwingUtilities.invokeLater(() -> {
-//	                    textArea.append(new String(b, off, len));
-//	                    textArea.setCaretPosition(textArea.getDocument().getLength());
-//	                });
-//	            }
-//
-//	            @Override
-//	            public void write(byte[] b) {
-//	                write(b, 0, b.length);
-//	            }
-//	        };
-//
-//	        PrintStream printStream = new PrintStream(outputStream, true);
-//	        System.setOut(printStream);
-//	        System.setErr(printStream);
-//
-//	        bottomFrame.add(customConsole, BorderLayout.CENTER);
-	    }
+
+
 
 
 	    
@@ -4285,7 +5220,7 @@ public class VentanaJuego extends JFrame {
 	    public MenuImage() {
 	        // Intentar cargar la imagen
 	        try {
-	            backgroundImage = ImageIO.read(new File("src/layouts/resources/home_right_background.jpeg"));
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/menu_right.jpg"));
 	        } catch (IOException e) {
 	            System.err.println("Error al cargar background Menu Right: " + e.getMessage());
 	            setBackground(Color.GRAY);
@@ -4333,7 +5268,7 @@ public class VentanaJuego extends JFrame {
 	    	
 	    	// Cargar la imagen
 	        try {
-	            backgroundImage = ImageIO.read(new File("src/layouts/resources/home_buttons_background.webp"));
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/menu_left.jpg"));
 	        } catch (IOException e) {
 	            System.err.println("Error al cargar background Menu Left: " + e.getMessage());
 	            setBackground(Color.RED);
@@ -4489,6 +5424,9 @@ public class VentanaJuego extends JFrame {
 		
 		private Game gameFrame;
 		
+	    private BufferedImage backgroundImage;
+
+		
 		
 		
 		public MenuLabels(JFrame parentFrame, Civilization civilization, Timer timer) {
@@ -4498,21 +5436,32 @@ public class VentanaJuego extends JFrame {
 			trueName = true;
 			
 		    this.setLayout(new GridBagLayout());
-		    this.setBackground(Color.CYAN);
+		    
+		    
+
+			
+			try {
+	            // Carga la imagen de fondo desde un archivo
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/menu_right2.jpg"));
+	        } catch (IOException e) {
+	            e.printStackTrace(); // Otra opción sería mostrar un mensaje al usuario
+	        }
+			
 
 		    gbc = new GridBagConstraints();
 		    gbc.insets = new Insets(10, 10, 10, 10); // Márgenes entre componentes
 		    gbc.fill = GridBagConstraints.HORIZONTAL; // Para que los JTextField se expandan horizontalmente
 
 		    // Etiqueta de bienvenida
-		    welcome = new JLabel("<html><h1>Welcome to Civilization!</h1>"
+		    welcome = new JLabel("<html><div style='text-align: justify; color: #ffffff; font-family: Arial, sans-serif; font-size: 13px;'>"
+		            + "<h1 style='font-size: 24px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);'>Welcome to Civilization!</h1>"
 		            + "<p>You're about to start a journey through history, leading your civilization to greatness.</p>"
 		            + "<p>Please enter the following information to begin:</p>"
-		            + "<ul>"
-		            + "<li>Your Civilization's Name</li>"
-		            + "<li>Your Coat of Arms</li>"
+		            + "<ul style='list-style-type: none; padding: 0;'>"
+		            + "<li style='text-align: justify; line-height: 1.5;'>- Your Civilization's Name</li>"
 		            + "</ul>"
-		            + "<p>Good luck, Leader!</p></html>");
+		            + "<p>Good luck, Leader!</p></div></html>");
+
 		    
 		    
 		    gbc.gridx = 0; // Primera columna
@@ -4532,7 +5481,7 @@ public class VentanaJuego extends JFrame {
 		    this.add(emptySpace, gbc); // Agregar espacio vacío
 
 		    // Etiqueta para Civilization Name
-		    civilizationName = new JLabel("Civilization Name:");
+		    civilizationName = new JLabel("<html><div style='color: #ffffff; font-family: Arial, sans-serif; font-size: 13px;'>Civilization Name:</div></html>");
 		    gbc.gridx = 0; // Primera columna
 		    gbc.gridy = 2; // Tercera fila
 		    gbc.gridwidth = 1; // Componente ocupa una sola columna
@@ -4550,7 +5499,7 @@ public class VentanaJuego extends JFrame {
 		    
 		    // Etiqueta para mensajes de excepción
 		    exceptionMessage = new JLabel(" ");
-		    exceptionMessage.setForeground(Color.RED); // Establecer el color del texto en rojo
+		    exceptionMessage.setForeground(Color.GREEN); // Establecer el color del texto en rojo
 		    gbc.gridx = 2; // Primera columna
 		    gbc.gridy = 4; // Quinta fila
 		    gbc.gridwidth = GridBagConstraints.REMAINDER; // Ocupa todas las columnas disponibles
@@ -4584,6 +5533,11 @@ public class VentanaJuego extends JFrame {
 	            public void keyReleased(KeyEvent e) {
 	                String text = enterCivilizationName.getText();
 	                
+	                // Suponiendo que `exceptionMessage` es un JLabel o JTextArea
+	                exceptionMessage.setFont(new Font("Arial", Font.BOLD, 18));
+	                exceptionMessage.setText("Civilization Name cannot be empty.");
+
+	                
 	                // Check if text contains only letters
 	                if (text.isEmpty()) {
 	                    exceptionMessage.setText("Civilization Name cannot be empty.");
@@ -4599,6 +5553,7 @@ public class VentanaJuego extends JFrame {
 	                updateCreateGameState();
 	            }
 	        });
+		    
 
 		    
 		    
@@ -4615,6 +5570,14 @@ public class VentanaJuego extends JFrame {
 	                SwingUtilities.invokeLater(new Runnable() {
 	                    @Override
 	                    public void run() {
+	                    	
+	                    	// Guardar nombre
+	                    	civilization.setName(enterCivilizationName.getText());
+	                    	
+	                    	// Objeto BBDD
+	                    	BBDD miBBDD = new BBDD();	        
+	                    	miBBDD.guardarNuevoJuego(civilization);
+
 	                        // Crear y mostrar el nuevo frame
 	                        gameFrame = new Game(parentFrame, civilization, timer);
 	                        
@@ -4635,6 +5598,15 @@ public class VentanaJuego extends JFrame {
 	        
 		    
 		}
+		
+		
+		protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        // Dibuja la imagen de fondo si se ha cargado correctamente
+	        if (backgroundImage != null) {
+	            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+	        }
+	    }
 		
 		
 		
@@ -4686,28 +5658,45 @@ public class VentanaJuego extends JFrame {
 
 		private GridBagConstraints gbc;
 		
+	    private BufferedImage backgroundImage;
+
+		
 		
 		public MenuCredits(JFrame parentFrame) {
 			
 
+			
+			try {
+	            // Carga la imagen de fondo desde un archivo
+	            backgroundImage = ImageIO.read(new File("src/layouts/resources/menu_right2.jpg"));
+	        } catch (IOException e) {
+	            e.printStackTrace(); // Otra opción sería mostrar un mensaje al usuario
+	        }
+			
 		    this.setLayout(new GridBagLayout());
-		    this.setBackground(Color.CYAN);
+		    
+		    
 
 		    gbc = new GridBagConstraints();
 		    gbc.insets = new Insets(10, 10, 10, 10); // Márgenes entre componentes
 	        gbc.fill = GridBagConstraints.HORIZONTAL; // Expande horizontalmente solo si es necesario
 
 		    // Etiqueta de bienvenida
-		    welcome = new JLabel("<html><h1>Créditos del Proyecto Civilization</h1>"
-		            + "<p>Este proyecto de Civilization en Java fue creado por estudiantes de 1º de DAW.</p>"
-		            + "<ul>"
-		            + "<li>Alumno 1: Sergio Fernández</li>"
-		            + "<li>Alumno 2: Jorge Pérez</li>"
-		            + "<li>Alumno 3: Unax Fernández</li>"
-		            + "</ul>"
-		            + "<p>Gracias por jugar y esperamos que disfrutes el juego.</p>"
-		            + "<p>Creado como parte del curso de Desarrollo de Aplicaciones Web.</p>"
-		            + "</html>");
+	        JLabel welcome = new JLabel("<html>"
+	                + "<div style='text-align: justify; color: #ffffff; font-family: Arial, sans-serif; font-size: 13px;'>"
+	                + "<h1 style='font-size: 24px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);'>Credits</h1>"
+	                + "<br><p style='text-align: justify; line-height: 1.5;'>This Java Civilization project was created by 1st-year DAW students.</p>"
+	                + "</br><ul style='list-style-type: none; padding: 0;'><br>"
+	                + "<li style='text-align: justify; line-height: 1.5;'><strong style='font-weight: bold;'>Frontend:</strong> Sergio Fernández</li>"
+	                + "<li style='text-align: justify; line-height: 1.5;'><strong style='font-weight: bold;'>Backend:</strong> Jorge Cortés</li>"
+	                + "</ul>"
+	                + "<p style='text-align: justify; line-height: 1.5;'>Thank you for playing and we hope you enjoy the game.</p>"
+	                + "<p style='text-align: justify; line-height: 1.5;'>Created as part of the Web Application Development course.</p>"
+	                + "<br><p style='line-height: 1.5;'><strong style='font-weight: bold;'>GitHub:</strong> <a href='https://github.com/sergiofdce/Civilization' style='color: #ffffff; text-decoration: none; font-weight: bold;'>https://github.com/sergiofdce/Civilization</a></p>"
+	                + "</div>"
+	                + "</html>");
+
+
 		    
 		    gbc.gridx = 0; // Primera columna
 	        gbc.gridy = 0; // Primera fila
@@ -4751,7 +5740,18 @@ public class VentanaJuego extends JFrame {
 	            }
 	        });
 	        
+	        
+	        
+	        
 		}
+		
+		protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        // Dibuja la imagen de fondo si se ha cargado correctamente
+	        if (backgroundImage != null) {
+	            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+	        }
+	    }
 		
 		
 		

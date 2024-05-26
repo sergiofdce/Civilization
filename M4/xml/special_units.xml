@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<special_units>
+	<unit>
+		<name>MAGICIAN</name>
+		<base_damage>3000</base_damage>
+		<waste_chance>0</waste_chance>
+		<attack_again_chance>75</attack_again_chance>
+		<plus_stats>
+			<resurect_chance>2</resurect_chance>
+			<armour_technology>0</armour_technology>
+			<attack_technology>6</attack_technology>
+			<armour_experience>4</armour_experience>
+			<attack_experience>4</attack_experience>
+			<armour_sanctified>7</armour_sanctified>
+			<attack_sanctified>7</attack_sanctified>
+		</plus_stats>
+		<costs>
+			<food_cost>12000</food_cost>
+			<wood_cost>2000</wood_cost>
+			<iron_cost>500</iron_cost>
+			<mana_cost>5000</mana_cost>
+		</costs>
+		<sprite></sprite>
+	</unit>
+	<unit>
+		<name>PRIEST</name>
+		<base_damage>0</base_damage>
+		<waste_chance>0</waste_chance>
+		<attack_again_chance>0</attack_again_chance>
+		<plus_stats>
+			<resurect_chance>0</resurect_chance>
+			<armour_technology>0</armour_technology>
+			<attack_technology>0</attack_technology>
+			<armour_experience>4</armour_experience>
+			<attack_experience>4</attack_experience>
+			<armour_sanctified>7</armour_sanctified>
+			<attack_sanctified>7</attack_sanctified>
+		</plus_stats>
+		<costs>
+			<food_cost>15000</food_cost>
+			<wood_cost>0</wood_cost>
+			<iron_cost>0</iron_cost>
+			<mana_cost>15000</mana_cost>
+		</costs>
+		<sprite></sprite>
+	</unit>
+</special_units>

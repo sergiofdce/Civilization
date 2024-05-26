@@ -1,4 +1,6 @@
 package juego;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -16,13 +18,14 @@ public class Main {
 	
 	 public static void main(String[] args) {
 
+
 //			Crear Nuestra Civilization
 		    Civilization civilization = new Civilization();
 	        
 //		  	Crear objeto Timer
 	        Timer timer = new Timer();
 
-//	      Llamar a la interfaz del juego, le pasamos objeto Civilization
+//	      	Llamar a la interfaz del juego, le pasamos objeto Civilization
 	        VentanaJuego miJuego = new VentanaJuego(civilization, timer);
 	        
 	       

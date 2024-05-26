@@ -1,0 +1,244 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+body {
+	height: 100%;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(45deg, #49a09d, #5f2c82);
+    font-family: sans-serif;
+    font-weight: 100;
+    background-attachment: fixed; /* Fija el fondo al desplazarse */
+    height: auto;
+
+
+}
+
+p {
+    width: 800px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 60px;
+    font-size: 20px;    
+
+
+}
+
+h1 {
+    text-align: center; /* Centrar el texto horizontalmente */
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    font-size: 70px;    
+
+}
+
+
+table {
+    margin: 0 auto; /* Centrar horizontalmente */
+    max-width: 800px; /* Ancho máximo para la tabla */
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    margin-top: 50; /* Añade margen inferior */
+
+    margin-bottom: 100px; /* Añade margen inferior */
+}
+
+
+
+th,
+td {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+
+th {
+	text-align: left;
+}
+
+thead {
+	th {
+		background-color: #55608f;
+	}
+}
+
+tbody {
+    tr:not(:first-child) { /* Selecciona todas las filas excepto la primera */
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 25;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.arrow{
+    position:relative;
+    width:30px;
+    height: 30px;
+    cursor:pointer;
+  /*   border:solid 1px white; */
+    transition:0.5s;
+    overflow:hidden;
+    margin-right: 20px;
+  }
+  
+  .arrow:hover{
+  /*  animation:borderAni 5s cubic-bezier(0, 0.6, 1, 0.4); */
+        border:solid 2px white; 
+      border-radius:50%;
+  }
+  .arrow:after{
+    position:absolute;
+    display:block;
+    content:"";
+    color:white;
+    width: 20px;
+    height: 15px;
+  /*   border:solid 1px;  */
+    top:-1px;
+    border-bottom:solid 2px;
+    transform:translatex(4px);
+  }
+  
+  .arrow:before{
+    position:absolute;
+    display:block;
+    content:"";
+    color:white;
+    width: 8px;
+    height: 8px;
+  /*   border:solid 1px;  */
+    border-top:solid 2px;
+    border-left:solid 2px;
+    top:50%;
+    left:2px;
+    transform-origin:0% 0%;
+    transform:rotatez(-45deg);
+  
+  }
+  .arrow:hover:before{
+   animation: aniArrow01 1s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s;
+  }
+  
+  .arrow:hover:after{
+   animation: aniArrow02 1s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s;
+  }
+  
+  
+  @keyframes aniArrow01 {
+    0% {
+      transform:rotatez(-45deg) translateY(30px) translateX(30px);
+    }
+    100% {
+      transform: rotatez(-45deg) translateY(-35px) translateX(-35px);
+    }
+  }
+  
+  
+  @keyframes aniArrow02 {
+    0% {
+      transform:translateX(45px);
+    }
+    100% {
+      transform:translateX(-44px);
+    }
+  }
+  
+  @keyframes borderAni{
+     0% {
+      border:solid 2px white;
+    }
+    100% {    
+      border:solid 2px white; 
+      border-radius:50%;
+    }
+  }
+
+
+
+/* Index */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff; /* Cambié el color de fondo del body a blanco */
+    color: #333; /* Cambié el color del texto a gris oscuro */
+}
+
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+li {
+    margin: 10px;
+}
+
+
+.index_boton {
+    text-decoration: none;
+    color: #fff; /* Cambié el color del texto de los enlaces a blanco */
+    padding: 10px 20px;
+    border: 1px solid #fff; /* Cambié el color del borde de los enlaces a blanco */
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+.index_boton:hover {
+    background-color: #fff; /* Cambié el color de fondo de los enlaces al hacer hover a blanco */
+    color: #333; /* Cambié el color del texto de los enlaces al hacer hover a gris oscuro */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+}
+
+.footer {
+  bottom: 0;
+  left: 0;
+  background-color: #5f2c82;
+  width: 100%;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  margin-top: 300px;
+}
+.footer a {
+  color: white; 
+  text-decoration: none; 
+}
+
+
+
