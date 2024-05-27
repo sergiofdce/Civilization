@@ -76,7 +76,7 @@ A graphic and interactive game where you can lead your civilization's army to co
 Representation of the code in UML diagram:
 
 <p align="center">
-      <img src="https://allthepics.net/image/Fernandez-Sergio-CortesJorgeUML.pjOeW" width="750">
+      <img src="https://ibb.co/BfdfCVL" width="750">
 </p>
 
 
