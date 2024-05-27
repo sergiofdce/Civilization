@@ -94,11 +94,17 @@ In order to use the game's save feature, it is necessary to configure the PL/SQL
 For this purpose, we will need to create a new username and password so that the game can access the tables:
 
 alter session set "_ORACLE_SCRIPT"=true;
+</br>
 create user CIVI identified by 123;
+</br>
 GRANT RESOURCE TO CIVI;
+</br>
 grant create session to CIVI;
+</br>
 grant unlimited tablespace to CIVI;
+</br>
 grant dba to CIVI;
+</br>
 grant create view to CIVI;
 
 
@@ -108,13 +114,17 @@ Afterwards, we will execute the table creation script located at M2/BasededatosC
 
 ## Start Game
 
-To start the game, we will import the Eclipse project located at M3/Civilization_Game. Then, we will execute Main.java found in the "juego" package.
+To start the game, we will import the Eclipse project located at
+</br>M3/Civilization_Game. 
+</br>
+Then, we will execute Main.java found in the "juego" package.
 
 
 
 ## Programmators
 
 Frontend: Sergio Fernáncez
+</br>
 Backend: Jorge Cortés
 
 
