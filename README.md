@@ -62,8 +62,9 @@ A graphic and interactive game where you can lead your civilization's army to co
 **Only available for PC **
 
 <p align="center">
-  <img src="https://cdn.midjourney.com/a6c14838-53a2-4509-9d9f-a4b59b2827bb/0_3.png" width="350">
+  <img src="https://i.imgur.com/wtUi2JD.png" width="350">
 </p>
+
 
 
 ## UML
