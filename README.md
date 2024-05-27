@@ -1,12 +1,24 @@
-<h1 align="center"> GitPoint </h1> <br>
+<h1 align="center"> Civilization </h1> <br>
 <p align="center">
-  <a href="https://gitpoint.co/">
-    <img alt="GitPoint" title="GitPoint" src="http://i.imgur.com/VShxJHs.png" width="450">
-  </a>
+
+* Introducción
+
+El juego de Civilization es un juego de estrategia por turnos en el que los jugadores compiten por construir el imperio más poderoso del mundo. El juego se desarrolla a lo largo de varias eras, desde la Edad de Piedra hasta la Era Espacial. Los jugadores pueden construir ciudades, desarrollar tecnologías, entrenar ejércitos y conquistar a sus enemigos.
+
+
+* Cómo jugar
+
+El juego comienza seleccionando una civilización para jugar. Los jugadores comienzan con una pequeña ciudad y a medida que el juego avanza, los jugadores pueden expandir su ejerctio, mejorar sus edificios, y desarrollar su tecnología.
+
+
 </p>
 
 <p align="center">
-  GitHub in your pocket. Built with React Native.
+  Civilization game build in Java.
+</p>
+
+<p align="center">
+  Proximamente en Dispositivos Móviles.
 </p>
 
 <p align="center">
@@ -24,12 +36,11 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
-- [Feedback](#feedback)
-- [Contributors](#contributors)
+- [UML](#features)
+- [Connect DataBase](#feedback)
+- [Start Game](#contributors)
 - [Build Process](#build-process)
-- [Backers](#backers-)
-- [Sponsors](#sponsors-)
+- [Programmators](#backers-)
 - [Acknowledgments](#acknowledgments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -43,20 +54,50 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 [![Gitter chat](https://img.shields.io/badge/chat-on_gitter-008080.svg?style=flat-square)](https://gitter.im/git-point)
 
-View repository and user information, control your notifications and even manage your issues and pull requests. Built with React Native, GitPoint is one of the most feature-rich unofficial GitHub clients that is 100% free.
+Juego grafico e interacitivo donde podrás llevar al ejercito de tu Civilización a la conquista y ser el dios del nuevo mundo.
 
-**Available for both iOS and Android.**
+**Only available for PC **
 
 <p align="center">
-  <img src = "http://i.imgur.com/HowF6aM.png" width=350>
+  <img src = "[http://i.imgur.com/HowF6aM.png](https://cdn.midjourney.com/a6c14838-53a2-4509-9d9f-a4b59b2827bb/0_3.png)" width=350>
 </p>
 
-## Features
+## UML
 
-A few of the things you can do with GitPoint:
+Representacion del codigo en esquema UML:
 
-* View user activity feed
-* Communicate on your issue and pull request conversations
+  <img src = "[[http://i.imgur.com/HowF6aM.png](https://cdn.midjourney.com/a6c14838-53a2-4509-9d9f-a4b59b2827bb/0_3.png)](https://i.postimg.cc/zBBFTZjZ/Fernandez-Sergio-Cortes-Jorge-UML.png)" width=350>
+
+El esquema UML representa las siguientes clases: 
+
+Civilization: Esta clase representa una civilización en el juego. 
+MilitaryUnit: Esta clase representa una unidad militar en el juego. Las unidades militares pueden ser de diferentes tipos, como espadachines, lanceros, cañones, etc.
+AttackUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de ataque.
+DefenseUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de defensa.
+SpecialUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar especial.
+Building: Esta clase representa un edificio en el juego. Los edificios pueden ser de diferentes tipos, como granjas, herrerías, etc.
+Resource: Esta clase representa un recurso en el juego. Los recursos pueden ser de diferentes tipos, como comida, madera, hierro y maná.
+
+
+## Connect DataBase
+
+Para poder hacer uso del guardado de partida, hace falta configurar la base de datos de PL/SQL.
+Para ello necesitaremos crear un nuevo usuario y contraseña para que el juego pueda acceder a las tablas:
+
+alter session set "_ORACLE_SCRIPT"=true;
+create user CIVI identified by 123;
+GRANT RESOURCE TO CIVI;
+grant create session to CIVI;
+grant unlimited tablespace to CIVI;
+grant dba to CIVI;
+grant create view to CIVI;
+
+
+Después ejecutaremos el script de creación de tablas que se encuentra en M2/BasededatosCivilization.sql
+
+
+
+
 * Close or lock issues
 * Apply labels and assignees
 * Review and merge pull requests
