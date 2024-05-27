@@ -62,7 +62,7 @@ A graphic and interactive game where you can lead your civilization's army to co
 **Only available for PC **
 
 <p align="center">
-  <img src="https://i.imgur.com/wtUi2JD.png" width="350">
+  <img src="https://i.imgur.com/wtUi2JD.png" width="750">
 </p>
 
 
