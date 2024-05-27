@@ -41,8 +41,8 @@ Coming Soon to Mobile Devices.</p>
 
 - [Introduction](#introduction)
 - [UML](#uml)
-- [DataBase](#database)
-- [Play](#startgame)
+- [Connect DataBase](#database)
+- [Star Game](#play)
 - [Programmators](#programmators)
 - [Acknowledgments](#acknowledgments)
 
