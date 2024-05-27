@@ -45,7 +45,7 @@ public class Catapult extends DefenseUnit  {
 	@Override
 	public void setSanti() {
 		this.setSanctified(true);
-		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setInitialArmor(this.getInitialArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
 		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
 		
 	}

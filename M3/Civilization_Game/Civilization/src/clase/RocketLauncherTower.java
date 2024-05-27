@@ -43,7 +43,8 @@ public class RocketLauncherTower extends DefenseUnit  {
 
 	@Override
 	public void setSanti() {
-		this.setArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
+		this.setSanctified(true);
+		this.setInitialArmor(this.getActualArmor() * PLUS_ARMOR_UNIT_SANCTIFIED );
 		this.setBaseDamage(this.attack() * PLUS_ATTACK_UNIT_SANCTIFIED);
 		
 	}

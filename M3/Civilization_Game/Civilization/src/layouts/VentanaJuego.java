@@ -412,7 +412,7 @@ public class VentanaJuego extends JFrame {
 
 
 	    public Game(JFrame parentFrame, Civilization civilization, Timer timer) {
-	        this.setTitle("Game");
+	        this.setTitle("Civilization");
 //	        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	        this.setSize(1510, 885);
 	        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que solo cierre este JFrame
@@ -736,7 +736,7 @@ public class VentanaJuego extends JFrame {
 		            public void actionPerformed(ActionEvent e) {
 		            	newItemTitle = "New Priest";
 		            	newItemImage = "newPriest";
-		            	newItemDialogo = "<html>The Priest is the source of divine healing and protection <br> that will strengthen your troops and heal their wounds<br>in battle!<br><br>The cost to educate a new Priest is:</html>";		            	
+		            	newItemDialogo = "<html>The Priest is the source of divine healing and protection <br> that will strengthen your troops in battle!<br><br>The cost to educate a new Priest is:</html>";		            	
 		            	newItemLabel = "How many Priests do you want to create?";
 		            	createNewObject(newItemTitle, newItemImage, newItemDialogo, newItemLabel, "newPriest", civilization);
 		            }
@@ -1332,7 +1332,7 @@ public class VentanaJuego extends JFrame {
 //	        JLabel mostrarNombreCivilizacionJLabel = new JLabel(civilization.getName());
 
 	        // Establecer el tamaño y la posición del JLabel
-	        mostrarNombreCivilizacionJLabel.setBounds(180, 60, 700, 24);
+	        mostrarNombreCivilizacionJLabel.setBounds(179, 40, 700, 70);
 
 	        // Agregar el JLabel al JLayeredPane
 	        layeredPane.add(mostrarNombreCivilizacionJLabel, JLayeredPane.DEFAULT_LAYER);
@@ -1372,7 +1372,7 @@ public class VentanaJuego extends JFrame {
 	        // Carpinteria
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/carpinteria.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/newCarpentry.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
@@ -1407,7 +1407,7 @@ public class VentanaJuego extends JFrame {
 	        // Farm
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/farm.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/newFarm.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
@@ -1453,7 +1453,7 @@ public class VentanaJuego extends JFrame {
 	        // Herreria
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/herreria.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/newBlacksmith.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(300, 190, Image.SCALE_SMOOTH);
@@ -1490,7 +1490,7 @@ public class VentanaJuego extends JFrame {
 	        // Torre de magos
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/torre.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/newMagicTower.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(240, 370, Image.SCALE_SMOOTH);
@@ -1525,7 +1525,7 @@ public class VentanaJuego extends JFrame {
 	        // Iglesia
 	        try {
 	            // Intenta cargar la imagen
-	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/iglesia.png");
+	            ImageIcon originalIcon = new ImageIcon("src/layouts/resources/newChurch.png");
 	            
 	            // Escalar la imagen
 	            Image scaledImage = originalIcon.getImage().getScaledInstance(350, 250, Image.SCALE_SMOOTH);
@@ -1586,7 +1586,19 @@ public class VentanaJuego extends JFrame {
 	            dialogImagePanel = new JPanel();
 	            dialogImagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	            icon = new ImageIcon("src/layouts/resources/"+newItemImage+".png");
-	            scaledImage = icon.getImage().getScaledInstance(250, 331, Image.SCALE_SMOOTH);
+	            if (newItemImage.equals("newFarm") || newItemImage.equals("newCarpentry") || newItemImage.equals("newBlacksmith") || newItemImage.equals("newChurch") ) {
+		            scaledImage = icon.getImage().getScaledInstance(250, 210, Image.SCALE_SMOOTH);
+	            } else if (newItemImage.equals("newMagicTower")) {
+		            scaledImage = icon.getImage().getScaledInstance(250, 350, Image.SCALE_SMOOTH);
+
+	            } else if (newItemImage.equals("newTechDefense") || newItemImage.equals("newTechAttack")) {
+		            scaledImage = icon.getImage().getScaledInstance(220, 350, Image.SCALE_SMOOTH);
+
+	            } else {
+		            scaledImage = icon.getImage().getScaledInstance(250, 331, Image.SCALE_SMOOTH);
+
+	            }
+	            
 	            scaledIcon = new ImageIcon(scaledImage);
 	            imageLabel = new JLabel(scaledIcon);
 	            dialogImagePanel.add(imageLabel);
@@ -2687,7 +2699,7 @@ public class VentanaJuego extends JFrame {
 	        		    showInfoJPanel.add(emptyLabel);
 	        		} else {
 	        		    // Mostrar unidades
-	        			String[] columnas = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	        			String[] columnas = {"ID", "Armor", "Damage", "Sanctified"};
 	        	        Object[][] datos = new Object[swordsmanArmy.size()][columnas.length];
 
 	        	        // Llenar los datos de la tabla con la información de los Swordsmen
@@ -2696,8 +2708,7 @@ public class VentanaJuego extends JFrame {
 	        	            datos[i][0] = i+1;
 	        	            datos[i][1] = swordman.getInitialArmor();
 	        	            datos[i][2] = swordman.attack();
-	        	            datos[i][3] = swordman.getExperience();
-	        	            datos[i][4] = swordman.isSanctified();
+	        	            datos[i][3] = swordman.isSanctified();
 	        	        }
 
 	        	        // Tabla
@@ -2747,7 +2758,7 @@ public class VentanaJuego extends JFrame {
 	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasSpearman = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	        	        String[] columnasSpearman = {"ID", "Armor", "Damage", "Sanctified"};
 	        	        Object[][] datosSpearman = new Object[spearmanArmy.size()][columnasSpearman.length];
 
 	        	        for (int i = 0; i < spearmanArmy.size(); i++) {
@@ -2755,8 +2766,7 @@ public class VentanaJuego extends JFrame {
 	        	            datosSpearman[i][0] = i + 1;
 	        	            datosSpearman[i][1] = spearman.getInitialArmor();
 	        	            datosSpearman[i][2] = spearman.attack();
-	        	            datosSpearman[i][3] = spearman.getExperience();
-	        	            datosSpearman[i][4] = spearman.isSanctified();
+	        	            datosSpearman[i][3] = spearman.isSanctified();
 	        	        }
 
 	        	        JTable tablaSpearman = new JTable(datosSpearman, columnasSpearman) {
@@ -2798,7 +2808,7 @@ public class VentanaJuego extends JFrame {
 	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasCrossbow = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	        	        String[] columnasCrossbow = {"ID", "Armor", "Damage","Sanctified"};
 	        	        Object[][] datosCrossbow = new Object[crossbowArmy.size()][columnasCrossbow.length];
 
 	        	        for (int i = 0; i < crossbowArmy.size(); i++) {
@@ -2806,8 +2816,7 @@ public class VentanaJuego extends JFrame {
 	        	            datosCrossbow[i][0] = i + 1;
 	        	            datosCrossbow[i][1] = crossbow.getInitialArmor();
 	        	            datosCrossbow[i][2] = crossbow.attack();
-	        	            datosCrossbow[i][3] = crossbow.getExperience();
-	        	            datosCrossbow[i][4] = crossbow.isSanctified();
+	        	            datosCrossbow[i][3] = crossbow.isSanctified();
 	        	        }
 
 	        	        JTable tablaCrossbow = new JTable(datosCrossbow, columnasCrossbow) {
@@ -2849,7 +2858,7 @@ public class VentanaJuego extends JFrame {
 	        	        emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasCannon = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	        	        String[] columnasCannon = {"ID", "Armor", "Damage", "Sanctified"};
 	        	        Object[][] datosCannon = new Object[cannonArmy.size()][columnasCannon.length];
 
 	        	        for (int i = 0; i < cannonArmy.size(); i++) {
@@ -2857,8 +2866,7 @@ public class VentanaJuego extends JFrame {
 	        	            datosCannon[i][0] = i + 1;
 	        	            datosCannon[i][1] = cannon.getInitialArmor();
 	        	            datosCannon[i][2] = cannon.attack();
-	        	            datosCannon[i][3] = cannon.getExperience();
-	        	            datosCannon[i][4] = cannon.isSanctified();
+	        	            datosCannon[i][3] = cannon.isSanctified();
 	        	        }
 
 	        	        JTable tablaCannon = new JTable(datosCannon, columnasCannon) {
@@ -2900,7 +2908,7 @@ public class VentanaJuego extends JFrame {
 	        		    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	        		    showInfoJPanel.add(emptyLabel);
 	        		} else {
-	        		    String[] columnasArrowTower = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	        		    String[] columnasArrowTower = {"ID", "Armor", "Damage", "Sanctified"};
 	        		    Object[][] datosArrowTower = new Object[arrowTowerArmy.size()][columnasArrowTower.length];
 
 	        		    for (int i = 0; i < arrowTowerArmy.size(); i++) {
@@ -2908,8 +2916,7 @@ public class VentanaJuego extends JFrame {
 	        		        datosArrowTower[i][0] = i + 1;
 	        		        datosArrowTower[i][1] = arrowTower.getInitialArmor();
 	        		        datosArrowTower[i][2] = arrowTower.attack();
-	        		        datosArrowTower[i][3] = arrowTower.getExperience();
-	        		        datosArrowTower[i][4] = arrowTower.isSanctified();
+	        		        datosArrowTower[i][3] = arrowTower.isSanctified();
 	        		    }
 
 	        		    JTable tablaArrowTower = new JTable(datosArrowTower, columnasArrowTower) {
@@ -2951,7 +2958,7 @@ public class VentanaJuego extends JFrame {
 	            	    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 	            	    showInfoJPanel.add(emptyLabel);
 	            	} else {
-	            	    String[] columnasCatapult = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+	            	    String[] columnasCatapult = {"ID", "Armor", "Damage", "Sanctified"};
 	            	    Object[][] datosCatapult = new Object[catapultArmy.size()][columnasCatapult.length];
 
 	            	    for (int i = 0; i < catapultArmy.size(); i++) {
@@ -2959,8 +2966,7 @@ public class VentanaJuego extends JFrame {
 	            	        datosCatapult[i][0] = i + 1;
 	            	        datosCatapult[i][1] = catapult.getInitialArmor();
 	            	        datosCatapult[i][2] = catapult.attack();
-	            	        datosCatapult[i][3] = catapult.getExperience();
-	            	        datosCatapult[i][4] = catapult.isSanctified();
+	            	        datosCatapult[i][3] = catapult.isSanctified();
 	            	    }
 
 	            	    JTable tablaCatapult = new JTable(datosCatapult, columnasCatapult) {
@@ -3002,7 +3008,7 @@ public class VentanaJuego extends JFrame {
 		            	    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		            	    showInfoJPanel.add(emptyLabel);
 		            	} else {
-		            	    String[] columnasRocketLauncher = {"ID", "Armor", "Damage", "Experience", "Sanctified"};
+		            	    String[] columnasRocketLauncher = {"ID", "Armor", "Damage", "Sanctified"};
 		            	    Object[][] datosRocketLauncher = new Object[rocketLauncherArmy.size()][columnasRocketLauncher.length];
 	
 		            	    for (int i = 0; i < rocketLauncherArmy.size(); i++) {
@@ -3010,8 +3016,7 @@ public class VentanaJuego extends JFrame {
 		            	        datosRocketLauncher[i][0] = i + 1;
 		            	        datosRocketLauncher[i][1] = rocketLauncher.getInitialArmor();
 		            	        datosRocketLauncher[i][2] = rocketLauncher.attack();
-		            	        datosRocketLauncher[i][3] = rocketLauncher.getExperience();
-		            	        datosRocketLauncher[i][4] = rocketLauncher.isSanctified();
+		            	        datosRocketLauncher[i][3] = rocketLauncher.isSanctified();
 		            	    }
 	
 		            	    JTable tablaRocketLauncher = new JTable(datosRocketLauncher, columnasRocketLauncher) {
@@ -3053,7 +3058,7 @@ public class VentanaJuego extends JFrame {
 		                    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		                    showInfoJPanel.add(emptyLabel);
 		                } else {
-		                    String[] columnasMagician = {"ID", "Armor", "Damage", "Experience"};
+		                    String[] columnasMagician = {"ID", "Armor", "Damage"};
 		                    Object[][] datosMagician = new Object[magicianArmy.size()][columnasMagician.length];
 
 		                    for (int i = 0; i < magicianArmy.size(); i++) {
@@ -3061,7 +3066,6 @@ public class VentanaJuego extends JFrame {
 		                        datosMagician[i][0] = i + 1;
 		                        datosMagician[i][1] = magician.getInitialArmor();
 		                        datosMagician[i][2] = magician.attack();
-		                        datosMagician[i][3] = magician.getExperience();
 		                    }
 
 		                    JTable tablaMagician = new JTable(datosMagician, columnasMagician) {
@@ -3103,7 +3107,7 @@ public class VentanaJuego extends JFrame {
 		                    emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Establecer la fuente Arial con tamaño 16	
 		                    showInfoJPanel.add(emptyLabel);
 		                } else {
-		                    String[] columnasPriest = {"ID", "Armor", "Damage", "Experience"};
+		                    String[] columnasPriest = {"ID", "Armor", "Damage"};
 		                    Object[][] datosPriest = new Object[priestArmy.size()][columnasPriest.length];
 
 		                    for (int i = 0; i < priestArmy.size(); i++) {
@@ -3111,7 +3115,6 @@ public class VentanaJuego extends JFrame {
 		                        datosPriest[i][0] = i + 1;
 		                        datosPriest[i][1] = priest.getInitialArmor();
 		                        datosPriest[i][2] = priest.attack();
-		                        datosPriest[i][3] = priest.getExperience();
 		                    }
 
 		                    JTable tablaPriest = new JTable(datosPriest, columnasPriest) {
@@ -3193,7 +3196,7 @@ public class VentanaJuego extends JFrame {
 	        		    showInfoJPanel.add(emptyLabel);
 	        		} else {
 	        		    // Mostrar unidades
-	        			String[] columnas = {"ID", "Armor", "Damage", "Experience"};
+	        			String[] columnas = {"ID", "Armor", "Damage"};
 	        	        Object[][] datos = new Object[swordsmanArmy.size()][columnas.length];
 
 	        	        // Llenar los datos de la tabla con la información de los Swordsmen
@@ -3202,7 +3205,6 @@ public class VentanaJuego extends JFrame {
 	        	            datos[i][0] = i+1;
 	        	            datos[i][1] = swordman.getInitialArmor();
 	        	            datos[i][2] = swordman.attack();
-	        	            datos[i][3] = swordman.getExperience();
 	        	        }
 
 	        	        // Tabla
@@ -3251,7 +3253,7 @@ public class VentanaJuego extends JFrame {
 	        	        JLabel emptyLabel = new JLabel("You don't have any spearman right now.");
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasSpearman = {"ID", "Armor", "Damage", "Experience"};
+	        	        String[] columnasSpearman = {"ID", "Armor", "Damage"};
 	        	        Object[][] datosSpearman = new Object[spearmanArmy.size()][columnasSpearman.length];
 
 	        	        for (int i = 0; i < spearmanArmy.size(); i++) {
@@ -3259,7 +3261,6 @@ public class VentanaJuego extends JFrame {
 	        	            datosSpearman[i][0] = i + 1;
 	        	            datosSpearman[i][1] = spearman.getInitialArmor();
 	        	            datosSpearman[i][2] = spearman.attack();
-	        	            datosSpearman[i][3] = spearman.getExperience();
 	        	        }
 
 	        	        JTable tablaSpearman = new JTable(datosSpearman, columnasSpearman) {
@@ -3300,7 +3301,7 @@ public class VentanaJuego extends JFrame {
 	        	        JLabel emptyLabel = new JLabel("You don't have any crossbow right now.");
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasCrossbow = {"ID", "Armor", "Damage", "Experience"};
+	        	        String[] columnasCrossbow = {"ID", "Armor", "Damage"};
 	        	        Object[][] datosCrossbow = new Object[crossbowArmy.size()][columnasCrossbow.length];
 
 	        	        for (int i = 0; i < crossbowArmy.size(); i++) {
@@ -3308,7 +3309,6 @@ public class VentanaJuego extends JFrame {
 	        	            datosCrossbow[i][0] = i + 1;
 	        	            datosCrossbow[i][1] = crossbow.getInitialArmor();
 	        	            datosCrossbow[i][2] = crossbow.attack();
-	        	            datosCrossbow[i][3] = crossbow.getExperience();
 	        	        }
 
 	        	        JTable tablaCrossbow = new JTable(datosCrossbow, columnasCrossbow) {
@@ -3349,7 +3349,7 @@ public class VentanaJuego extends JFrame {
 	        	        JLabel emptyLabel = new JLabel("You don't have any cannon right now.");
 	        	        showInfoJPanel.add(emptyLabel);
 	        	    } else {
-	        	        String[] columnasCannon = {"ID", "Armor", "Damage", "Experience"};
+	        	        String[] columnasCannon = {"ID", "Armor", "Damage"};
 	        	        Object[][] datosCannon = new Object[cannonArmy.size()][columnasCannon.length];
 
 	        	        for (int i = 0; i < cannonArmy.size(); i++) {
@@ -3357,7 +3357,6 @@ public class VentanaJuego extends JFrame {
 	        	            datosCannon[i][0] = i + 1;
 	        	            datosCannon[i][1] = cannon.getInitialArmor();
 	        	            datosCannon[i][2] = cannon.attack();
-	        	            datosCannon[i][3] = cannon.getExperience();
 	        	        }
 
 	        	        JTable tablaCannon = new JTable(datosCannon, columnasCannon) {
@@ -3423,6 +3422,7 @@ public class VentanaJuego extends JFrame {
 	    	contenedorRightJPanel = new JPanel();
 	    	contenedorRightJPanel.setLayout(new BorderLayout());
 	    	contenedorRightJPanel.setOpaque(true);
+
 	    	
 	    	
 	        rightFrame = new JPanel();
@@ -3674,8 +3674,32 @@ public class VentanaJuego extends JFrame {
 	    	gbc.gridy = GridBagConstraints.RELATIVE;
 	    	gbc.insets = new Insets(10, 10, 10, 10); // Márgenes exteriores
 
-	    	JButton buttonTechAttack = new JButton("Attack Technology");
-	    	JButton buttonTechDefense = new JButton("Defense Technology");
+	        // Cargar y redimensionar las imágenes
+	        ImageIcon attackIcon = new ImageIcon("src/layouts/resources/newTechAttack.png");
+	        ImageIcon defenseIcon = new ImageIcon("src/layouts/resources/newTechDefense.png");
+
+	        Image attackImage = attackIcon.getImage().getScaledInstance(160, 220, Image.SCALE_SMOOTH);
+	        Image defenseImage = defenseIcon.getImage().getScaledInstance(160, 220, Image.SCALE_SMOOTH);
+
+	        ImageIcon scaledAttackIcon = new ImageIcon(attackImage);
+	        ImageIcon scaledDefenseIcon = new ImageIcon(defenseImage);
+
+	        // Crear los botones con las imágenes redimensionadas
+	        JButton buttonTechAttack = new JButton(scaledAttackIcon);
+	        JButton buttonTechDefense = new JButton(scaledDefenseIcon);
+	        
+	        buttonTechAttack.setText(null); // No texto
+	        buttonTechAttack.setContentAreaFilled(false); // No fondo
+	        buttonTechAttack.setBorderPainted(false); // No bordes
+	        buttonTechAttack.setFocusPainted(false); // No enfoque
+
+	        buttonTechDefense.setText(null); // No texto
+	        buttonTechDefense.setContentAreaFilled(false); // No fondo
+	        buttonTechDefense.setBorderPainted(false); // No bordes
+	        buttonTechDefense.setFocusPainted(false); // No enfoque
+
+
+
 	    	// Añadir botones al panel con GridBagConstraints
 	    	panelBotones.add(buttonTechAttack, gbc);
 	    	panelBotones.add(buttonTechDefense, gbc);
@@ -4599,11 +4623,11 @@ public class VentanaJuego extends JFrame {
 
 
 
-	    	
  	    	contenedorRightJPanel.add(tabbedPaneRight, BorderLayout.CENTER);
 // 	    	contenedorRightJPanel.add(marginLeftJPanel, BorderLayout.WEST);
 	    	contenedorRightJPanel.add(marginRightJPanel, BorderLayout.EAST);
-	    	
+	    	contenedorRightJPanel.setOpaque(false);
+	    	tabbedPaneRight.setOpaque(true);
 	    	
 	        tabbedPaneRight.addTab("Main", rightFrame);
 	        tabbedPaneRight.addTab("Army", armyInfo);
