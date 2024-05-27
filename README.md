@@ -39,7 +39,6 @@ El juego comienza seleccionando una civilización para jugar. Los jugadores comi
 - [UML](#features)
 - [Connect DataBase](#feedback)
 - [Start Game](#contributors)
-- [Build Process](#build-process)
 - [Programmators](#backers-)
 - [Acknowledgments](#acknowledgments)
 
@@ -96,29 +95,11 @@ grant create view to CIVI;
 Después ejecutaremos el script de creación de tablas que se encuentra en M2/BasededatosCivilization.sql
 
 
+## Start Game
+
+Para iniciar el juego importaremos el proyecto de Eclipse que se encuentra en M3/Civilization_Game
 
 
-* Close or lock issues
-* Apply labels and assignees
-* Review and merge pull requests
-* Create new issues
-* Star, watch and fork repositories
-* Control your unread and participating notifications
-* Easily search for any user or repository
-
-<p align="center">
-  <img src = "http://i.imgur.com/IkSnFRL.png" width=700>
-</p>
-
-<p align="center">
-  <img src = "http://i.imgur.com/0iorG20.png" width=700>
-</p>
-
-## Feedback
-
-Feel free to send us feedback on [Twitter](https://twitter.com/gitpointapp) or [file an issue](https://github.com/gitpoint/git-point/issues/new). Feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
-
-If there's anything you'd like to chat about, please feel free to join our [Gitter chat](https://gitter.im/git-point)!
 
 ## Contributors
 
