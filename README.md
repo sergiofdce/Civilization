@@ -59,7 +59,11 @@ Coming Soon to Mobile Devices.</p>
 
 A graphic and interactive game where you can lead your civilization's army to conquest and become the god of the new world.
 
-**Only available for PC **
+
+<p align="center">
+    **Only available for PC **
+</p>
+
 
 <p align="center">
   <img src="https://i.imgur.com/wtUi2JD.png" width="750">
@@ -71,7 +75,8 @@ A graphic and interactive game where you can lead your civilization's army to co
 
 Representation of the code in UML diagram:
 
-  <img src = "[[http://i.imgur.com/HowF6aM.png](https://cdn.midjourney.com/a6c14838-53a2-4509-9d9f-a4b59b2827bb/0_3.png)](https://i.postimg.cc/zBBFTZjZ/Fernandez-Sergio-Cortes-Jorge-UML.png)" width=350>
+<img src="https://i.imgur.com/HowF6aM.png" width="1020">
+
 
 The UML diagram represents the following classes:
 
