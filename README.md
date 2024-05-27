@@ -78,10 +78,15 @@ El esquema UML representa las siguientes clases:
 Civilization: Esta clase representa una civilización en el juego. 
 </br>
 MilitaryUnit: Esta clase representa una unidad militar en el juego. Las unidades militares pueden ser de diferentes tipos, como espadachines, lanceros, cañones, etc.
+</br>
 AttackUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de ataque.
+</br>
 DefenseUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de defensa.
+</br>
 SpecialUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar especial.
+</br>
 Building: Esta clase representa un edificio en el juego. Los edificios pueden ser de diferentes tipos, como granjas, herrerías, etc.
+</br>
 Resource: Esta clase representa un recurso en el juego. Los recursos pueden ser de diferentes tipos, como comida, madera, hierro y maná.
 
 
@@ -91,12 +96,12 @@ Para poder hacer uso del guardado de partida, hace falta configurar la base de d
 Para ello necesitaremos crear un nuevo usuario y contraseña para que el juego pueda acceder a las tablas:
 
 alter session set "_ORACLE_SCRIPT"=true;
-create user CIVI identified by 123;
-GRANT RESOURCE TO CIVI;
-grant create session to CIVI;
-grant unlimited tablespace to CIVI;
-grant dba to CIVI;
-grant create view to CIVI;
+</br>create user CIVI identified by 123;
+</br>GRANT RESOURCE TO CIVI;
+</br>grant create session to CIVI;
+</br>grant unlimited tablespace to CIVI;
+</br>grant dba to CIVI;
+</br>grant create view to CIVI;
 
 
 Después ejecutaremos el script de creación de tablas que se encuentra en M2/BasededatosCivilization.sql
@@ -105,6 +110,8 @@ Después ejecutaremos el script de creación de tablas que se encuentra en M2/Ba
 ## Start Game
 
 Para iniciar el juego importaremos el proyecto de Eclipse que se encuentra en M3/Civilization_Game
+
+Y ejecutaremos Main.java que se encuentra en el paquete juego
 
 
 
