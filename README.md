@@ -1,4 +1,14 @@
 <h1 align="center"> Civilization </h1> <br>
+
+<p align="center">
+  Civilization game build in Java.
+</p>
+
+<p align="center">
+  Proximamente en Dispositivos Móviles.
+</p>
+
+
 <p align="center">
 
 * Introducción
@@ -13,13 +23,7 @@ El juego comienza seleccionando una civilización para jugar. Los jugadores comi
 
 </p>
 
-<p align="center">
-  Civilization game build in Java.
-</p>
 
-<p align="center">
-  Proximamente en Dispositivos Móviles.
-</p>
 
 <p align="center">
   <a href="https://itunes.apple.com/us/app/gitpoint/id1251245162?mt=8">
@@ -36,10 +40,10 @@ El juego comienza seleccionando una civilización para jugar. Los jugadores comi
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [UML](#features)
-- [Connect DataBase](#feedback)
-- [Start Game](#contributors)
-- [Programmators](#backers-)
+- [UML](#uml)
+- [Connect DataBase](#database)
+- [Start Game](#startgame)
+- [Programmators](#programmators)
 - [Acknowledgments](#acknowledgments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
