@@ -4,9 +4,7 @@
   Civilization game build in Java.
 </p>
 
-<p align="center">
-  Proximamente en Dispositivos Móviles.
-</p>
+
 
 
 <p align="center">
@@ -23,6 +21,10 @@ El juego comienza seleccionando una civilización para jugar. Los jugadores comi
 
 </p>
 
+
+<p align="center">
+  Proximamente en Dispositivos Móviles.
+</p>
 
 
 <p align="center">
@@ -74,6 +76,7 @@ Representacion del codigo en esquema UML:
 El esquema UML representa las siguientes clases: 
 
 Civilization: Esta clase representa una civilización en el juego. 
+</br>
 MilitaryUnit: Esta clase representa una unidad militar en el juego. Las unidades militares pueden ser de diferentes tipos, como espadachines, lanceros, cañones, etc.
 AttackUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de ataque.
 DefenseUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de defensa.
