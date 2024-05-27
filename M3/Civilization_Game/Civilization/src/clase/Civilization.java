@@ -919,6 +919,8 @@ public String getName () {
 	                army.get(8).add(new Priest(armor, baseDamage));
 	            }
 	            
+	            setSant();
+	            
 	            
 
 	            // Excepción si no se pueden crear todas las unidades solicitadas
