@@ -5,6 +5,9 @@
 </p>
 
 
+<p align="center">
+  <img src="https://github.com/sergiofdce/Civilization/assets/150951059/7f2d801e-bf25-4176-9913-9aa7d5b6937d" width="750">
+</p>
 
 
 <p align="center">
