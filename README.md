@@ -41,8 +41,8 @@ Coming Soon to Mobile Devices.</p>
 
 - [Introduction](#introduction)
 - [UML](#uml)
-- [Connect DataBase](#database)
-- [Start Game](#startgame)
+- [DataBase](#database)
+- [Play](#startgame)
 - [Programmators](#programmators)
 - [Acknowledgments](#acknowledgments)
 
@@ -88,7 +88,7 @@ Building: This class represents a building in the game. Buildings can be of diff
 Resource: This class represents a resource in the game. Resources can be of different types, such as food, wood, iron, and mana.
 
 
-## Connect DataBase
+## DataBase
 
 In order to use the game's save feature, it is necessary to configure the PL/SQL database.
 For this purpose, we will need to create a new username and password so that the game can access the tables:
@@ -112,7 +112,7 @@ grant create view to CIVI;
 Afterwards, we will execute the table creation script located at M2/BasededatosCivilization.sql.
 
 
-## Start Game
+## Play
 
 To start the game, we will import the Eclipse project located at
 </br>M3/Civilization_Game. 
