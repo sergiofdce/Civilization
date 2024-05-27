@@ -9,22 +9,20 @@
 
 <p align="center">
 
-* Introducción
+* Introduction
 
-El juego de Civilization es un juego de estrategia por turnos en el que los jugadores compiten por construir el imperio más poderoso del mundo. El juego se desarrolla a lo largo de varias eras, desde la Edad de Piedra hasta la Era Espacial. Los jugadores pueden construir ciudades, desarrollar tecnologías, entrenar ejércitos y conquistar a sus enemigos.
+Civilization is a turn-based strategy game where players compete to build the most powerful empire in the world. Players can build cities, develop technologies, train armies, and conquer their enemies.
 
 
-* Cómo jugar
+* How to Play
 
-El juego comienza seleccionando una civilización para jugar. Los jugadores comienzan con una pequeña ciudad y a medida que el juego avanza, los jugadores pueden expandir su ejerctio, mejorar sus edificios, y desarrollar su tecnología.
-
+The game begins by selecting a civilization to play. Players start with a small city, and as the game progresses, they can expand their armies, upgrade their buildings, and develop their technology.
 
 </p>
 
 
 <p align="center">
-  Proximamente en Dispositivos Móviles.
-</p>
+Coming Soon to Mobile Devices.</p>
 
 
 <p align="center">
@@ -59,7 +57,7 @@ El juego comienza seleccionando una civilización para jugar. Los jugadores comi
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 [![Gitter chat](https://img.shields.io/badge/chat-on_gitter-008080.svg?style=flat-square)](https://gitter.im/git-point)
 
-Juego grafico e interacitivo donde podrás llevar al ejercito de tu Civilización a la conquista y ser el dios del nuevo mundo.
+A graphic and interactive game where you can lead your civilization's army to conquest and become the god of the new world.
 
 **Only available for PC **
 
@@ -69,49 +67,48 @@ Juego grafico e interacitivo donde podrás llevar al ejercito de tu Civilizació
 
 ## UML
 
-Representacion del codigo en esquema UML:
+Representation of the code in UML diagram:
 
   <img src = "[[http://i.imgur.com/HowF6aM.png](https://cdn.midjourney.com/a6c14838-53a2-4509-9d9f-a4b59b2827bb/0_3.png)](https://i.postimg.cc/zBBFTZjZ/Fernandez-Sergio-Cortes-Jorge-UML.png)" width=350>
 
-El esquema UML representa las siguientes clases: 
+The UML diagram represents the following classes:
 
-Civilization: Esta clase representa una civilización en el juego. 
-</br>
-MilitaryUnit: Esta clase representa una unidad militar en el juego. Las unidades militares pueden ser de diferentes tipos, como espadachines, lanceros, cañones, etc.
-</br>
-AttackUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de ataque.
-</br>
-DefenseUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar de defensa.
-</br>
-SpecialUnit: Esta clase es una subclase de la clase MilitaryUnit que representa una unidad militar especial.
-</br>
-Building: Esta clase representa un edificio en el juego. Los edificios pueden ser de diferentes tipos, como granjas, herrerías, etc.
-</br>
-Resource: Esta clase representa un recurso en el juego. Los recursos pueden ser de diferentes tipos, como comida, madera, hierro y maná.
+Civilization: This class represents a civilization in the game.
+
+MilitaryUnit: This class represents a military unit in the game. Military units can be of different types, such as swordsmen, spearmen, cannons, etc.
+
+AttackUnit: This class is a subclass of the MilitaryUnit class that represents an attack military unit.
+
+DefenseUnit: This class is a subclass of the MilitaryUnit class that represents a defense military unit.
+
+SpecialUnit: This class is a subclass of the MilitaryUnit class that represents a special military unit.
+
+Building: This class represents a building in the game. Buildings can be of different types, such as farms, blacksmiths, etc.
+
+Resource: This class represents a resource in the game. Resources can be of different types, such as food, wood, iron, and mana.
 
 
 ## Connect DataBase
 
-Para poder hacer uso del guardado de partida, hace falta configurar la base de datos de PL/SQL.
-Para ello necesitaremos crear un nuevo usuario y contraseña para que el juego pueda acceder a las tablas:
+In order to use the game's save feature, it is necessary to configure the PL/SQL database.
+For this purpose, we will need to create a new username and password so that the game can access the tables:
 
 alter session set "_ORACLE_SCRIPT"=true;
-</br>create user CIVI identified by 123;
-</br>GRANT RESOURCE TO CIVI;
-</br>grant create session to CIVI;
-</br>grant unlimited tablespace to CIVI;
-</br>grant dba to CIVI;
-</br>grant create view to CIVI;
+create user CIVI identified by 123;
+GRANT RESOURCE TO CIVI;
+grant create session to CIVI;
+grant unlimited tablespace to CIVI;
+grant dba to CIVI;
+grant create view to CIVI;
 
 
-Después ejecutaremos el script de creación de tablas que se encuentra en M2/BasededatosCivilization.sql
+
+Afterwards, we will execute the table creation script located at M2/BasededatosCivilization.sql.
 
 
 ## Start Game
 
-Para iniciar el juego importaremos el proyecto de Eclipse que se encuentra en M3/Civilization_Game
-
-Y ejecutaremos Main.java que se encuentra en el paquete juego
+To start the game, we will import the Eclipse project located at M3/Civilization_Game. Then, we will execute Main.java found in the "juego" package.
 
 
 
