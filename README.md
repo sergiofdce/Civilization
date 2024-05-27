@@ -76,7 +76,7 @@ A graphic and interactive game where you can lead your civilization's army to co
 Representation of the code in UML diagram:
 
 <p align="center">
-      <img src="(https://github.com/sergiofdce/Civilization/assets/150951059/6a269ee5-da7a-4e0f-b5ed-473bd78ea8ee)" width="750">
+      <img src="https://github.com/sergiofdce/Civilization/assets/150951059/6a269ee5-da7a-4e0f-b5ed-473bd78ea8ee" width="750">
 </p>
 
 
