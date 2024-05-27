@@ -75,7 +75,9 @@ A graphic and interactive game where you can lead your civilization's army to co
 
 Representation of the code in UML diagram:
 
-<img src="https://ibb.co/BfdfCVL" width="750">
+<p align="center">
+      <img src="[https://ibb.co/BfdfCVL](https://allthepics.net/image/Fernandez-Sergio-CortesJorgeUML.pjOeW)" width="750">
+</p>
 
 
 The UML diagram represents the following classes:
